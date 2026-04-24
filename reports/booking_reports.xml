@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Paper Format A4 Minimal -->
     <record id="paperformat_tursys_voucher" model="report.paperformat">
         <field name="name">TurSys Voucher A4</field>
         <field name="default" eval="False"/>
@@ -11,7 +10,7 @@
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
-        <field name="dpi">90</field>
+        <field name="dpi">96</field>
     </record>
 
     <record id="action_report_booking_voucher" model="ir.actions.report">
@@ -29,97 +28,83 @@
     <template id="report_booking_voucher_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.basic_layout">
-                    <div class="page" style="font-family: 'Helvetica', sans-serif; color: #2c3e50; padding: 10px 30px;">
-                        
-                        <!-- Top Header - Slightly smaller to save space -->
-                        <div class="row align-items-center mb-2" style="border-bottom: 4px solid #1a2a6c; padding-bottom: 10px;">
-                            <div class="col-4">
-                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 110px; width: auto;" alt="Logo"/>
-                            </div>
-                            <div class="col-8 text-right">
-                                <h1 style="color: #1a2a6c; font-weight: 900; font-size: 3.5em; margin: 0; line-height: 1;">VOUCHER</h1>
-                                <p style="color: #e67e22; font-weight: 700; margin: 0; text-transform: uppercase; font-size: 1em; letter-spacing: 4px;">RESERVATION CONFIRMED</p>
-                            </div>
-                        </div>
+                <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id" style="font-family: 'Helvetica', sans-serif; color: #2c3e50; padding: 20px; font-size: 13px;">
+                    
+                    <!-- Header -->
+                    <table style="width: 100%; border-bottom: 4px solid #1a2a6c; margin-bottom: 20px; padding-bottom: 10px;">
+                        <tr>
+                            <td style="width: 40%; vertical-align: middle;">
+                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 120px;" alt="Logo"/>
+                            </td>
+                            <td style="width: 60%; text-align: right; vertical-align: middle;">
+                                <h1 style="color: #1a2a6c; font-weight: 900; font-size: 4em; margin: 0;">VOUCHER</h1>
+                                <p style="color: #e67e22; font-weight: 700; margin: 0; text-transform: uppercase; font-size: 1.2em; letter-spacing: 3px;">CONFIRMED RESERVATION</p>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <!-- REF Bar - Compact -->
-                        <div class="row mb-3">
-                            <div class="col-12 text-right">
-                                <span style="background-color: #1a2a6c; color: white; padding: 5px 30px; border-radius: 5px; font-size: 1.6em; font-weight: 900;">
-                                    REF: <t t-esc="o.name"/>
-                                </span>
-                            </div>
-                        </div>
+                    <!-- REF Bar -->
+                    <div style="text-align: right; margin-bottom: 30px;">
+                        <span style="background-color: #1a2a6c; color: white; padding: 10px 40px; border-radius: 5px; font-size: 2.2em; font-weight: 900;">
+                            REF: <t t-esc="o.name"/>
+                        </span>
+                    </div>
 
-                        <!-- Main Grid - Reduced padding -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div style="background-color: #fcfcfc; border: 1px solid #eee; border-radius: 12px; padding: 30px;">
-                                    <div class="row">
-                                        <!-- Passenger -->
-                                        <div class="col-6" style="border-right: 1px solid #eee;">
-                                            <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; font-size: 0.9em;">Passenger Details</h6>
-                                            <p style="font-size: 1.8em; font-weight: 900; color: #1a2a6c; margin-bottom: 15px; line-height: 1.1;"><t t-esc="o.pax_name"/></p>
-                                            <div style="font-size: 1.1em; line-height: 1.6;">
-                                                <p class="m-0"><strong>ID:</strong> <t t-esc="o.pax_vat"/></p>
-                                                <p class="m-0"><strong>Nationality:</strong> <t t-esc="o.pax_nationality_id.name"/></p>
-                                                <p class="m-0"><strong>Email:</strong> <t t-esc="o.pax_email"/></p>
-                                                <p class="m-0"><strong>Phone:</strong> <t t-esc="o.pax_phone"/></p>
-                                            </div>
-                                        </div>
-                                        <!-- Excursion -->
-                                        <div class="col-6 pl-4">
-                                            <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; font-size: 0.9em;">Excursion Details</h6>
-                                            <p style="font-size: 1.8em; font-weight: 900; color: #1a2a6c; margin-bottom: 15px; line-height: 1.1;"><t t-esc="o.excursion_id.product_id.name"/></p>
-                                            <div style="font-size: 1.1em; line-height: 1.6;">
-                                                <p class="m-0"><strong>Date:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "dd/MM/yyyy"}'/></p>
-                                                <p class="m-0"><strong>Time:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "HH:mm"}'/> hs</p>
-                                                <p class="m-0"><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;">VALID</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <!-- Main Info Grid (Table for stability) -->
+                    <table style="width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid #eee; border-radius: 15px; background-color: #fcfcfc; margin-bottom: 30px;">
+                        <tr>
+                            <!-- Passenger -->
+                            <td style="width: 50%; padding: 35px; border-right: 2px solid #eee; vertical-align: top;">
+                                <h5 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 25px; font-size: 1em;">Passenger Details</h5>
+                                <p style="font-size: 2.5em; font-weight: 900; color: #1a2a6c; margin-bottom: 20px; line-height: 1.1;"><t t-esc="o.pax_name"/></p>
+                                <div style="font-size: 1.3em; line-height: 1.7;">
+                                    <p class="m-0"><strong>ID:</strong> <t t-esc="o.pax_vat"/></p>
+                                    <p class="m-0"><strong>Nationality:</strong> <t t-esc="o.pax_nationality_id.name"/></p>
+                                    <p class="m-0"><strong>Email:</strong> <t t-esc="o.pax_email"/></p>
+                                    <p class="m-0"><strong>Phone:</strong> <t t-esc="o.pax_phone"/></p>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Instructions - Compact -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div style="background-color: #fff9e6; border-left: 6px solid #f1c40f; padding: 20px; border-radius: 5px;">
-                                    <h5 style="font-weight: 900; color: #856404; margin-bottom: 5px; font-size: 1em;">IMPORTANT INSTRUCTIONS:</h5>
-                                    <ul style="font-size: 1em; color: #555; margin-bottom: 0;">
-                                        <li>Be present 15 minutes before the departure time.</li>
-                                        <li>Valid ID is mandatory for all passengers.</li>
-                                        <li>Valid only for the date and time specified.</li>
-                                    </ul>
+                            </td>
+                            <!-- Excursion -->
+                            <td style="width: 50%; padding: 35px; vertical-align: top;">
+                                <h5 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 25px; font-size: 1em;">Service Info</h5>
+                                <p style="font-size: 2.5em; font-weight: 900; color: #1a2a6c; margin-bottom: 20px; line-height: 1.1;"><t t-esc="o.excursion_id.product_id.name"/></p>
+                                <div style="font-size: 1.3em; line-height: 1.7;">
+                                    <p class="m-0"><strong>Date:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "dd/MM/yyyy"}'/></p>
+                                    <p class="m-0"><strong>Time:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "HH:mm"}'/> hs</p>
+                                    <p class="m-0"><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;">VALID</span></p>
                                 </div>
-                            </div>
-                        </div>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <!-- Validation ID -->
-                        <div class="row mb-4">
-                            <div class="col-12 text-center">
-                                <p class="text-muted small mb-1" style="text-transform: uppercase; font-size: 0.8em;">Security Validation ID</p>
-                                <div style="font-family: monospace; color: #1a2a6c; background: #f0f2f5; padding: 10px 25px; border-radius: 6px; border: 1px dashed #cbd5e0; display: inline-block; font-size: 1.1em; font-weight: bold;">
-                                    <t t-esc="o.qr_uuid"/>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Instructions -->
+                    <div style="background-color: #fff9e6; border-left: 10px solid #f1c40f; padding: 25px; border-radius: 5px; margin-bottom: 30px;">
+                        <h4 style="font-weight: 900; color: #856404; margin-bottom: 10px;">IMPORTANT INSTRUCTIONS:</h4>
+                        <ul style="font-size: 1.2em; color: #555; margin-bottom: 0;">
+                            <li>Please be present 15 minutes before departure.</li>
+                            <li>Valid photo ID is mandatory for all passengers.</li>
+                            <li>This voucher is valid only for the date specified.</li>
+                        </ul>
+                    </div>
 
-                        <!-- Footer - Flowing naturally to stay on one page -->
-                        <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
-                            <h4 style="font-weight: bold; color: #1a2a6c; margin-bottom: 5px;"><t t-esc="res_company.name"/></h4>
-                            <div style="font-size: 1em; color: #7f8c8d;">
-                                <i class="fa fa-phone"/> <t t-esc="res_company.phone"/> | 
-                                <i class="fa fa-envelope"/> <t t-esc="res_company.email"/> | 
-                                <i class="fa fa-globe"/> <t t-esc="res_company.website"/>
-                                <br/>
-                                <i class="fa fa-map-marker"/> <t t-esc="res_company.street"/>, <t t-esc="res_company.city"/>
-                            </div>
+                    <!-- Validation UUID -->
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <p class="text-muted small mb-1" style="text-transform: uppercase;">Security Validation Code</p>
+                        <div style="font-family: monospace; color: #1a2a6c; background: #f0f2f5; padding: 15px 30px; border-radius: 8px; border: 1px dashed #cbd5e0; display: inline-block; font-size: 1.4em; font-weight: bold;">
+                            <t t-esc="o.qr_uuid"/>
                         </div>
                     </div>
-                </t>
+
+                    <!-- Footer -->
+                    <div style="margin-top: auto; border-top: 2px solid #eee; padding-top: 20px; text-align: center;">
+                        <h3 style="font-weight: bold; color: #1a2a6c; margin: 0;"><t t-esc="res_company.name"/></h3>
+                        <div style="font-size: 1.1em; color: #7f8c8d; margin-top: 5px;">
+                            <t t-esc="res_company.phone"/> | <t t-esc="res_company.email"/> | <t t-esc="res_company.website"/>
+                            <br/>
+                            <t t-esc="res_company.street"/>, <t t-esc="res_company.city"/>
+                        </div>
+                    </div>
+                </div>
             </t>
         </t>
     </template>
