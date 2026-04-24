@@ -129,8 +129,8 @@
                             <field name="pax_name" placeholder="Full Name" readonly="state != 'draft'"/>
                             <field name="pax_vat" placeholder="DNI / Passport" readonly="state != 'draft'"/>
                             <field name="pax_birthdate" readonly="state != 'draft'"/>
-                            <field name="pax_nationality_id" options="{'no_create': True}" readonly="state != 'draft'"/>
-                            <field name="pax_language_id" options="{'no_create': True}" readonly="state != 'draft'"/>
+                            <field name="pax_nationality_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
+                            <field name="pax_language_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
                         </group>
                     </group>
                     <group>

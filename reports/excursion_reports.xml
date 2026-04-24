@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Paper Format Landscape -->
+    <!-- Paper Format Landscape with Minimal Margins -->
     <record id="paperformat_tursys_landscape" model="report.paperformat">
         <field name="name">TurSys Landscape</field>
         <field name="default" eval="False"/>
         <field name="format">A4</field>
-        <field name="page_height">0</field>
-        <field name="page_width">0</field>
         <field name="orientation">Landscape</field>
-        <field name="margin_top">10</field>
-        <field name="margin_bottom">10</field>
-        <field name="margin_left">10</field>
-        <field name="margin_right">10</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
         <field name="dpi">90</field>
     </record>
 
-    <!-- Report Action -->
     <record id="action_report_tursys_passenger_list" model="ir.actions.report">
         <field name="name">Passenger List</field>
         <field name="model">tursys.excursion</field>
@@ -30,68 +27,48 @@
         <field name="paperformat_id" ref="paperformat_tursys_landscape"/>
     </record>
 
-    <!-- Report Template -->
     <template id="report_passenger_list_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page" style="font-family: 'Helvetica', 'Arial', sans-serif; color: #333;">
-                        <!-- Header -->
-                        <div class="row mb-4">
-                            <div class="col-3">
-                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 80px;" alt="Logo"/>
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-family: 'Helvetica', sans-serif; color: #333; padding: 10px;">
+                        <!-- Large Header -->
+                        <div class="row mb-2 align-items-center" style="border-bottom: 3px solid #1a2a6c; padding-bottom: 10px;">
+                            <div class="col-4">
+                                <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 150px; width: auto;" alt="Logo"/>
                             </div>
-                            <div class="col-6 text-center">
-                                <h2 style="font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #1a2a6c; margin-top: 10px;">
+                            <div class="col-8 text-right">
+                                <h2 style="font-weight: 900; text-transform: uppercase; color: #1a2a6c; font-size: 2.8em; margin: 0;">
                                     Passenger List
                                 </h2>
-                                <h5 class="text-muted"><t t-esc="o.name"/></h5>
+                                <h3 style="color: #e67e22; font-weight: 600; margin: 0;"><t t-esc="o.name"/></h3>
+                                <div style="font-size: 1.2em; color: #7f8c8d; font-weight: bold;">
+                                    Date: <span t-out="o.start_datetime" t-options='{"widget": "date"}'/> | 
+                                    Departure: <span t-field="o.start_datetime" t-options='{"format": "HH:mm"}'/> hs
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tour Info Bar Compact -->
+                        <div class="row mb-2" style="background-color: #f8f9fa; border: 1px solid #eee; padding: 10px; border-radius: 5px;">
+                            <div class="col-6">
+                                <strong>SERVICE:</strong> <span t-field="o.product_id.name" style="font-size: 1.2em; color: #1a2a6c; font-weight: bold;"/>
+                            </div>
+                            <div class="col-3 text-center">
+                                <strong>STATUS:</strong> <span t-field="o.state" class="badge badge-info"/>
                             </div>
                             <div class="col-3 text-right">
-                                <div style="font-size: 0.8em; color: #7f8c8d;">
-                                    Print Date: <span t-out="o.create_date" t-options='{"widget": "date"}'/><br/>
-                                    <strong><t t-esc="res_company.name"/></strong>
-                                </div>
+                                <strong>TOTAL CONFIRMED:</strong> <t t-esc="o.capacity_used"/> / <t t-esc="o.capacity_total"/>
                             </div>
                         </div>
 
-                        <!-- Tour Info Box -->
-                        <div class="row mb-4" style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-                            <div class="col-4 p-3" style="background-color: #1a2a6c; color: white;">
-                                <small style="text-transform: uppercase; opacity: 0.8;">Service</small>
-                                <h4 class="m-0" t-field="o.product_id.name"/>
-                            </div>
-                            <div class="col-8 p-3" style="background-color: #fdfdfd;">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <small class="text-muted text-uppercase">Departure</small>
-                                        <div style="font-weight: bold; color: #e67e22; font-size: 1.1em;">
-                                            <span t-field="o.start_datetime" t-options='{"format": "dd/MM/yyyy HH:mm"}'/>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 border-left">
-                                        <small class="text-muted text-uppercase">Arrival (Est)</small>
-                                        <div style="font-weight: bold;">
-                                            <span t-field="o.end_datetime" t-options='{"format": "dd/MM/yyyy HH:mm"}'/>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 border-left">
-                                        <small class="text-muted text-uppercase">Status</small>
-                                        <div>
-                                            <span t-field="o.state" class="badge badge-pill badge-info" style="font-size: 0.9em;"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Full Width Table -->
-                        <table class="table table-sm o_main_table" style="width: 100%; border-collapse: collapse;">
+                        <!-- Table Full Width with Larger Font -->
+                        <table class="table table-sm" style="width: 100%; border-collapse: collapse; font-size: 14px;">
                             <thead>
                                 <tr style="background-color: #34495e; color: white;">
                                     <th class="p-2" style="width: 18%;">Passenger Name</th>
                                     <th class="p-2" style="width: 10%;">ID/VAT</th>
-                                    <th class="p-2" style="width: 5%;">Age</th>
+                                    <th class="p-2 text-center" style="width: 5%;">Age</th>
                                     <th class="p-2" style="width: 10%;">Nationality</th>
                                     <th class="p-2" style="width: 12%;">Phone</th>
                                     <th class="p-2" style="width: 15%;">Special Needs</th>
@@ -100,41 +77,22 @@
                             </thead>
                             <tbody>
                                 <t t-foreach="o.booking_ids" t-as="line">
-                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                    <tr style="border-bottom: 1px solid #eee;">
                                         <td class="p-2"><strong><span t-field="line.pax_name"/></strong></td>
                                         <td class="p-2"><span t-field="line.pax_vat"/></td>
                                         <td class="p-2 text-center"><span t-field="line.pax_age"/></td>
                                         <td class="p-2"><span t-field="line.pax_nationality_id.name"/></td>
                                         <td class="p-2"><span t-field="line.pax_phone"/></td>
                                         <td class="p-2">
-                                            <span t-if="line.pax_special_needs" style="color: #c0392b; font-size: 0.9em;">
+                                            <span t-if="line.pax_special_needs" style="color: #c0392b; font-weight: bold; font-size: 0.9em;">
                                                 <i class="fa fa-warning"/> <t t-esc="line.pax_special_needs"/>
                                             </span>
                                         </td>
-                                        <td class="p-2 text-muted" style="font-size: 0.85em;">
-                                            <span t-field="line.observations"/>
-                                        </td>
+                                        <td class="p-2 text-muted"><span t-field="line.observations"/></td>
                                     </tr>
                                 </t>
                             </tbody>
                         </table>
-
-                        <!-- Footer -->
-                        <div class="row mt-5 pt-3" style="border-top: 2px solid #1a2a6c;">
-                            <div class="col-7">
-                                <div style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; font-size: 0.8em; color: #666;">
-                                    <strong>Internal Document:</strong> This list contains sensitive information. Handle with care during the excursion.
-                                </div>
-                            </div>
-                            <div class="col-5 text-right">
-                                <div style="background-color: #1a2a6c; color: white; padding: 15px; border-radius: 8px; display: inline-block; min-width: 200px;">
-                                    <small class="text-uppercase" style="opacity: 0.8; display: block;">Confirmed Passengers</small>
-                                    <div style="font-size: 2.2em; font-weight: 800;">
-                                        <t t-esc="o.capacity_used"/> / <t t-esc="o.capacity_total"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </t>
             </t>
