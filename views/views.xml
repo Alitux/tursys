@@ -49,12 +49,12 @@
                     </group>
                     <notebook>
                         <page string="Bookings" name="bookings">
-                            <field name="booking_ids" readonly="1">
+                            <field name="booking_ids" context="{'default_excursion_id': id}">
                                 <list>
                                     <field name="name"/>
                                     <field name="partner_id"/>
                                     <field name="pax_count"/>
-                                    <field name="state" widget="badge"/>
+                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
                                 </list>
                             </field>
                         </page>
