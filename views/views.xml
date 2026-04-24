@@ -25,6 +25,38 @@
     </record>
 
     <!-- Excursion Views -->
+    <record id="view_tursys_excursion_calendar" model="ir.ui.view">
+        <field name="name">tursys.excursion.calendar</field>
+        <field name="model">tursys.excursion</field>
+        <field name="arch" type="xml">
+            <calendar string="Excursions" date_start="start_datetime" date_stop="end_datetime" color="product_id" mode="month" quick_create="False">
+                <field name="product_id"/>
+                <field name="capacity_used"/>
+                <field name="capacity_total"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_tursys_excursion_search" model="ir.ui.view">
+        <field name="name">tursys.excursion.search</field>
+        <field name="model">tursys.excursion</field>
+        <field name="arch" type="xml">
+            <search string="Search Excursions">
+                <field name="product_id"/>
+                <filter name="scheduled" string="Scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter name="done" string="Finished" domain="[('state', '=', 'done')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="today" string="Today" domain="[('start_datetime', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('start_datetime', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_product" string="Service" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'start_datetime:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="view_tursys_excursion_list" model="ir.ui.view">
         <field name="name">tursys.excursion.list</field>
         <field name="model">tursys.excursion</field>
@@ -171,7 +203,8 @@
     <record id="action_tursys_excursion" model="ir.actions.act_window">
         <field name="name">Excursions</field>
         <field name="res_model">tursys.excursion</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="view_tursys_excursion_search"/>
     </record>
 
     <record id="action_tursys_booking" model="ir.actions.act_window">
