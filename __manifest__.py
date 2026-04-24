@@ -27,6 +27,7 @@ Long description of module's purpose
         'data/ir_sequence_data.xml',
         'views/views.xml',
         'views/templates.xml',
+        'reports/excursion_reports.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

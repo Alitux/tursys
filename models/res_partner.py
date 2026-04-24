@@ -7,6 +7,8 @@ class ResPartner(models.Model):
 
     birthdate = fields.Date(string='Birthdate')
     age = fields.Integer(string='Age', compute='_compute_age', store=False)
+    special_needs = fields.Text(string='Special Needs')
+    # Usamos country_id como nacionalidad por defecto
 
     @api.depends('birthdate')
     def _compute_age(self):
