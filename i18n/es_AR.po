@@ -204,9 +204,9 @@ msgid "ID"
 msgstr "ID"
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__document_number
-msgid "ID / Passport"
-msgstr "DNI / Pasaporte"
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__vat
+msgid "ID / VAT"
+msgstr "DNI / CUIL"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_exception_icon

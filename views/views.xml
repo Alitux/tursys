@@ -108,9 +108,9 @@
                         <page string="Passengers List" name="passengers">
                             <field name="pax_ids">
                                 <list editable="bottom">
-                                    <field name="name"/>
-                                    <field name="document_number"/>
-                                    <field name="age"/>
+                                    <field name="partner_id" context="{'default_is_company': False}"/>
+                                    <field name="vat"/>
+                                    <field name="birthdate"/>
                                     <field name="observations"/>
                                 </list>
                             </field>
