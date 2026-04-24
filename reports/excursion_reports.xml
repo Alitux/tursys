@@ -36,6 +36,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page" style="font-family: 'Helvetica', 'Arial', sans-serif; color: #333;">
+                        <!-- Header -->
                         <div class="row mb-4">
                             <div class="col-3">
                                 <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 80px;" alt="Logo"/>
@@ -54,6 +55,7 @@
                             </div>
                         </div>
 
+                        <!-- Tour Info Box -->
                         <div class="row mb-4" style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
                             <div class="col-4 p-3" style="background-color: #1a2a6c; color: white;">
                                 <small style="text-transform: uppercase; opacity: 0.8;">Service</small>
@@ -83,48 +85,52 @@
                             </div>
                         </div>
 
-                        <table class="table table-sm o_main_table" style="border-collapse: separate; border-spacing: 0 5px;">
+                        <!-- Full Width Table -->
+                        <table class="table table-sm o_main_table" style="width: 100%; border-collapse: collapse;">
                             <thead>
-                                <tr style="background-color: #f2f2f2; border-bottom: 2px solid #1a2a6c;">
-                                    <th class="p-2">Passenger Name</th>
-                                    <th class="p-2">VAT/Passport</th>
-                                    <th class="p-2">Nationality</th>
-                                    <th class="p-2">Birthdate</th>
-                                    <th class="p-2">Special Needs / Obs.</th>
+                                <tr style="background-color: #34495e; color: white;">
+                                    <th class="p-2" style="width: 18%;">Passenger Name</th>
+                                    <th class="p-2" style="width: 10%;">ID/VAT</th>
+                                    <th class="p-2" style="width: 5%;">Age</th>
+                                    <th class="p-2" style="width: 10%;">Nationality</th>
+                                    <th class="p-2" style="width: 12%;">Phone</th>
+                                    <th class="p-2" style="width: 15%;">Special Needs</th>
+                                    <th class="p-2" style="width: 30%;">Booking Observations</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-foreach="o.booking_ids" t-as="line">
-                                    <tr style="background-color: #ffffff; border-bottom: 1px solid #eee;">
-                                        <td class="p-2" style="font-weight: 600;"><span t-field="line.pax_name"/></td>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td class="p-2"><strong><span t-field="line.pax_name"/></strong></td>
                                         <td class="p-2"><span t-field="line.pax_vat"/></td>
+                                        <td class="p-2 text-center"><span t-field="line.pax_age"/></td>
                                         <td class="p-2"><span t-field="line.pax_nationality_id.name"/></td>
-                                        <td class="p-2"><span t-field="line.pax_birthdate" t-options='{"format": "dd/MM/yyyy"}'/></td>
+                                        <td class="p-2"><span t-field="line.pax_phone"/></td>
                                         <td class="p-2">
-                                            <div t-if="line.pax_special_needs" style="color: #c0392b; font-weight: bold;">
-                                                <i class="fa fa-warning"/> <span t-field="line.pax_special_needs"/>
-                                            </div>
-                                            <div class="small text-muted italic" t-field="line.observations"/>
+                                            <span t-if="line.pax_special_needs" style="color: #c0392b; font-size: 0.9em;">
+                                                <i class="fa fa-warning"/> <t t-esc="line.pax_special_needs"/>
+                                            </span>
+                                        </td>
+                                        <td class="p-2 text-muted" style="font-size: 0.85em;">
+                                            <span t-field="line.observations"/>
                                         </td>
                                     </tr>
                                 </t>
                             </tbody>
                         </table>
 
-                        <div class="row mt-5 pt-3" style="border-top: 1px solid #ddd;">
+                        <!-- Footer -->
+                        <div class="row mt-5 pt-3" style="border-top: 2px solid #1a2a6c;">
                             <div class="col-7">
-                                <div style="background-color: #fff9e6; padding: 10px; border-left: 4px solid #f1c40f; border-radius: 4px;">
-                                    <strong>Important Notes:</strong>
-                                    <p class="small m-0 text-muted">
-                                        This document is for internal use only. It contains sensitive passenger information.
-                                    </p>
+                                <div style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; font-size: 0.8em; color: #666;">
+                                    <strong>Internal Document:</strong> This list contains sensitive information. Handle with care during the excursion.
                                 </div>
                             </div>
                             <div class="col-5 text-right">
                                 <div style="background-color: #1a2a6c; color: white; padding: 15px; border-radius: 8px; display: inline-block; min-width: 200px;">
-                                    <small class="text-uppercase" style="opacity: 0.8; display: block;">Passengers Total</small>
+                                    <small class="text-uppercase" style="opacity: 0.8; display: block;">Confirmed Passengers</small>
                                     <div style="font-size: 2.2em; font-weight: 800;">
-                                        <t t-esc="len(o.booking_ids)"/> / <t t-esc="o.capacity_total"/>
+                                        <t t-esc="o.capacity_used"/> / <t t-esc="o.capacity_total"/>
                                     </div>
                                 </div>
                             </div>
