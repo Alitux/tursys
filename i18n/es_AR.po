@@ -1,0 +1,430 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tursys
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250320\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-24 20:01+0000\n"
+"PO-Revision-Date: 2026-04-24 20:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_needaction
+msgid "Action Needed"
+msgstr "Acción Necesaria"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoración de Excepción de Actividad"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_state
+msgid "Activity State"
+msgstr "Estado de la Actividad"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icono de Tipo de Actividad"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__age
+msgid "Age"
+msgstr "Edad"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_attachment_count
+msgid "Attachment Count"
+msgstr "Conteo de Adjuntos"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__capacity_available
+msgid "Available Capacity"
+msgstr "Capacidad Disponible"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__booking_id
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Booking"
+msgstr "Reserva"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__name
+msgid "Booking Reference"
+msgstr "Referencia de Reserva"
+
+#. module: tursys
+#: model:ir.actions.act_window,name:tursys.action_tursys_booking
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__booking_ids
+#: model:ir.ui.menu,name:tursys.menu_tursys_booking
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_list
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Bookings"
+msgstr "Reservas"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__cancelled
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__cancelled
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__confirmed
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: tursys
+#: model_terms:ir.actions.act_window,help:tursys.action_tursys_excursion
+msgid "Create your first excursion!"
+msgstr "¡Crea tu primera excursión!"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__create_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__create_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__create_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__create_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__display_name
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__display_name
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__display_name
+msgid "Display Name"
+msgstr "Nombre a Mostrar"
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__duration
+msgid "Duration (Hours)"
+msgstr "Duración (Horas)"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__end_datetime
+msgid "End Date & Time"
+msgstr "Fecha y Hora de Fin"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__excursion_id
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Excursion"
+msgstr "Excursión"
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_tursys_booking
+msgid "Excursion Booking"
+msgstr "Reserva de Excursión"
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_tursys_excursion
+msgid "Excursion Instance"
+msgstr "Instancia de Excursión"
+
+#. module: tursys
+#: model:ir.actions.act_window,name:tursys.action_tursys_excursion
+#: model:ir.ui.menu,name:tursys.menu_tursys_excursion
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_list
+msgid "Excursions"
+msgstr "Excursiones"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Finish"
+msgstr "Finalizar"
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__done
+msgid "Finished"
+msgstr "Finalizado"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Contactos)"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Icono de Font Awesome, ej. fa-tasks"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__has_message
+msgid "Has Message"
+msgstr "Tiene Mensaje"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__id
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__id
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__id
+msgid "ID"
+msgstr "ID"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__document_number
+msgid "ID / Passport"
+msgstr "DNI / Pasaporte"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_exception_icon
+msgid "Icon"
+msgstr "Icono"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icono para indicar una actividad de excepción."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, los nuevos mensajes requieren su atención."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__message_has_error
+#: model:ir.model.fields,help:tursys.field_tursys_booking__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_is_follower
+msgid "Is Follower"
+msgstr "Es Seguidor"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__write_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__write_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__write_uid
+msgid "Last Updated by"
+msgstr "Última Actualización por"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__write_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__write_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__write_date
+msgid "Last Updated on"
+msgstr "Última Actualización el"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de entrega de mensaje"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Fecha Límite de mi Actividad"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/models.py:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Fecha Límite de la Próxima Actividad"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de la Próxima Actividad"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo de la Próxima Actividad"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/models.py:0
+msgid "Not enough capacity available in this excursion!"
+msgstr "¡No hay suficiente capacidad disponible en esta excursión!"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Acciones"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de errores"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensajes que requieren acción"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de entrega"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__observations
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_count
+msgid "PAX Count"
+msgstr "Cantidad de PAX"
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_tursys_passenger
+msgid "Passenger"
+msgstr "Pasajero"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__name
+msgid "Passenger Name"
+msgstr "Nombre del Pasajero"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_ids
+msgid "Passengers"
+msgstr "Pasajeros"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Passengers List"
+msgstr "Lista de Pasajeros"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__rating_ids
+msgid "Ratings"
+msgstr "Valoraciones"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__name
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: tursys
+#: model_terms:ir.actions.act_window,help:tursys.action_tursys_booking
+msgid "Register a new booking!"
+msgstr "¡Registra una nueva reserva!"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de entrega de SMS"
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__scheduled
+msgid "Scheduled"
+msgstr "Programado"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__product_id
+msgid "Service"
+msgstr "Servicio"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__start_datetime
+msgid "Start Date & Time"
+msgstr "Fecha y Hora de Inicio"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__state
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__state
+msgid "Status"
+msgstr "Estado"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Vencido: La fecha límite ya ha pasado\n"
+"Hoy: La fecha de la actividad es hoy\n"
+"Planificado: Actividades futuras."
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__capacity_total
+msgid "Total Capacity"
+msgstr "Capacidad Total"
+
+#. module: tursys
+#: model:ir.ui.menu,name:tursys.menu_tursys_root
+msgid "TurSys"
+msgstr "TurSys"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo de actividad de excepción en el registro."
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__capacity_used
+msgid "Used Capacity"
+msgstr "Capacidad Usada"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del Sitio Web"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicación del sitio web"
