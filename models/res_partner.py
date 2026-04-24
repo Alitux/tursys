@@ -8,7 +8,8 @@ class ResPartner(models.Model):
     birthdate = fields.Date(string='Birthdate')
     age = fields.Integer(string='Age', compute='_compute_age', store=False)
     special_needs = fields.Text(string='Special Needs')
-    # Usamos country_id como nacionalidad por defecto
+    nationality_id = fields.Many2one('tursys.nationality', string='Nationality')
+    language_id = fields.Many2one('tursys.language', string='Main Language')
 
     @api.depends('birthdate')
     def _compute_age(self):

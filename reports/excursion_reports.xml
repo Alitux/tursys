@@ -97,21 +97,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="o.booking_ids.filtered(lambda a: a.state == 'confirmed')" t-as="booking">
-                                    <t t-foreach="booking.pax_ids" t-as="line">
-                                        <tr style="background-color: #ffffff; border-bottom: 1px solid #eee;">
-                                            <td class="p-2" style="font-weight: 600;"><span t-field="line.partner_id.name"/></td>
-                                            <td class="p-2"><span t-field="line.partner_id.vat"/></td>
-                                            <td class="p-2"><span t-field="line.partner_id.country_id.name"/></td>
-                                            <td class="p-2"><span t-field="line.partner_id.birthdate" t-options='{"format": "dd/MM/yyyy"}'/></td>
-                                            <td class="p-2">
-                                                <div t-if="line.partner_id.special_needs" style="color: #c0392b; font-weight: bold;">
-                                                    <i class="fa fa-warning"/> <span t-field="line.partner_id.special_needs"/>
-                                                </div>
-                                                <div class="small text-muted italic" t-field="line.observations"/>
-                                            </td>
-                                        </tr>
-                                    </t>
+                                <t t-foreach="o.booking_ids.filtered(lambda a: a.state == 'confirmed')" t-as="line">
+                                    <tr style="background-color: #ffffff; border-bottom: 1px solid #eee;">
+                                        <td class="p-2" style="font-weight: 600;"><span t-field="line.passenger_id.name"/></td>
+                                        <td class="p-2"><span t-field="line.passenger_id.vat"/></td>
+                                        <td class="p-2"><span t-field="line.passenger_id.country_id.name"/></td>
+                                        <td class="p-2"><span t-field="line.passenger_id.birthdate" t-options='{"format": "dd/MM/yyyy"}'/></td>
+                                        <td class="p-2">
+                                            <div t-if="line.passenger_id.special_needs" style="color: #c0392b; font-weight: bold;">
+                                                <i class="fa fa-warning"/> <span t-field="line.passenger_id.special_needs"/>
+                                            </div>
+                                            <div class="small text-muted italic" t-field="line.observations"/>
+                                        </td>
+                                    </tr>
                                 </t>
                             </tbody>
                         </table>

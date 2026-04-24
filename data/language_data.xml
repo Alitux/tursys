@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="lang_es" model="tursys.language"><field name="name">Español</field><field name="code">ES</field></record>
+        <record id="lang_en" model="tursys.language"><field name="name">Inglés</field><field name="code">EN</field></record>
+        <record id="lang_pt" model="tursys.language"><field name="name">Portugués</field><field name="code">PT</field></record>
+        <record id="lang_fr" model="tursys.language"><field name="name">Francés</field><field name="code">FR</field></record>
+        <record id="lang_de" model="tursys.language"><field name="name">Alemán</field><field name="code">DE</field></record>
+        <record id="lang_it" model="tursys.language"><field name="name">Italiano</field><field name="code">IT</field></record>
+    </data>
+</odoo>

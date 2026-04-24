@@ -45,10 +45,10 @@ class TursysExcursion(models.Model):
             else:
                 record.name = "New Excursion"
 
-    @api.depends('booking_ids', 'booking_ids.state', 'booking_ids.pax_count')
+    @api.depends('booking_ids', 'booking_ids.state')
     def _compute_capacity_used(self):
         for record in self:
-            record.capacity_used = sum(record.booking_ids.filtered(lambda b: b.state == 'confirmed').mapped('pax_count'))
+            record.capacity_used = len(record.booking_ids.filtered(lambda b: b.state == 'confirmed'))
 
     @api.depends('capacity_total', 'capacity_used')
     def _compute_capacity_available(self):

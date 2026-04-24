@@ -1,37 +1,38 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Sistema para Agencias de Turismo",
+    'name': "TurSys - Gestión Profesional de Agencias de Turismo",
 
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': """
+        Administración integral de excursiones, reservas y logística de pasajeros.
+    """,
 
     'description': """
-Long description of module's purpose
+Módulo avanzado para agencias de turismo que permite:
+- Gestión de instancias de excursiones con control de capacidad.
+- Registro ágil de pasajeros vinculados a contactos centralizados.
+- Control de nacionalidades, idiomas y necesidades especiales/médicas.
+- Generación de reportes profesionales de listas de pasajeros en formato PDF.
+- Preparado para integración futura con ventas y códigos QR de control de acceso.
     """,
 
     'author': "Alitux",
     'website': "https://alitux.com.ar",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '18.0.1.0.0',
+    'category': 'Operations/Tourism',
+    'version': '18.0.1.1.0',
     'license': 'LGPL-3',
 
-    # any module necessary for this one to work correctly
-    'depends': ['base', 'product'],
+    'depends': ['base', 'product', 'mail'],
 
-    # always loaded
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
+        'data/nationality_data.xml',
+        'data/language_data.xml',
         'views/views.xml',
         'views/templates.xml',
         'reports/excursion_reports.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-        ],
+    
+    'application': True,
+    'installable': True,
 }
-

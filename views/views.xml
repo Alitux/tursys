@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Configuration Views -->
+    <record id="view_tursys_nationality_list" model="ir.ui.view">
+        <field name="name">tursys.nationality.list</field>
+        <field name="model">tursys.nationality</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tursys_language_list" model="ir.ui.view">
+        <field name="name">tursys.language.list</field>
+        <field name="model">tursys.language</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+
     <!-- Excursion Views -->
     <record id="view_tursys_excursion_list" model="ir.ui.view">
         <field name="name">tursys.excursion.list</field>
@@ -30,9 +53,7 @@
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
+                        <h1><field name="name" readonly="1"/></h1>
                     </div>
                     <group>
                         <group>
@@ -48,13 +69,14 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Bookings" name="bookings">
-                            <field name="booking_ids" context="{'default_excursion_id': id}">
+                        <page string="Confirmed Passengers" name="bookings">
+                            <field name="booking_ids" context="{'default_excursion_id': id, 'hide_excursion': True}">
                                 <list>
-                                    <field name="name"/>
-                                    <field name="partner_id"/>
-                                    <field name="pax_count"/>
+                                    <field name="passenger_id"/>
+                                    <field name="passenger_vat"/>
+                                    <field name="passenger_nationality_id"/>
                                     <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
+                                    <button name="action_confirm" string="Confirm" type="object" icon="fa-check" invisible="state != 'draft'"/>
                                 </list>
                             </field>
                         </page>
@@ -72,8 +94,8 @@
             <list string="Bookings">
                 <field name="name"/>
                 <field name="excursion_id"/>
-                <field name="partner_id"/>
-                <field name="pax_count"/>
+                <field name="passenger_id"/>
+                <field name="passenger_vat"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
             </list>
         </field>
@@ -83,42 +105,59 @@
         <field name="name">tursys.booking.form</field>
         <field name="model">tursys.booking</field>
         <field name="arch" type="xml">
-            <form string="Booking">
+            <form string="Booking Card">
                 <header>
-                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_confirm" string="Confirm Booking" type="object" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
+                        <label for="name" string="Booking Number"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                        <field name="qr_uuid" invisible="not qr_uuid" class="text-muted small"/>
                     </div>
                     <group>
-                        <group>
-                            <field name="partner_id"/>
+                        <group string="Service Details" invisible="context.get('hide_excursion')">
                             <field name="excursion_id" domain="[('state', '=', 'scheduled'), ('capacity_available', '>', 0)]"/>
                         </group>
-                        <group>
-                            <field name="pax_count"/>
+                        <group string="Passenger Details">
+                            <field name="passenger_id" placeholder="Start typing name..." context="{'default_is_company': False}"/>
+                            <field name="passenger_vat" placeholder="DNI / Passport"/>
+                            <field name="passenger_birthdate"/>
+                            <field name="passenger_nationality_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="passenger_language_id" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                     </group>
-                    <notebook>
-                        <page string="Passengers List" name="passengers">
-                            <field name="pax_ids">
-                                <list editable="bottom">
-                                    <field name="partner_id" context="{'default_is_company': False}"/>
-                                    <field name="vat"/>
-                                    <field name="birthdate"/>
-                                    <field name="observations"/>
-                                </list>
-                            </field>
-                        </page>
-                    </notebook>
+                    <group>
+                        <group string="Special Requirements">
+                            <field name="passenger_special_needs" placeholder="Health issues, diet, etc."/>
+                        </group>
+                        <group string="Internal Notes">
+                            <field name="observations" placeholder="Any relevant info for the tour..."/>
+                            <field name="partner_id" invisible="1"/>
+                        </group>
+                    </group>
                 </sheet>
                 <chatter/>
             </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_tursys_booking_search" model="ir.ui.view">
+        <field name="name">tursys.booking.search</field>
+        <field name="model">tursys.booking</field>
+        <field name="arch" type="xml">
+            <search string="Search Passengers">
+                <field name="passenger_id"/>
+                <field name="passenger_vat"/>
+                <field name="excursion_id"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_excursion" string="Excursion" context="{'group_by': 'excursion_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -127,27 +166,41 @@
         <field name="name">Excursions</field>
         <field name="res_model">tursys.excursion</field>
         <field name="view_mode">list,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create your first excursion!
-            </p>
-        </field>
     </record>
 
     <record id="action_tursys_booking" model="ir.actions.act_window">
         <field name="name">Bookings</field>
         <field name="res_model">tursys.booking</field>
         <field name="view_mode">list,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Register a new booking!
-            </p>
-        </field>
+    </record>
+
+    <record id="action_tursys_all_passengers" model="ir.actions.act_window">
+        <field name="name">Passengers List</field>
+        <field name="res_model">tursys.booking</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_confirmed': 1}</field>
+    </record>
+
+    <record id="action_tursys_nationality" model="ir.actions.act_window">
+        <field name="name">Nationalities</field>
+        <field name="res_model">tursys.nationality</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="action_tursys_language" model="ir.actions.act_window">
+        <field name="name">Languages</field>
+        <field name="res_model">tursys.language</field>
+        <field name="view_mode">list</field>
     </record>
 
     <!-- Menus -->
     <menuitem id="menu_tursys_root" name="TurSys" sequence="10"/>
     <menuitem id="menu_tursys_excursion" name="Excursions" parent="menu_tursys_root" action="action_tursys_excursion" sequence="10"/>
     <menuitem id="menu_tursys_booking" name="Bookings" parent="menu_tursys_root" action="action_tursys_booking" sequence="20"/>
+    <menuitem id="menu_tursys_passengers" name="Passengers List" parent="menu_tursys_root" action="action_tursys_all_passengers" sequence="30"/>
+    
+    <menuitem id="menu_tursys_config" name="Configuration" parent="menu_tursys_root" sequence="100"/>
+    <menuitem id="menu_tursys_nationality" name="Nationalities" parent="menu_tursys_config" action="action_tursys_nationality" sequence="10"/>
+    <menuitem id="menu_tursys_language" name="Languages" parent="menu_tursys_config" action="action_tursys_language" sequence="20"/>
 
 </odoo>

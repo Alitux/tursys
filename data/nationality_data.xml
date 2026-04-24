@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="nat_ar" model="tursys.nationality"><field name="name">Argentina</field><field name="code">AR</field></record>
+        <record id="nat_br" model="tursys.nationality"><field name="name">Brasil</field><field name="code">BR</field></record>
+        <record id="nat_cl" model="tursys.nationality"><field name="name">Chile</field><field name="code">CL</field></record>
+        <record id="nat_uy" model="tursys.nationality"><field name="name">Uruguay</field><field name="code">UY</field></record>
+        <record id="nat_us" model="tursys.nationality"><field name="name">Estados Unidos</field><field name="code">US</field></record>
+        <record id="nat_es" model="tursys.nationality"><field name="name">España</field><field name="code">ES</field></record>
+        <record id="nat_fr" model="tursys.nationality"><field name="name">Francia</field><field name="code">FR</field></record>
+        <record id="nat_it" model="tursys.nationality"><field name="name">Italia</field><field name="code">IT</field></record>
+        <record id="nat_de" model="tursys.nationality"><field name="name">Alemania</field><field name="code">DE</field></record>
+        <record id="nat_gb" model="tursys.nationality"><field name="name">Reino Unido</field><field name="code">GB</field></record>
+    </data>
+</odoo>
