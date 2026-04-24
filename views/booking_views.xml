@@ -38,6 +38,7 @@
             <form string="Booking Card">
                 <header>
                     <button name="action_confirm" string="Confirm Booking" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_send_voucher_email" string="Send by Email" type="object" class="btn-primary" icon="fa-envelope" invisible="state != 'confirmed'"/>
                     <button name="%(tursys.action_report_booking_voucher)d" string="Print Voucher" type="action" class="btn-secondary" icon="fa-ticket" invisible="state == 'cancelled'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>

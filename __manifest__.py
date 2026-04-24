@@ -28,6 +28,7 @@ Módulo avanzado para agencias de turismo que permite:
         'data/ir_sequence_data.xml',
         'data/nationality_data.xml',
         'data/language_data.xml',
+        'data/mail_template_data.xml',
         'views/configuration_views.xml',
         'views/excursion_views.xml',
         'views/booking_views.xml',

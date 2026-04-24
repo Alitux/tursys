@@ -45,6 +45,25 @@ class TursysBooking(models.Model):
             else:
                 record.pax_age = 0
 
+    @api.onchange('pax_vat')
+    def _onchange_pax_vat(self):
+        if self.pax_vat:
+            partner = self.env['res.partner'].search([('vat', '=', self.pax_vat)], limit=1)
+            if partner:
+                self.pax_name = partner.name
+                self.pax_email = partner.email
+                self.pax_phone = partner.phone
+                self.pax_birthdate = partner.birthdate
+                self.pax_nationality_id = partner.nationality_id
+                self.pax_language_id = partner.language_id
+                self.pax_special_needs = partner.special_needs
+                return {
+                    'warning': {
+                        'title': _("Passenger Found"),
+                        'message': _("A passenger with this ID already exists. Data has been pre-filled.")
+                    }
+                }
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -87,3 +106,26 @@ class TursysBooking(models.Model):
 
     def action_cancel(self):
         self.write({'state': 'cancelled'})
+
+    def action_send_voucher_email(self):
+        self.ensure_one()
+        template_id = self.env.ref('tursys.email_template_booking_voucher', raise_if_not_found=False)
+        if not template_id:
+            raise ValidationError(_("Email template not found! Please update the module."))
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': {
+                'default_model': 'tursys.booking',
+                'default_res_id': self.id,
+                'default_use_template': True,
+                'default_template_id': template_id.id,
+                'default_composition_mode': 'comment',
+                'force_email': True,
+            },
+        }
