@@ -31,6 +31,7 @@ Módulo avanzado para agencias de turismo que permite:
         'views/views.xml',
         'views/templates.xml',
         'reports/excursion_reports.xml',
+        'reports/booking_reports.xml',
     ],
     
     'application': True,

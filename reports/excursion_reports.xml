@@ -36,7 +36,6 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page" style="font-family: 'Helvetica', 'Arial', sans-serif; color: #333;">
-                        <!-- Custom Modern Header -->
                         <div class="row mb-4">
                             <div class="col-3">
                                 <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 80px;" alt="Logo"/>
@@ -55,8 +54,7 @@
                             </div>
                         </div>
 
-                        <!-- Tour Info Box -->
-                        <div class="row mb-4" style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div class="row mb-4" style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
                             <div class="col-4 p-3" style="background-color: #1a2a6c; color: white;">
                                 <small style="text-transform: uppercase; opacity: 0.8;">Service</small>
                                 <h4 class="m-0" t-field="o.product_id.name"/>
@@ -85,27 +83,26 @@
                             </div>
                         </div>
 
-                        <!-- Table -->
                         <table class="table table-sm o_main_table" style="border-collapse: separate; border-spacing: 0 5px;">
                             <thead>
                                 <tr style="background-color: #f2f2f2; border-bottom: 2px solid #1a2a6c;">
-                                    <th class="p-2" style="border-radius: 5px 0 0 0;">Passenger Name</th>
+                                    <th class="p-2">Passenger Name</th>
                                     <th class="p-2">VAT/Passport</th>
                                     <th class="p-2">Nationality</th>
                                     <th class="p-2">Birthdate</th>
-                                    <th class="p-2" style="border-radius: 0 5px 0 0;">Special Needs / Obs.</th>
+                                    <th class="p-2">Special Needs / Obs.</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="o.booking_ids.filtered(lambda a: a.state == 'confirmed')" t-as="line">
+                                <t t-foreach="o.booking_ids" t-as="line">
                                     <tr style="background-color: #ffffff; border-bottom: 1px solid #eee;">
-                                        <td class="p-2" style="font-weight: 600;"><span t-field="line.passenger_id.name"/></td>
-                                        <td class="p-2"><span t-field="line.passenger_id.vat"/></td>
-                                        <td class="p-2"><span t-field="line.passenger_id.country_id.name"/></td>
-                                        <td class="p-2"><span t-field="line.passenger_id.birthdate" t-options='{"format": "dd/MM/yyyy"}'/></td>
+                                        <td class="p-2" style="font-weight: 600;"><span t-field="line.pax_name"/></td>
+                                        <td class="p-2"><span t-field="line.pax_vat"/></td>
+                                        <td class="p-2"><span t-field="line.pax_nationality_id.name"/></td>
+                                        <td class="p-2"><span t-field="line.pax_birthdate" t-options='{"format": "dd/MM/yyyy"}'/></td>
                                         <td class="p-2">
-                                            <div t-if="line.passenger_id.special_needs" style="color: #c0392b; font-weight: bold;">
-                                                <i class="fa fa-warning"/> <span t-field="line.passenger_id.special_needs"/>
+                                            <div t-if="line.pax_special_needs" style="color: #c0392b; font-weight: bold;">
+                                                <i class="fa fa-warning"/> <span t-field="line.pax_special_needs"/>
                                             </div>
                                             <div class="small text-muted italic" t-field="line.observations"/>
                                         </td>
@@ -114,22 +111,20 @@
                             </tbody>
                         </table>
 
-                        <!-- Footer Info -->
                         <div class="row mt-5 pt-3" style="border-top: 1px solid #ddd;">
                             <div class="col-7">
                                 <div style="background-color: #fff9e6; padding: 10px; border-left: 4px solid #f1c40f; border-radius: 4px;">
                                     <strong>Important Notes:</strong>
                                     <p class="small m-0 text-muted">
-                                        This document is for internal use only. It contains sensitive passenger information. 
-                                        Please ensure proper handling of this list during the excursion.
+                                        This document is for internal use only. It contains sensitive passenger information.
                                     </p>
                                 </div>
                             </div>
                             <div class="col-5 text-right">
                                 <div style="background-color: #1a2a6c; color: white; padding: 15px; border-radius: 8px; display: inline-block; min-width: 200px;">
-                                    <small class="text-uppercase" style="opacity: 0.8; display: block;">Passengers Count</small>
+                                    <small class="text-uppercase" style="opacity: 0.8; display: block;">Passengers Total</small>
                                     <div style="font-size: 2.2em; font-weight: 800;">
-                                        <t t-esc="o.capacity_used"/> / <t t-esc="o.capacity_total"/>
+                                        <t t-esc="len(o.booking_ids)"/> / <t t-esc="o.capacity_total"/>
                                     </div>
                                 </div>
                             </div>

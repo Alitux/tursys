@@ -72,9 +72,10 @@
                         <page string="Confirmed Passengers" name="bookings">
                             <field name="booking_ids" context="{'default_excursion_id': id, 'hide_excursion': True}">
                                 <list>
-                                    <field name="passenger_id"/>
-                                    <field name="passenger_vat"/>
-                                    <field name="passenger_nationality_id"/>
+                                    <field name="pax_name"/>
+                                    <field name="pax_vat"/>
+                                    <field name="pax_age"/>
+                                    <field name="pax_nationality_id"/>
                                     <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
                                     <button name="action_confirm" string="Confirm" type="object" icon="fa-check" invisible="state != 'draft'"/>
                                 </list>
@@ -94,8 +95,9 @@
             <list string="Bookings">
                 <field name="name"/>
                 <field name="excursion_id"/>
-                <field name="passenger_id"/>
-                <field name="passenger_vat"/>
+                <field name="pax_name"/>
+                <field name="pax_vat"/>
+                <field name="pax_age"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
             </list>
         </field>
@@ -121,21 +123,23 @@
                         <group string="Service Details" invisible="context.get('hide_excursion')">
                             <field name="excursion_id" domain="[('state', '=', 'scheduled'), ('capacity_available', '>', 0)]"/>
                         </group>
-                        <group string="Passenger Details">
-                            <field name="passenger_id" placeholder="Start typing name..." context="{'default_is_company': False}"/>
-                            <field name="passenger_vat" placeholder="DNI / Passport"/>
-                            <field name="passenger_birthdate"/>
-                            <field name="passenger_nationality_id" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="passenger_language_id" options="{'no_create': True, 'no_open': True}"/>
+                        <group string="Passenger Profile">
+                            <field name="pax_name" placeholder="Full Name" readonly="state != 'draft'"/>
+                            <field name="pax_vat" placeholder="DNI / Passport" readonly="state != 'draft'"/>
+                            <field name="pax_birthdate" readonly="state != 'draft'"/>
+                            <field name="pax_nationality_id" options="{'no_create': True}" readonly="state != 'draft'"/>
+                            <field name="pax_language_id" options="{'no_create': True}" readonly="state != 'draft'"/>
                         </group>
                     </group>
                     <group>
-                        <group string="Special Requirements">
-                            <field name="passenger_special_needs" placeholder="Health issues, diet, etc."/>
+                        <group string="Contact Data">
+                            <field name="pax_email" widget="email" placeholder="email@example.com" readonly="state != 'draft'"/>
+                            <field name="pax_phone" widget="phone" placeholder="+54..." readonly="state != 'draft'"/>
                         </group>
-                        <group string="Internal Notes">
-                            <field name="observations" placeholder="Any relevant info for the tour..."/>
-                            <field name="partner_id" invisible="1"/>
+                        <group string="Special Needs &amp; Notes">
+                            <field name="pax_special_needs" placeholder="Medical conditions, diets..." readonly="state != 'draft'"/>
+                            <field name="observations" readonly="state != 'draft'"/>
+                            <field name="passenger_id" invisible="not passenger_id" class="oe_read_only"/>
                         </group>
                     </group>
                 </sheet>
@@ -150,8 +154,8 @@
         <field name="model">tursys.booking</field>
         <field name="arch" type="xml">
             <search string="Search Passengers">
-                <field name="passenger_id"/>
-                <field name="passenger_vat"/>
+                <field name="pax_name"/>
+                <field name="pax_vat"/>
                 <field name="excursion_id"/>
                 <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
                 <group expand="0" string="Group By">
