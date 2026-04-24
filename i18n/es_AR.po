@@ -6,14 +6,103 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 20:01+0000\n"
-"PO-Revision-Date: 2026-04-24 20:01+0000\n"
+"POT-Creation-Date: 2026-04-24 22:56+0000\n"
+"PO-Revision-Date: 2026-04-24 22:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: tursys
+#: model:ir.actions.report,print_report_name:tursys.action_report_tursys_passenger_list
+msgid "'Passenger List - %s' % (object.name)"
+msgstr ""
+
+#. module: tursys
+#: model:ir.actions.report,print_report_name:tursys.action_report_booking_voucher
+msgid "'Voucher - %s - %s' % (object.pax_name, object.name)"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "+54..."
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "<small class=\"text-muted text-uppercase\">Arrival (Est)</small>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "<small class=\"text-muted text-uppercase\">Departure</small>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "<small class=\"text-muted text-uppercase\">Status</small>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid ""
+"<small class=\"text-uppercase\" style=\"opacity: 0.8; display: "
+"block;\">Confirmed Passengers</small>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "<small style=\"text-transform: uppercase; opacity: 0.8;\">Service</small>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong style=\"font-size: 0.9em;\">IMPORTANT INSTRUCTIONS:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Age:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Booking Ref:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Date:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Email:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>ID / Passport:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid ""
+"<strong>Internal Document:</strong> This list contains sensitive "
+"information. Handle with care during the excursion."
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Nationality:</strong>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Time:</strong>"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_needaction
@@ -41,9 +130,27 @@ msgid "Activity Type Icon"
 msgstr "Icono de Tipo de Actividad"
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__age
+#: model:ir.model.fields,field_description:tursys.field_res_partner__age
+#: model:ir.model.fields,field_description:tursys.field_res_users__age
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_age
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Age"
-msgstr "Edad"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.nationality,name:tursys.nat_de
+msgid "Alemania"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.language,name:tursys.lang_de
+msgid "Alemán"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.nationality,name:tursys.nat_ar
+msgid "Argentina"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_attachment_count
@@ -56,10 +163,27 @@ msgid "Available Capacity"
 msgstr "Capacidad Disponible"
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__booking_id
+#: model:ir.model.fields,field_description:tursys.field_res_partner__birthdate
+#: model:ir.model.fields,field_description:tursys.field_res_users__birthdate
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_birthdate
+msgid "Birthdate"
+msgstr ""
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
-msgid "Booking"
-msgstr "Reserva"
+msgid "Booking Card"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Booking Number"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__observations
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Booking Observations"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__name
@@ -67,13 +191,32 @@ msgid "Booking Reference"
 msgstr "Referencia de Reserva"
 
 #. module: tursys
+#: model:ir.actions.report,name:tursys.action_report_booking_voucher
+msgid "Booking Voucher"
+msgstr ""
+
+#. module: tursys
 #: model:ir.actions.act_window,name:tursys.action_tursys_booking
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__booking_ids
 #: model:ir.ui.menu,name:tursys.menu_tursys_booking
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_list
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Bookings"
 msgstr "Reservas"
+
+#. module: tursys
+#: model:tursys.nationality,name:tursys.nat_br
+msgid "Brasil"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Bring a valid ID to verify your identity."
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "CONFIRMED RESERVATION"
+msgstr ""
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
@@ -88,14 +231,51 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+#: model:tursys.nationality,name:tursys.nat_cl
+msgid "Chile"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__code
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__code
+msgid "Code"
+msgstr ""
+
+#. module: tursys
+#: model:ir.ui.menu,name:tursys.menu_tursys_config
+msgid "Configuration"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Confirm Booking"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__confirmed
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 msgid "Confirmed"
 msgstr "Confirmado"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Confirmed Passengers"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Contact Data"
+msgstr ""
 
 #. module: tursys
 #: model_terms:ir.actions.act_window,help:tursys.action_tursys_excursion
@@ -105,26 +285,29 @@ msgstr "¡Crea tu primera excursión!"
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__create_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__create_uid
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__create_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__create_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__create_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__create_date
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__create_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__create_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__create_date
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__partner_id
-msgid "Customer"
-msgstr "Cliente"
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "DNI / Passport"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__display_name
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__display_name
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__display_name
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__display_name
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__display_name
 msgid "Display Name"
 msgstr "Nombre a Mostrar"
 
@@ -139,12 +322,33 @@ msgid "Duration (Hours)"
 msgstr "Duración (Horas)"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_email
+msgid "Email"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__end_datetime
 msgid "End Date & Time"
 msgstr "Fecha y Hora de Fin"
 
 #. module: tursys
+#: model:tursys.nationality,name:tursys.nat_es
+msgid "España"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.language,name:tursys.lang_es
+msgid "Español"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.nationality,name:tursys.nat_us
+msgid "Estados Unidos"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__excursion_id
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Excursion"
 msgstr "Excursión"
@@ -153,6 +357,11 @@ msgstr "Excursión"
 #: model:ir.model,name:tursys.model_tursys_booking
 msgid "Excursion Booking"
 msgstr "Reserva de Excursión"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Excursion Details"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model,name:tursys.model_tursys_excursion
@@ -165,6 +374,11 @@ msgstr "Instancia de Excursión"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_list
 msgid "Excursions"
 msgstr "Excursiones"
+
+#. module: tursys
+#: model_terms:ir.actions.act_window,help:tursys.action_tursys_all_passengers
+msgid "Find your passengers here!"
+msgstr ""
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
@@ -192,6 +406,26 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Icono de Font Awesome, ej. fa-tasks"
 
 #. module: tursys
+#: model:tursys.nationality,name:tursys.nat_fr
+msgid "Francia"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.language,name:tursys.lang_fr
+msgid "Francés"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Full Name"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
+msgid "Group By"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__has_message
 msgid "Has Message"
 msgstr "Tiene Mensaje"
@@ -199,14 +433,20 @@ msgstr "Tiene Mensaje"
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__id
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__id
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__id
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__id
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__vat
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_vat
 msgid "ID / VAT"
-msgstr "DNI / CUIL"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "ID/VAT"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_exception_icon
@@ -230,23 +470,84 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
 
 #. module: tursys
+#: model:tursys.language,name:tursys.lang_en
+msgid "Inglés"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_is_follower
 msgid "Is Follower"
 msgstr "Es Seguidor"
 
 #. module: tursys
+#: model:tursys.nationality,name:tursys.nat_it
+msgid "Italia"
+msgstr ""
+
+#. module: tursys
+#: model:tursys.language,name:tursys.lang_it
+msgid "Italiano"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Keep this voucher on your phone or printed."
+msgstr ""
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_tursys_language
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_language_id
+msgid "Language"
+msgstr ""
+
+#. module: tursys
+#: model:ir.actions.act_window,name:tursys.action_tursys_language
+#: model:ir.ui.menu,name:tursys.menu_tursys_language
+msgid "Languages"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__write_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__write_uid
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__write_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__write_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__write_uid
 msgid "Last Updated by"
 msgstr "Última Actualización por"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__write_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__write_date
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__write_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__write_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__write_date
 msgid "Last Updated on"
 msgstr "Última Actualización el"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__passenger_id
+msgid "Linked Passenger"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Logo"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_res_partner__language_id
+#: model:ir.model.fields,field_description:tursys.field_res_users__language_id
+msgid "Main Language"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_special_needs
+msgid "Medical / Dietary Needs"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Medical conditions, diets..."
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_error
@@ -264,8 +565,29 @@ msgid "My Activity Deadline"
 msgstr "Fecha Límite de mi Actividad"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_language__name
+#: model:ir.model.fields,field_description:tursys.field_tursys_nationality__name
+msgid "Name"
+msgstr ""
+
+#. module: tursys
+#: model:ir.actions.act_window,name:tursys.action_tursys_nationality
+#: model:ir.ui.menu,name:tursys.menu_tursys_nationality
+msgid "Nationalities"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_tursys_nationality
+#: model:ir.model.fields,field_description:tursys.field_res_partner__nationality_id
+#: model:ir.model.fields,field_description:tursys.field_res_users__nationality_id
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_nationality_id
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Nationality"
+msgstr ""
+
+#. module: tursys
 #. odoo-python
-#: code:addons/tursys/models/models.py:0
+#: code:addons/tursys/models/booking.py:0
 msgid "New"
 msgstr "Nuevo"
 
@@ -286,7 +608,7 @@ msgstr "Tipo de la Próxima Actividad"
 
 #. module: tursys
 #. odoo-python
-#: code:addons/tursys/models/models.py:0
+#: code:addons/tursys/models/booking.py:0
 msgid "Not enough capacity available in this excursion!"
 msgstr "¡No hay suficiente capacidad disponible en esta excursión!"
 
@@ -311,34 +633,73 @@ msgid "Number of messages with delivery error"
 msgstr "Número de mensajes con error de entrega"
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__observations
-msgid "Observations"
-msgstr "Observaciones"
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Passenger Info"
+msgstr ""
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_count
-msgid "PAX Count"
-msgstr "Cantidad de PAX"
+#: model:ir.actions.report,name:tursys.action_report_tursys_passenger_list
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Passenger List"
+msgstr ""
 
 #. module: tursys
-#: model:ir.model,name:tursys.model_tursys_passenger
-msgid "Passenger"
-msgstr "Pasajero"
-
-#. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_passenger__name
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_name
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Passenger Name"
-msgstr "Nombre del Pasajero"
-
-#. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_ids
-msgid "Passengers"
-msgstr "Pasajeros"
+msgstr ""
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Passenger Profile"
+msgstr ""
+
+#. module: tursys
+#: model:ir.actions.act_window,name:tursys.action_tursys_all_passengers
+#: model:ir.ui.menu,name:tursys.menu_tursys_passengers
 msgid "Passengers List"
-msgstr "Lista de Pasajeros"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__partner_id
+msgid "Payer"
+msgstr "Cliente"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_phone
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Phone"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Please arrive 15 minutes before the departure time."
+msgstr ""
+
+#. module: tursys
+#: model:tursys.language,name:tursys.lang_pt
+msgid "Portugués"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Print Date:"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Print Passenger List"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Print Voucher"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__qr_uuid
+msgid "QR UUID"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__rating_ids
@@ -356,6 +717,11 @@ msgid "Register a new booking!"
 msgstr "¡Registra una nueva reserva!"
 
 #. module: tursys
+#: model:tursys.nationality,name:tursys.nat_gb
+msgid "Reino Unido"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_user_id
 msgid "Responsible User"
 msgstr "Usuario Responsable"
@@ -371,9 +737,31 @@ msgid "Scheduled"
 msgstr "Programado"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
+msgid "Search Passengers"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__product_id
 msgid "Service"
 msgstr "Servicio"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Service Details"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_res_partner__special_needs
+#: model:ir.model.fields,field_description:tursys.field_res_users__special_needs
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Special Needs"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Special Needs & Notes"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__start_datetime
@@ -407,7 +795,7 @@ msgstr "Capacidad Total"
 #. module: tursys
 #: model:ir.ui.menu,name:tursys.menu_tursys_root
 msgid "TurSys"
-msgstr "TurSys"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_decoration
@@ -415,9 +803,24 @@ msgid "Type of the exception activity on record."
 msgstr "Tipo de actividad de excepción en el registro."
 
 #. module: tursys
+#: model:tursys.nationality,name:tursys.nat_uy
+msgid "Uruguay"
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__capacity_used
 msgid "Used Capacity"
 msgstr "Capacidad Usada"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "VOUCHER"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Verification ID:"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__website_message_ids
@@ -428,3 +831,18 @@ msgstr "Mensajes del Sitio Web"
 #: model:ir.model.fields,help:tursys.field_tursys_booking__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicación del sitio web"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "email@example.com"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "hrs"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "years"
+msgstr ""
