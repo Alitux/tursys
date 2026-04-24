@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tursys_excursion_calendar" model="ir.ui.view">
+        <field name="name">tursys.excursion.calendar</field>
+        <field name="model">tursys.excursion</field>
+        <field name="arch" type="xml">
+            <calendar string="Excursions" date_start="start_datetime" date_stop="end_datetime" color="product_id" mode="month" quick_create="False">
+                <field name="product_id"/>
+                <field name="capacity_used"/>
+                <field name="capacity_total"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_tursys_excursion_search" model="ir.ui.view">
+        <field name="name">tursys.excursion.search</field>
+        <field name="model">tursys.excursion</field>
+        <field name="arch" type="xml">
+            <search string="Search Excursions">
+                <field name="product_id"/>
+                <filter name="scheduled" string="Scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter name="done" string="Finished" domain="[('state', '=', 'done')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="today" string="Today" domain="[('start_datetime', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('start_datetime', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_product" string="Service" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'start_datetime:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_tursys_excursion_list" model="ir.ui.view">
+        <field name="name">tursys.excursion.list</field>
+        <field name="model">tursys.excursion</field>
+        <field name="arch" type="xml">
+            <list string="Excursions">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="start_datetime" options="{'hide_seconds': True}"/>
+                <field name="capacity_total"/>
+                <field name="capacity_used"/>
+                <field name="capacity_available"/>
+                <field name="state" widget="badge" decoration-info="state == 'scheduled'" decoration-success="state == 'done'" decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tursys_excursion_form" model="ir.ui.view">
+        <field name="name">tursys.excursion.form</field>
+        <field name="model">tursys.excursion</field>
+        <field name="arch" type="xml">
+            <form string="Excursion">
+                <header>
+                    <button name="%(tursys.action_report_tursys_passenger_list)d" string="Print Passenger List" type="action" class="btn-secondary" icon="fa-print"/>
+                    <button name="action_done" string="Finish" type="object" class="oe_highlight" invisible="state != 'scheduled'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="start_datetime" options="{'hide_seconds': True}"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="end_datetime" options="{'hide_seconds': True}"/>
+                        </group>
+                        <group>
+                            <field name="capacity_total"/>
+                            <field name="capacity_used"/>
+                            <field name="capacity_available"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Confirmed Passengers" name="bookings">
+                            <field name="booking_ids" context="{'default_excursion_id': id, 'hide_excursion': True}">
+                                <list>
+                                    <field name="pax_name"/>
+                                    <field name="pax_vat"/>
+                                    <field name="pax_age"/>
+                                    <field name="pax_nationality_id"/>
+                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
+                                    <button name="action_confirm" string="Confirm" type="object" icon="fa-check" invisible="state != 'draft'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tursys_excursion" model="ir.actions.act_window">
+        <field name="name">Excursions</field>
+        <field name="res_model">tursys.excursion</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="view_tursys_excursion_search"/>
+    </record>
+</odoo>

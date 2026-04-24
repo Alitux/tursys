@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Nationality Views -->
+    <record id="view_tursys_nationality_list" model="ir.ui.view">
+        <field name="name">tursys.nationality.list</field>
+        <field name="model">tursys.nationality</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tursys_nationality" model="ir.actions.act_window">
+        <field name="name">Nationalities</field>
+        <field name="res_model">tursys.nationality</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Language Views -->
+    <record id="view_tursys_language_list" model="ir.ui.view">
+        <field name="name">tursys.language.list</field>
+        <field name="model">tursys.language</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tursys_language" model="ir.actions.act_window">
+        <field name="name">Languages</field>
+        <field name="res_model">tursys.language</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

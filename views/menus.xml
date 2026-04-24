@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_tursys_root" name="TurSys" sequence="10"/>
+    
+    <menuitem id="menu_tursys_excursion" name="Excursions" parent="menu_tursys_root" action="action_tursys_excursion" sequence="10"/>
+    <menuitem id="menu_tursys_booking" name="Bookings" parent="menu_tursys_root" action="action_tursys_booking" sequence="20"/>
+    <menuitem id="menu_tursys_passengers" name="Passengers List" parent="menu_tursys_root" action="action_tursys_all_passengers" sequence="30"/>
+    
+    <menuitem id="menu_tursys_config" name="Configuration" parent="menu_tursys_root" sequence="100"/>
+    <menuitem id="menu_tursys_nationality" name="Nationalities" parent="menu_tursys_config" action="action_tursys_nationality" sequence="10"/>
+    <menuitem id="menu_tursys_language" name="Languages" parent="menu_tursys_config" action="action_tursys_language" sequence="20"/>
+</odoo>
