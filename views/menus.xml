@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_tursys_root" name="TurSys" sequence="10"/>
+    <menuitem id="menu_tursys_root" name="TurSys" sequence="10" web_icon="tursys,static/description/icon.png"/>
     
     <menuitem id="menu_tursys_excursion" name="Excursions" parent="menu_tursys_root" action="action_tursys_excursion" sequence="10"/>
     <menuitem id="menu_tursys_booking" name="Bookings" parent="menu_tursys_root" action="action_tursys_booking" sequence="20"/>
