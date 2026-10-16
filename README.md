@@ -10,8 +10,9 @@
 - **Vistas Inteligentes**:
     - **Lista**: Resumen de ocupación y estados con códigos de color.
     - **Calendario**: Planificación visual de todas las excursiones del mes/semana.
-- **Flujo de Estados**: Programado, Finalizado y Cancelado.
+- **Flujo de Estados**: Programado, En curso, Finalizado y Cancelado.
 - **Asignación de Guías**: un **guía responsable** y **guías auxiliares** por excursión (ver *Guías y Check-in desde el móvil*).
+- **Calendario de la empresa**: cada excursión se refleja automáticamente como un **evento en el Calendario de Odoo** (el guía responsable queda como organizador y los guías como invitados); se actualiza al cambiar la fecha, el servicio o los guías, y se elimina si la excursión se cancela.
 
 ### 2. Sistema de Reservas y Captura de Pasajeros
 - **Carga Ágil**: Formulario optimizado ("Booking Card") para entrada rápida de datos.
@@ -55,7 +56,6 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 - **Notas del guía**: desde el portal, el guía escribe comentarios de la excursión (clima, incidentes, algo particular) y quedan publicados en el **chatter** de la excursión, con autor y fecha.
 - **Inicio y fin de la excursión**: el guía responsable (o un administrador) puede **iniciar** la excursión desde el portal y queda guardado el **timestamp** y quién lo hizo; al **finalizar**, se registra el cierre, se marcan los ausentes y la excursión pasa a **Finalizada**.
 - La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
-- El backoffice conserva además el menú **TurSys → Check-in** (vista Kanban) para el personal administrativo.
 
 ### 5. CRM Automatizado
 - **Integración con Contactos**: Al confirmar una reserva, el sistema busca automáticamente al pasajero por su DNI en la base de datos de Odoo.

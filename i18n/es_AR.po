@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 18:31+0000\n"
-"PO-Revision-Date: 2026-10-16 18:31+0000\n"
+"POT-Creation-Date: 2026-10-16 22:48+0000\n"
+"PO-Revision-Date: 2026-10-16 22:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -298,6 +298,11 @@ msgid "Brasil"
 msgstr ""
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__calendar_event_id
+msgid "Calendar Event"
+msgstr "Evento de calendario"
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Cancel"
@@ -321,7 +326,6 @@ msgstr "Motivo de cancelación"
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__cancelled
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__cancelled
-#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Cancelled"
 msgstr "Cancelada"
@@ -335,7 +339,6 @@ msgstr "Asistencia"
 #. odoo-python
 #: code:addons/tursys/models/excursion.py:0
 #: model:ir.actions.act_window,name:tursys.action_tursys_checkin
-#: model:ir.ui.menu,name:tursys.menu_tursys_checkin
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
@@ -560,7 +563,6 @@ msgstr "Finalizar"
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__done
-#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Finished"
 msgstr "Finalizada"
@@ -695,7 +697,6 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__in_progress
-#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "In Progress"
 msgstr "En curso"
@@ -845,6 +846,12 @@ msgstr "Necesidades"
 #: code:addons/tursys/models/booking.py:0
 msgid "New"
 msgstr "Nuevo"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_calendar_event_id
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_date_deadline
@@ -1093,7 +1100,6 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__scheduled
-#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Scheduled"
 msgstr "Programada"
@@ -1367,6 +1373,7 @@ msgstr ""
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 msgid "pax"
 msgstr ""
 
@@ -1398,3 +1405,4 @@ msgstr "· Finalizada"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
 msgid "✓ Check-in"
 msgstr "✓ Check-in"
+

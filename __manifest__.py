@@ -18,10 +18,10 @@ Módulo avanzado para agencias de turismo que permite:
     'author': "Alitux",
     'website': "https://alitux.com.ar",
     'category': 'Operations/Tourism',
-    'version': '18.0.1.5.4',
+    'version': '18.0.1.6.0',
     'license': 'LGPL-3',
 
-    'depends': ['base', 'product', 'mail', 'web', 'portal'],
+    'depends': ['base', 'product', 'mail', 'web', 'portal', 'calendar'],
 
     'data': [
         'security/tursys_security.xml',
