@@ -60,6 +60,7 @@
             <form string="Excursion">
                 <header>
                     <button name="%(tursys.action_report_tursys_passenger_list)d" string="Print Passenger List" type="action" class="btn-secondary" icon="fa-print"/>
+                    <button name="action_open_portal_preview" string="View in Portal" type="object" class="btn-secondary" icon="fa-external-link" groups="base.group_system"/>
                     <button name="action_open_checkin" string="Check-in" type="object" class="oe_highlight" icon="fa-check" invisible="state != 'scheduled'"/>
                     <button name="action_done" string="Finish" type="object" invisible="state != 'scheduled'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>

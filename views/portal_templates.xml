@@ -71,7 +71,7 @@
                 <li class="breadcrumb-item active text-truncate" t-out="excursion.name"/>
             </ol>
 
-            <div class="row mb-3">
+            <div class="row mb-3 g-2 align-items-center">
                 <div class="col-lg-8">
                     <h3 class="mb-1" t-field="excursion.name"/>
                     <div class="text-muted">
@@ -93,52 +93,105 @@
             </h4>
 
             <t t-if="bookings">
-                <table class="table table-hover align-middle o_portal_my_doc_table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>ID / VAT</th>
-                            <th>Age</th>
-                            <th>Nationality</th>
-                            <th>Phone</th>
-                            <th>Needs</th>
-                            <th class="text-end">Status</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr t-foreach="bookings" t-as="b" t-attf-id="booking-#{b.id}">
-                            <td><span t-field="b.pax_name"/></td>
-                            <td><span t-field="b.pax_vat"/></td>
-                            <td><span t-out="b.pax_age"/></td>
-                            <td><span t-field="b.pax_nationality_id"/></td>
-                            <td><span t-field="b.pax_phone"/></td>
-                            <td><span t-field="b.pax_special_needs"/></td>
-                            <td class="text-end">
+                <!-- Escritorio: tabla -->
+                <div class="table-responsive d-none d-md-block">
+                    <table class="table table-hover align-middle o_portal_my_doc_table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>ID / VAT</th>
+                                <th>Age</th>
+                                <th>Nationality</th>
+                                <th>Phone</th>
+                                <th>Needs</th>
+                                <th class="text-end">Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="bookings" t-as="b" t-attf-id="booking-#{b.id}">
+                                <td><span t-field="b.pax_name"/></td>
+                                <td><span t-field="b.pax_vat"/></td>
+                                <td><span t-out="b.pax_age"/></td>
+                                <td><span t-field="b.pax_nationality_id"/></td>
+                                <td><span t-field="b.pax_phone"/></td>
+                                <td><span t-field="b.pax_special_needs"/></td>
+                                <td class="text-end">
+                                    <span t-if="b.state == 'attended'" class="badge text-bg-success">Attended</span>
+                                    <span t-elif="b.state == 'no_show'" class="badge text-bg-danger">No Show</span>
+                                    <span t-else="" class="badge text-bg-secondary">Confirmed</span>
+                                </td>
+                                <td class="text-end text-nowrap">
+                                    <form t-if="b.state == 'confirmed'" class="d-inline"
+                                          t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/check_in" method="post">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" class="btn btn-sm btn-success">Check-in</button>
+                                    </form>
+                                    <form t-if="b.state == 'confirmed'" class="d-inline"
+                                          t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/no_show" method="post">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">No Show</button>
+                                    </form>
+                                    <form t-if="b.state in ('attended', 'no_show')" class="d-inline"
+                                          t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/undo" method="post">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">Undo</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Móvil: tarjetas con botones grandes -->
+                <div class="d-md-none">
+                    <div class="card mb-2" t-foreach="bookings" t-as="b" t-attf-id="booking-#{b.id}">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <div class="fw-bold fs-5" t-field="b.pax_name"/>
                                 <span t-if="b.state == 'attended'" class="badge text-bg-success">Attended</span>
                                 <span t-elif="b.state == 'no_show'" class="badge text-bg-danger">No Show</span>
                                 <span t-else="" class="badge text-bg-secondary">Confirmed</span>
-                            </td>
-                            <td class="text-end text-nowrap">
-                                <form t-if="b.state == 'confirmed'" class="d-inline"
+                            </div>
+                            <div class="small text-muted mt-2">
+                                <div class="mb-1">
+                                    <i class="fa fa-id-card me-1"/><span t-field="b.pax_vat"/>
+                                    <t t-if="b.pax_age"> · <t t-out="b.pax_age"/> years</t>
+                                </div>
+                                <div t-if="b.pax_phone" class="mb-1">
+                                    <i class="fa fa-phone me-1"/><a t-attf-href="tel:#{b.pax_phone}" t-field="b.pax_phone"/>
+                                </div>
+                                <div t-if="b.pax_nationality_id" class="mb-1">
+                                    <i class="fa fa-globe me-1"/><span t-field="b.pax_nationality_id"/>
+                                </div>
+                                <div t-if="b.pax_special_needs" class="mb-1 text-danger">
+                                    <i class="fa fa-medkit me-1"/><span t-field="b.pax_special_needs"/>
+                                </div>
+                                <div t-if="b.observations">
+                                    <i class="fa fa-comment-o me-1"/><span t-field="b.observations"/>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <form t-if="b.state == 'confirmed'" class="flex-fill"
                                       t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/check_in" method="post">
                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <button type="submit" class="btn btn-sm btn-success">Check-in</button>
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fa fa-check me-1"/>Check-in
+                                    </button>
                                 </form>
-                                <form t-if="b.state == 'confirmed'" class="d-inline"
+                                <form t-if="b.state == 'confirmed'" class="flex-fill"
                                       t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/no_show" method="post">
                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">No Show</button>
+                                    <button type="submit" class="btn btn-outline-danger w-100">No Show</button>
                                 </form>
-                                <form t-if="b.state in ('attended', 'no_show')" class="d-inline"
+                                <form t-if="b.state in ('attended', 'no_show')" class="flex-fill"
                                       t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/undo" method="post">
                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Undo</button>
+                                    <button type="submit" class="btn btn-outline-secondary w-100">Undo</button>
                                 </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </t>
             <t t-else="">
                 <div class="alert alert-info" role="alert">

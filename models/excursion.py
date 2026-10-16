@@ -170,6 +170,15 @@ class TursysExcursion(models.Model):
             'context': {'default_excursion_id': self.id, 'hide_excursion': True},
         }
 
+    def action_open_portal_preview(self):
+        """Abre la vista del portal (la que ve el guía) para esta excursión."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/my/excursions/%s' % self.id,
+            'target': 'new',
+        }
+
     @api.model
     def _cron_close_past_excursions(self):
         """Cierra excursiones vencidas y marca como Ausente a los que no hicieron check-in."""
