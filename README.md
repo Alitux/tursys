@@ -40,12 +40,15 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 
 ### 4. Guías y Check-in desde el móvil (Portal del Guía)
 
-- **Los guías son usuarios de portal**: nunca acceden al backoffice de Odoo. Se crean desde *Ajustes → Usuarios* y se los incluye en el grupo **TurSys / Guide**, que **implica el acceso Portal**. El sistema los identifica automáticamente como guías.
+- **Los guías son usuarios marcados con el grupo TurSys** (nunca se crean desde el formulario de la excursión). Solo los usuarios marcados como guías aparecen como elegibles en los campos de asignación. Hay **dos grupos** según el caso:
+    - **TurSys / Guide (Portal)** → guía de campo: implica el grupo *Guide* **y** el tipo de usuario *Portal*, así **nunca accede al backoffice** y solo ve sus excursiones asignadas.
+    - **TurSys / Guide** → marca funcional de guía: se asigna a un usuario que **ya es de backend** (p. ej. un coordinador) para poder asignarle excursiones **sin** cambiar su tipo de usuario. El portal y las restricciones aplican solo a los guías de portal.
+    - *Nota*: Odoo no permite que un mismo usuario sea *Interno* y *Portal* a la vez, por eso la **marca de guía** está separada del **acceso portal**.
 - **Asignación**: en la ficha de cada excursión, los campos **Guía responsable** y **Guías auxiliares** solo permiten **elegir** entre los usuarios marcados como guías (no se pueden crear usuarios desde ese formulario).
 - **Aviso automático**: al asignar un guía (responsable o auxiliar) se le genera una **actividad** ("Excursion Assigned") y se lo notifica por email. Si se le quita la asignación, la actividad pendiente se elimina.
 - **Portal del guía**: al ingresar, ve la tarjeta **"Excursions assigned to you"** con la lista de sus excursiones asignadas y el detalle de cada una con sus pasajeros.
 - **Check-in en un toque**: desde el celular, el guía marca a cada pasajero como **Presentado** o **Ausente**, y puede **deshacer**. Se registra **fecha/hora** y **qué usuario** lo hizo.
-- **Seguridad**: cada guía solo puede ver las excursiones (y sus reservas) donde figura como **responsable o auxiliar**; el acceso a cualquier otra se deniega.
+- **Seguridad**: cada **guía de portal** solo puede ver las excursiones (y sus reservas) donde figura como **responsable o auxiliar**; el acceso a cualquier otra se deniega. Los guías que además son usuarios de backend no quedan restringidos.
 - La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
 - El backoffice conserva además el menú **TurSys → Check-in** (vista Kanban) para el personal administrativo.
 
@@ -82,7 +85,7 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 3. Crear primero una **Excursión** definiendo el servicio, fecha y capacidad total.
 4. Desde la ficha de la excursión, añadir pasajeros en la pestaña **Pasajeros**.
 5. Completar la **Ficha del Pasajero** y hacer clic en **Confirmar** (o **Lista de espera** si no hay cupo).
-6. Asignar los **guías** de la salida (responsable y auxiliares). Para que un usuario sea guía: *Ajustes → Usuarios* → asignarle el grupo **TurSys / Guide** (implica acceso *Portal*, sin backoffice). Al asignarlo recibe una **actividad** de aviso.
+6. Asignar los **guías** de la salida (responsable y auxiliares). Para que un usuario sea guía: *Ajustes → Usuarios* → asignarle **TurSys / Guide (Portal)** si es un guía de campo que solo usará el portal, o **TurSys / Guide** si además es un usuario de backend. Al asignarlo recibe una **actividad** de aviso.
 7. El día de la salida, el guía ingresa a su **portal** desde el celular, abre la excursión asignada y marca cada pasajero (**Presentado** / **Ausente** / **Deshacer**).
 8. Imprimir el **Voucher** para el cliente o la **Lista de Pasajeros** para el guía desde los botones de la cabecera.
 

@@ -9,7 +9,7 @@ class ResUsers(models.Model):
         string='TurSys Guide',
         compute='_compute_is_tursys_guide',
         store=True,
-        help="Marca al usuario como guía de TurSys (accede al portal de guías).",
+        help="Marca al usuario como guía de TurSys (puede asignársele excursiones). Puede ser un usuario de backend o un usuario portal.",
     )
 
     @api.depends('groups_id')
