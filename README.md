@@ -1,13 +1,13 @@
 # TurSys - Gestión Profesional de Agencias de Turismo
 
-**TurSys** es un módulo avanzado diseñado específicamente para agencias de turismo en **Odoo 18.0 CE**. Permite una administración integral de excursiones, logística de pasajeros y generación de documentación profesional para clientes y guías.
+**TurSys** es un módulo avanzado diseñado específicamente para agencias de turismo en **Odoo 18.0 CE**. Permite una administración integral de excursiones, logística de pasajeros, check-in en campo y generación de documentación profesional para clientes y guías.
 
 ## 🚀 Características Principales
 
 ### 1. Gestión de Excursiones
 - **Instancias Dinámicas**: Crea salidas específicas basadas en servicios (productos tipo servicio).
-- **Control de Capacidad**: Monitoreo en tiempo real de plazas totales, usadas y disponibles.
-- **Vistas Inteligentes**: 
+- **Control de Capacidad**: Monitoreo en tiempo real de plazas totales, usadas, disponibles, en lista de espera, presentados y ausentes.
+- **Vistas Inteligentes**:
     - **Lista**: Resumen de ocupación y estados con códigos de color.
     - **Calendario**: Planificación visual de todas las excursiones del mes/semana.
 - **Flujo de Estados**: Programado, Finalizado y Cancelado.
@@ -15,15 +15,40 @@
 ### 2. Sistema de Reservas y Captura de Pasajeros
 - **Carga Ágil**: Formulario optimizado ("Booking Card") para entrada rápida de datos.
 - **Captura Completa**: Registro de Nombre, DNI/CUIL, Email, Teléfono, Fecha de Nacimiento, Nacionalidad e Idioma.
-- **Cálculo Automático**: La edad del pasajero se calcula automáticamente al ingresar la fecha de nacimiento.
+- **Cálculo Automático**: La edad del pasajero se calcula y **se almacena** automáticamente (permite filtrar, ordenar y agrupar por edad).
 - **Identidad Digital**: Cada reserva genera un **UUID único** para validaciones electrónicas futuras.
 
-### 3. CRM Automatizado
+### 3. Ciclo de Vida de la Reserva
+
+El estado de la reserva es independiente del estado del pago, para poder representar situaciones reales (por ejemplo, confirmado con seña, o cancelado con reembolso).
+
+| Estado de la reserva | Descripción | ¿Ocupa cupo? |
+|---|---|---|
+| **Borrador** | Creada, pendiente de confirmar | No |
+| **Lista de espera** | No hay cupo disponible | No |
+| **Confirmado** | Pago/seña recibida, reserva firme | **Sí** |
+| **Presentado** | El guía realizó el check-in | **Sí** |
+| **Ausente** | Estaba confirmado y no se presentó | No (libera el cupo) |
+| **Cancelado** | Reserva anulada | No |
+
+**Estado del pago** (independiente): *No pagado*, *Seña*, *Pagado*, *Reembolsado*.
+
+**Lista de espera automática**: cuando se cancela una reserva o se marca un ausente, el sistema promueve automáticamente a la primera reserva en espera si hay cupo.
+
+**Motivo de cancelación**: cliente, decisión de la agencia, mínimo no alcanzado, clima u otro (con nota libre).
+
+### 4. Check-in desde el móvil
+- El guía accede al menú **TurSys → Check-in** y ve las reservas pendientes y presentadas en una **vista Kanban optimizada para móvil**.
+- Un toque en **Check-in** marca al pasajero como *Presentado*, registrando **fecha/hora** y **usuario** que lo hizo.
+- Se puede deshacer el check-in o marcar **No Show** (Ausente) en el momento.
+- La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
+
+### 5. CRM Automatizado
 - **Integración con Contactos**: Al confirmar una reserva, el sistema busca automáticamente al pasajero por su DNI en la base de datos de Odoo.
-- **Creación Inteligente**: Si el pasajero no existe, crea un nuevo contacto (`res.partner`); si existe, actualiza su información de contacto y médica.
+- **Creación Inteligente**: Si el pasajero no existe, crea un nuevo contacto (`res.partner`); si existe, **completa solo los datos faltantes** sin sobrescribir la información ya cargada.
 - **Preparado para Facturar**: Al estar vinculados a `res.partner`, los pasajeros quedan listos para procesos de venta y facturación estándar de Odoo.
 
-### 4. Reportes de Alta Calidad (PDF A4)
+### 6. Reportes de Alta Calidad (PDF A4)
 - **Voucher de Reserva**:
     - Diseño profesional y corporativo.
     - Optimizado para impresión en **una sola hoja A4**.
@@ -31,20 +56,28 @@
 - **Lista de Pasajeros (Hoja de Ruta)**:
     - Formato apaisado (**Landscape**) para máxima legibilidad.
     - Datos de pasajeros agrandados para uso en campo por los guías.
-    - Incluye teléfonos, edades, necesidades especiales y observaciones de la reserva.
+    - Incluye teléfonos, edades, necesidades especiales, observaciones y **columna de check-in**.
+    - Solo incluye reservas **confirmadas, presentadas y ausentes** (excluye borradores, lista de espera y canceladas).
 
-### 5. Configuración y Maestros
+### 7. Automatizaciones (Tareas Programadas)
+- **Actualización de edades** (diaria): recalcula la edad de los pasajeros y contactos al cumplir años.
+- **Cierre de excursiones vencidas** (cada hora): finaliza automáticamente las excursiones cuya fecha ya pasó y marca como **Ausente** a los confirmados que no hicieron check-in.
+- **Concurrencia segura**: la confirmación de reservas usa bloqueo de base de datos para evitar sobreventa.
+
+### 8. Configuración y Maestros
 - **Nacionalidades**: Tabla pre-poblada con países comunes, ampliable por el usuario.
 - **Idiomas**: Gestión centralizada de los idiomas principales de los pasajeros.
+- El menú **Configuración** (y los maestros) están restringidos al grupo *Ajustes / Administración*.
 
 ## 🛠️ Instalación y Uso
 
 1. Instalar el módulo en el backoffice de Odoo.
 2. Acceder al menú principal **TurSys**.
 3. Crear primero una **Excursión** definiendo el servicio, fecha y capacidad total.
-4. Desde la ficha de la excursión, añadir pasajeros haciendo clic en "Agregar una línea" en la pestaña de Pasajeros.
-5. Completar la **Ficha del Pasajero** y hacer clic en **Confirmar**.
-6. Imprimir el **Voucher** para el cliente o la **Lista de Pasajeros** para el guía desde los botones de la cabecera.
+4. Desde la ficha de la excursión, añadir pasajeros en la pestaña **Pasajeros**.
+5. Completar la **Ficha del Pasajero** y hacer clic en **Confirmar** (o **Lista de espera** si no hay cupo).
+6. El día de la salida, el guía entra a **TurSys → Check-in** desde el celular y marca a cada pasajero.
+7. Imprimir el **Voucher** para el cliente o la **Lista de Pasajeros** para el guía desde los botones de la cabecera.
 
 ## 📝 Soporte Técnico
 Desarrollado por **Alitux**

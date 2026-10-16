@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_tursys_update_ages" model="ir.cron">
+        <field name="name">TurSys: Update passenger ages</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_update_ages()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="priority">10</field>
+    </record>
+
+    <record id="ir_cron_tursys_close_excursions" model="ir.cron">
+        <field name="name">TurSys: Close past excursions</field>
+        <field name="model_id" ref="model_tursys_excursion"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_close_past_excursions()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="priority">11</field>
+    </record>
+</odoo>

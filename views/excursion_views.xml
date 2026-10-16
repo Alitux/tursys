@@ -43,6 +43,9 @@
                 <field name="capacity_total"/>
                 <field name="capacity_used"/>
                 <field name="capacity_available"/>
+                <field name="waiting_count" optional="show"/>
+                <field name="attended_count" optional="show"/>
+                <field name="no_show_count" optional="hide"/>
                 <field name="state" widget="badge" decoration-info="state == 'scheduled'" decoration-success="state == 'done'" decoration-danger="state == 'cancelled'"/>
             </list>
         </field>
@@ -55,11 +58,23 @@
             <form string="Excursion">
                 <header>
                     <button name="%(tursys.action_report_tursys_passenger_list)d" string="Print Passenger List" type="action" class="btn-secondary" icon="fa-print"/>
-                    <button name="action_done" string="Finish" type="object" class="oe_highlight" invisible="state != 'scheduled'"/>
+                    <button name="action_open_checkin" string="Check-in" type="object" class="oe_highlight" icon="fa-check" invisible="state != 'scheduled'"/>
+                    <button name="action_done" string="Finish" type="object" invisible="state != 'scheduled'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="scheduled,done,cancelled"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_open_bookings" icon="fa-users">
+                            <field name="capacity_used" widget="statinfo" string="Confirmed"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_open_bookings" icon="fa-hourglass-half" context="{'search_default_waiting': 1}">
+                            <field name="waiting_count" widget="statinfo" string="Waiting"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_open_bookings" icon="fa-check-circle" context="{'search_default_attended': 1}">
+                            <field name="attended_count" widget="statinfo" string="Attended"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
                     </div>
@@ -77,15 +92,18 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Confirmed Passengers" name="bookings">
+                        <page string="Passengers" name="bookings">
                             <field name="booking_ids" context="{'default_excursion_id': id, 'hide_excursion': True}">
-                                <list>
+                                <list decoration-muted="state == 'cancelled'" decoration-success="state == 'attended'" decoration-warning="state == 'waiting'" decoration-danger="state == 'no_show'">
                                     <field name="pax_name"/>
                                     <field name="pax_vat"/>
                                     <field name="pax_age"/>
                                     <field name="pax_nationality_id"/>
-                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
-                                    <button name="action_confirm" string="Confirm" type="object" icon="fa-check" invisible="state != 'draft'"/>
+                                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-success="state in ('confirmed', 'attended')" decoration-danger="state == 'no_show'"/>
+                                    <field name="payment_status" widget="badge"/>
+                                    <field name="checkin_datetime" optional="hide"/>
+                                    <button name="action_confirm" string="Confirm" type="object" icon="fa-check" invisible="state != 'draft' and state != 'waiting'"/>
+                                    <button name="action_check_in" string="Check-in" type="object" icon="fa-sign-in" invisible="state != 'confirmed'"/>
                                 </list>
                             </field>
                         </page>

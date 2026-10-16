@@ -8,9 +8,21 @@
                 <field name="pax_name"/>
                 <field name="pax_vat"/>
                 <field name="excursion_id"/>
+                <field name="passenger_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="waiting" string="Waiting List" domain="[('state', '=', 'waiting')]"/>
                 <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="attended" string="Attended" domain="[('state', '=', 'attended')]"/>
+                <filter name="no_show" string="No Show" domain="[('state', '=', 'no_show')]"/>
+                <separator/>
+                <filter name="to_check_in" string="To Check-in" domain="[('state', 'in', ['confirmed', 'attended'])]"/>
+                <separator/>
+                <filter name="unpaid" string="Not Paid" domain="[('payment_status', '=', 'unpaid')]"/>
+                <filter name="pending_payment" string="Pending Payment" domain="[('payment_status', 'in', ['unpaid', 'deposit'])]"/>
                 <group expand="0" string="Group By">
                     <filter name="group_excursion" string="Excursion" context="{'group_by': 'excursion_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_payment" string="Payment Status" context="{'group_by': 'payment_status'}"/>
                 </group>
             </search>
         </field>
@@ -20,14 +32,49 @@
         <field name="name">tursys.booking.list</field>
         <field name="model">tursys.booking</field>
         <field name="arch" type="xml">
-            <list string="Bookings">
+            <list string="Bookings" decoration-muted="state == 'cancelled'" decoration-success="state == 'attended'" decoration-warning="state == 'waiting'" decoration-danger="state == 'no_show'">
                 <field name="name"/>
                 <field name="excursion_id"/>
                 <field name="pax_name"/>
                 <field name="pax_vat"/>
                 <field name="pax_age"/>
-                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-success="state in ('confirmed', 'attended')" decoration-danger="state == 'no_show'"/>
+                <field name="payment_status" widget="badge" decoration-danger="payment_status == 'unpaid'" decoration-warning="payment_status == 'deposit'" decoration-success="payment_status == 'paid'"/>
+                <field name="checkin_datetime" optional="hide"/>
+                <button name="action_check_in" string="Check-in" type="object" icon="fa-check" invisible="state != 'confirmed'"/>
             </list>
+        </field>
+    </record>
+
+    <record id="view_tursys_booking_kanban" model="ir.ui.view">
+        <field name="name">tursys.booking.kanban</field>
+        <field name="model">tursys.booking</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column" sample="1">
+                <field name="state"/>
+                <field name="excursion_id"/>
+                <field name="payment_status"/>
+                <field name="pax_vat"/>
+                <field name="checkin_datetime"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <strong class="o_kanban_record_title"><field name="pax_name"/></strong>
+                            </div>
+                            <div class="text-muted"><field name="pax_vat"/></div>
+                            <div class="text-muted"><field name="excursion_id"/></div>
+                            <div class="mt-1"><field name="payment_status" widget="badge"/></div>
+                            <div class="mt-2 d-flex gap-1">
+                                <button type="object" name="action_check_in" class="btn btn-sm btn-success" t-if="record.state.raw_value == 'confirmed'">Check-in</button>
+                                <button type="object" name="action_mark_no_show" class="btn btn-sm btn-outline-danger" t-if="record.state.raw_value == 'confirmed'">No Show</button>
+                                <button type="object" name="action_undo_check_in" class="btn btn-sm btn-outline-secondary" t-if="record.state.raw_value == 'attended'">Undo</button>
+                                <span t-if="record.state.raw_value == 'attended'" class="text-success ms-2">✓ Check-in</span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
@@ -37,11 +84,16 @@
         <field name="arch" type="xml">
             <form string="Booking Card">
                 <header>
-                    <button name="action_confirm" string="Confirm Booking" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-                    <button name="action_send_voucher_email" string="Send by Email" type="object" class="btn-primary" icon="fa-envelope" invisible="state != 'confirmed'"/>
-                    <button name="%(tursys.action_report_booking_voucher)d" string="Print Voucher" type="action" class="btn-secondary" icon="fa-ticket" invisible="state == 'cancelled'"/>
+                    <button name="action_confirm" string="Confirm Booking" type="object" class="oe_highlight" invisible="state != 'draft' and state != 'waiting'"/>
+                    <button name="action_waitlist" string="Waiting List" type="object" invisible="state != 'draft'"/>
+                    <button name="action_check_in" string="Check-in" type="object" class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_mark_no_show" string="No Show" type="object" invisible="state != 'confirmed' and state != 'attended'"/>
+                    <button name="action_undo_check_in" string="Undo Check-in" type="object" invisible="state != 'attended'"/>
+                    <button name="action_send_voucher_email" string="Send by Email" type="object" icon="fa-envelope" invisible="state != 'confirmed' and state != 'attended'"/>
+                    <button name="%(tursys.action_report_booking_voucher)d" string="Print Voucher" type="action" icon="fa-ticket" invisible="state == 'cancelled'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,waiting,confirmed,attended,no_show,cancelled"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -51,26 +103,39 @@
                     </div>
                     <group>
                         <group string="Service Details" invisible="context.get('hide_excursion')">
-                            <field name="excursion_id" domain="[('state', '=', 'scheduled'), ('capacity_available', '>', 0)]"/>
+                            <field name="excursion_id" domain="[('state', '=', 'scheduled')]"/>
                         </group>
-                        <group string="Passenger Profile">
-                            <field name="pax_name" placeholder="Full Name" readonly="state != 'draft'"/>
-                            <field name="pax_vat" placeholder="DNI / Passport" readonly="state != 'draft'"/>
-                            <field name="pax_birthdate" readonly="state != 'draft'"/>
-                            <field name="pax_nationality_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
-                            <field name="pax_language_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
+                        <group string="Payment">
+                            <field name="payment_status" widget="badge"/>
                         </group>
                     </group>
                     <group>
-                        <group string="Contact Data">
-                            <field name="pax_email" widget="email" placeholder="email@example.com" readonly="state != 'draft'"/>
-                            <field name="pax_phone" widget="phone" placeholder="+54..." readonly="state != 'draft'"/>
+                        <group string="Passenger Profile">
+                            <field name="pax_name" placeholder="Full Name" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_vat" placeholder="DNI / Passport" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_birthdate" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_nationality_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_language_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft' and state != 'waiting'"/>
                         </group>
-                        <group string="Special Needs &amp; Notes">
-                            <field name="pax_special_needs" placeholder="Medical conditions, diets..." readonly="state != 'draft'"/>
-                            <field name="observations" readonly="state != 'draft'"/>
+                        <group string="Contact Data">
+                            <field name="pax_email" widget="email" placeholder="email@example.com" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_phone" widget="phone" placeholder="+54..." readonly="state != 'draft' and state != 'waiting'"/>
                             <field name="passenger_id" invisible="not passenger_id" class="oe_read_only"/>
                         </group>
+                    </group>
+                    <group>
+                        <group string="Special Needs &amp; Notes">
+                            <field name="pax_special_needs" placeholder="Medical conditions, diets..." readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="observations" readonly="state != 'draft' and state != 'waiting'"/>
+                        </group>
+                        <group string="Check-in" invisible="not checkin_datetime">
+                            <field name="checkin_datetime"/>
+                            <field name="checked_in_by"/>
+                        </group>
+                    </group>
+                    <group string="Cancellation" invisible="state != 'cancelled'">
+                        <field name="cancellation_reason"/>
+                        <field name="cancellation_note"/>
                     </group>
                 </sheet>
                 <chatter/>
@@ -81,13 +146,24 @@
     <record id="action_tursys_booking" model="ir.actions.act_window">
         <field name="name">Bookings</field>
         <field name="res_model">tursys.booking</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,kanban,form</field>
     </record>
 
     <record id="action_tursys_all_passengers" model="ir.actions.act_window">
         <field name="name">Passengers List</field>
         <field name="res_model">tursys.booking</field>
-        <field name="view_mode">list,form</field>
-        <field name="context">{'search_default_confirmed': 1}</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_to_check_in': 1}</field>
+    </record>
+
+    <record id="action_tursys_checkin" model="ir.actions.act_window">
+        <field name="name">Check-in</field>
+        <field name="res_model">tursys.booking</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_to_check_in': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No passengers to check in</p>
+            <p>Confirm a booking and it will show up here so the guide can check it in from a mobile device.</p>
+        </field>
     </record>
 </odoo>
