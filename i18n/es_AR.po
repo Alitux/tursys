@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 22:48+0000\n"
-"PO-Revision-Date: 2026-10-16 22:48+0000\n"
+"POT-Creation-Date: 2026-10-16 23:13+0000\n"
+"PO-Revision-Date: 2026-10-16 23:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -112,6 +112,11 @@ msgid "<strong>Phone:</strong>"
 msgstr "<strong>Teléfono:</strong>"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Pickup:</strong>"
+msgstr ""
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "<strong>SERVICE:</strong>"
 msgstr "<strong>SERVICIO:</strong>"
@@ -190,6 +195,11 @@ msgid ""
 "Add a note about this excursion (weather, incidents, something "
 "particular...)"
 msgstr "Agregá una nota sobre esta excursión (clima, incidentes, algo particular...)"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_address
+msgid "Address of the pickup point, when it applies."
+msgstr "Dirección del punto de recogida, cuando corresponda."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_res_partner__age
@@ -646,6 +656,11 @@ msgid "Home"
 msgstr "Inicio"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Hotel / hostel / meeting point..."
+msgstr "Hotel / hostel / punto de encuentro..."
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__id
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__id
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__id
@@ -819,6 +834,13 @@ msgstr "Mis excursiones"
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Name"
 msgstr "Nombre"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_place
+msgid ""
+"Name of the place where the passenger will be picked up (hotel, hostel, "
+"etc.)."
+msgstr "Nombre del lugar donde se recogerá al pasajero (hotel, hostel, etc.)."
 
 #. module: tursys
 #: model:ir.actions.act_window,name:tursys.action_tursys_nationality
@@ -1021,6 +1043,24 @@ msgid "Phone"
 msgstr "Teléfono"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Pickup"
+msgstr "Recogida"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pickup_address
+msgid "Pickup Address"
+msgstr "Dirección de recogida"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pickup_place
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
+msgid "Pickup Point"
+msgstr "Punto de recogida"
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
 msgid "Please be present 15 minutes before departure."
 msgstr "Por favor preséntese 15 minutos antes de la salida."
@@ -1205,6 +1245,11 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Street, number, city..."
+msgstr "Calle, número, ciudad..."
 
 #. module: tursys
 #: model:mail.template,description:tursys.email_template_booking_voucher

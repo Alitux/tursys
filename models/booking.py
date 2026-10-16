@@ -31,6 +31,15 @@ class TursysBooking(models.Model):
 
     observations = fields.Text(string='Booking Observations')
 
+    pickup_place = fields.Char(
+        string='Pickup Point', tracking=True,
+        help="Name of the place where the passenger will be picked up (hotel, hostel, etc.).",
+    )
+    pickup_address = fields.Char(
+        string='Pickup Address', tracking=True,
+        help="Address of the pickup point, when it applies.",
+    )
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'Waiting List'),

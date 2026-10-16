@@ -9,6 +9,7 @@
                 <field name="pax_vat"/>
                 <field name="excursion_id"/>
                 <field name="passenger_id"/>
+                <field name="pickup_place"/>
                 <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
                 <filter name="waiting" string="Waiting List" domain="[('state', '=', 'waiting')]"/>
                 <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
@@ -23,6 +24,7 @@
                     <filter name="group_excursion" string="Excursion" context="{'group_by': 'excursion_id'}"/>
                     <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
                     <filter name="group_payment" string="Payment Status" context="{'group_by': 'payment_status'}"/>
+                    <filter name="group_pickup" string="Pickup Point" context="{'group_by': 'pickup_place'}"/>
                 </group>
             </search>
         </field>
@@ -38,6 +40,7 @@
                 <field name="pax_name"/>
                 <field name="pax_vat"/>
                 <field name="pax_age"/>
+                <field name="pickup_place" optional="show"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-success="state in ('confirmed', 'attended')" decoration-danger="state == 'no_show'"/>
                 <field name="payment_status" widget="badge" decoration-danger="payment_status == 'unpaid'" decoration-warning="payment_status == 'deposit'" decoration-success="payment_status == 'paid'"/>
                 <field name="checkin_datetime" optional="hide"/>
@@ -55,6 +58,7 @@
                 <field name="excursion_id"/>
                 <field name="payment_status"/>
                 <field name="pax_vat"/>
+                <field name="pickup_place"/>
                 <field name="checkin_datetime"/>
                 <templates>
                     <t t-name="card">
@@ -64,6 +68,7 @@
                             </div>
                             <div class="text-muted"><field name="pax_vat"/></div>
                             <div class="text-muted"><field name="excursion_id"/></div>
+                            <div class="text-muted" t-if="record.pickup_place.raw_value"><field name="pickup_place"/></div>
                             <div class="mt-1"><field name="payment_status" widget="badge"/></div>
                             <div class="mt-2 d-flex gap-1">
                                 <button type="object" name="action_check_in" class="btn btn-sm btn-success" t-if="record.state.raw_value == 'confirmed'">Check-in</button>
@@ -124,6 +129,10 @@
                         </group>
                     </group>
                     <group>
+                        <group string="Pickup">
+                            <field name="pickup_place" placeholder="Hotel / hostel / meeting point..."/>
+                            <field name="pickup_address" placeholder="Street, number, city..."/>
+                        </group>
                         <group string="Special Needs &amp; Notes">
                             <field name="pax_special_needs" placeholder="Medical conditions, diets..." readonly="state != 'draft' and state != 'waiting'"/>
                             <field name="observations" readonly="state != 'draft' and state != 'waiting'"/>
