@@ -19,6 +19,7 @@
             <search string="Search Excursions">
                 <field name="product_id"/>
                 <filter name="scheduled" string="Scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
                 <filter name="done" string="Finished" domain="[('state', '=', 'done')]"/>
                 <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
                 <separator/>
@@ -48,7 +49,7 @@
                 <field name="waiting_count" optional="show"/>
                 <field name="attended_count" optional="show"/>
                 <field name="no_show_count" optional="hide"/>
-                <field name="state" widget="badge" decoration-info="state == 'scheduled'" decoration-success="state == 'done'" decoration-danger="state == 'cancelled'"/>
+                <field name="state" widget="badge" decoration-info="state == 'scheduled'" decoration-warning="state == 'in_progress'" decoration-success="state == 'done'" decoration-danger="state == 'cancelled'"/>
             </list>
         </field>
     </record>
@@ -61,10 +62,11 @@
                 <header>
                     <button name="%(tursys.action_report_tursys_passenger_list)d" string="Print Passenger List" type="action" class="btn-secondary" icon="fa-print"/>
                     <button name="action_open_portal_preview" string="View in Portal" type="object" class="btn-secondary" icon="fa-external-link" groups="base.group_system"/>
-                    <button name="action_open_checkin" string="Check-in" type="object" class="oe_highlight" icon="fa-check" invisible="state != 'scheduled'"/>
-                    <button name="action_done" string="Finish" type="object" invisible="state != 'scheduled'"/>
+                    <button name="action_start_excursion" string="Start" type="object" class="oe_highlight" icon="fa-play" invisible="state != 'scheduled'"/>
+                    <button name="action_open_checkin" string="Check-in" type="object" icon="fa-check" invisible="state not in ('scheduled', 'in_progress')"/>
+                    <button name="action_finish_excursion" string="Finish" type="object" class="btn-primary" icon="fa-flag-checkered" invisible="state not in ('scheduled', 'in_progress')"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
-                    <field name="state" widget="statusbar" statusbar_visible="scheduled,done,cancelled"/>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,in_progress,done,cancelled"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -98,6 +100,12 @@
                         <group string="Staff">
                             <field name="guide_id" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
                             <field name="assistant_guide_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                        </group>
+                        <group string="Execution" invisible="not actual_start_datetime and not actual_end_datetime">
+                            <field name="actual_start_datetime" options="{'hide_seconds': True}"/>
+                            <field name="started_by"/>
+                            <field name="actual_end_datetime" options="{'hide_seconds': True}"/>
+                            <field name="ended_by"/>
                         </group>
                     </group>
                     <notebook>

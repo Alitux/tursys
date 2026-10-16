@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
+from odoo.exceptions import AccessError
 from datetime import timedelta
 
 
@@ -30,9 +31,15 @@ class TursysExcursion(models.Model):
 
     state = fields.Selection([
         ('scheduled', 'Scheduled'),
+        ('in_progress', 'In Progress'),
         ('done', 'Finished'),
         ('cancelled', 'Cancelled')
-    ], string='Status', default='scheduled', required=True)
+    ], string='Status', default='scheduled', required=True, tracking=True)
+
+    actual_start_datetime = fields.Datetime(string='Actual Start', readonly=True, copy=False)
+    actual_end_datetime = fields.Datetime(string='Actual End', readonly=True, copy=False)
+    started_by = fields.Many2one('res.users', string='Started by', readonly=True, copy=False)
+    ended_by = fields.Many2one('res.users', string='Finished by', readonly=True, copy=False)
 
     booking_ids = fields.One2many('tursys.booking', 'excursion_id', string='Bookings')
 
@@ -140,10 +147,44 @@ class TursysExcursion(models.Model):
                 break
             waiting.action_confirm()
 
-    def action_done(self):
+    def _ensure_can_manage(self, user):
+        """Sólo el guía responsable (o un usuario interno) puede iniciar/finalizar."""
+        self.ensure_one()
+        if user.has_group('base.group_user'):
+            return
+        if self.guide_id != user:
+            raise AccessError(_("Only the responsible guide can start or finish this excursion."))
+
+    def action_start_excursion(self, user=None):
+        """El guía responsable inicia la excursión y se registra la hora real de inicio."""
+        user = user or self.env.user
         for record in self:
+            if record.state != 'scheduled':
+                continue
+            record._ensure_can_manage(user)
+            record.write({
+                'state': 'in_progress',
+                'actual_start_datetime': fields.Datetime.now(),
+                'started_by': user.id,
+            })
+
+    def action_finish_excursion(self, user=None):
+        """Finaliza la excursión: registra la hora real y marca Ausente a los que no se presentaron."""
+        user = user or self.env.user
+        for record in self:
+            if record.state not in ('scheduled', 'in_progress'):
+                continue
+            record._ensure_can_manage(user)
             record.booking_ids.filtered(lambda b: b.state == 'confirmed').write({'state': 'no_show'})
-            record.state = 'done'
+            record.write({
+                'state': 'done',
+                'actual_end_datetime': fields.Datetime.now(),
+                'ended_by': user.id,
+            })
+
+    def action_done(self):
+        """Botón 'Finish' del backend: delega en el cierre con registro de hora real."""
+        self.action_finish_excursion()
 
     def action_cancel(self):
         self.write({'state': 'cancelled'})
@@ -183,7 +224,10 @@ class TursysExcursion(models.Model):
     def _cron_close_past_excursions(self):
         """Cierra excursiones vencidas y marca como Ausente a los que no hicieron check-in."""
         now = fields.Datetime.now()
-        past = self.search([('state', '=', 'scheduled'), ('end_datetime', '<', now)])
+        past = self.search([('state', 'in', ('scheduled', 'in_progress')), ('end_datetime', '<', now)])
         for excursion in past:
             excursion.booking_ids.filtered(lambda b: b.state == 'confirmed').write({'state': 'no_show'})
-            excursion.state = 'done'
+            excursion.write({
+                'state': 'done',
+                'actual_end_datetime': excursion.actual_end_datetime or now,
+            })

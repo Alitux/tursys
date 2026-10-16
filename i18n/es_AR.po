@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 17:48+0000\n"
-"PO-Revision-Date: 2026-10-16 17:48+0000\n"
+"POT-Creation-Date: 2026-10-16 18:31+0000\n"
+"PO-Revision-Date: 2026-10-16 18:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -50,6 +50,36 @@ msgid ""
 "                </div>\n"
 "            "
 msgstr "<div style=\"margin: 0px; padding: 0px;\">\n                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n                        Hola <t t-out=\"object.pax_name\"/>,<br/><br/>\n                        Gracias por reservar con <strong><t t-out=\"res_company.name\"/></strong>.\n                        Adjunto encontrara su voucher para la excursion <strong><t t-out=\"object.excursion_id.product_id.name\"/></strong>.\n                        <br/><br/>\n                        <strong>Detalles:</strong><br/>\n                        - Fecha: <t t-out=\"object.excursion_id.start_datetime.strftime('%d/%m/%Y')\"/><br/>\n                        - Hora: <t t-out=\"object.excursion_id.start_datetime.strftime('%H:%M')\"/> hs<br/>\n                        <br/>\n                        Lo esperamos!\n                        <br/><br/>\n                        Saludos cordiales.\n                    </p>\n                </div>"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "<i class=\"fa fa-check me-1\"/>Check-in"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "<i class=\"fa fa-comment me-1\"/>Save note"
+msgstr "<i class=\"fa fa-comment me-1\"/>Guardar nota"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "<i class=\"fa fa-flag-checkered me-1\"/>Finish Excursion"
+msgstr "<i class=\"fa fa-flag-checkered me-1\"/>Finalizar excursión"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "<i class=\"fa fa-play me-1\"/>Start Excursion"
+msgstr "<i class=\"fa fa-play me-1\"/>Iniciar excursión"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "<span class=\"mx-1\">·</span>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "<span class=\"mx-1\">→</span>"
+msgstr ""
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
@@ -111,33 +141,61 @@ msgstr "Ya existe un pasajero con este ID. Los datos fueron precargados."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_needaction
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_needaction
 msgid "Action Needed"
 msgstr ""
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Actions"
+msgstr "Acciones"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_ids
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_ids
 msgid "Activities"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_exception_decoration
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_state
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_state
 msgid "Activity State"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_type_icon
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_type_icon
 msgid "Activity Type Icon"
 msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__actual_end_datetime
+msgid "Actual End"
+msgstr "Fin real"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__actual_start_datetime
+msgid "Actual Start"
+msgstr "Inicio real"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid ""
+"Add a note about this excursion (weather, incidents, something "
+"particular...)"
+msgstr "Agregá una nota sobre esta excursión (clima, incidentes, algo particular...)"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_res_partner__age
 #: model:ir.model.fields,field_description:tursys.field_res_users__age
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_age
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Age"
 msgstr "Edad"
@@ -163,13 +221,20 @@ msgid "Argentina"
 msgstr ""
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__assistant_guide_ids
+msgid "Assistant Guides"
+msgstr "Guías auxiliares"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_attachment_count
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__attended_count
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__attended
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Attended"
@@ -256,6 +321,7 @@ msgstr "Motivo de cancelación"
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__cancelled
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__cancelled
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Cancelled"
 msgstr "Cancelada"
@@ -270,6 +336,7 @@ msgstr "Asistencia"
 #: code:addons/tursys/models/excursion.py:0
 #: model:ir.actions.act_window,name:tursys.action_tursys_checkin
 #: model:ir.ui.menu,name:tursys.menu_tursys_checkin
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_list
@@ -322,6 +389,7 @@ msgstr "Confirmá una reserva y aparecerá aquí para que el guía haga el check
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__confirmed
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Confirmed"
@@ -330,7 +398,7 @@ msgstr "Confirmada"
 #. module: tursys
 #: model:ir.model,name:tursys.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
@@ -364,6 +432,7 @@ msgid "DNI / Passport"
 msgstr "DNI / Pasaporte"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Date"
 msgstr "Fecha"
@@ -425,10 +494,16 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__excursion_id
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Excursion"
 msgstr "Excursión"
+
+#. module: tursys
+#: model:mail.activity.type,name:tursys.mail_activity_type_excursion_assigned
+msgid "Excursion Assigned"
+msgstr "Excursión asignada"
 
 #. module: tursys
 #: model:ir.model,name:tursys.model_tursys_booking
@@ -441,12 +516,42 @@ msgid "Excursion Instance"
 msgstr "Instancia de Excursión"
 
 #. module: tursys
+#: model:mail.activity.type,summary:tursys.mail_activity_type_excursion_assigned
+msgid "Excursion assigned to you"
+msgstr "Se te asignó una excursión"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/excursion.py:0
+msgid "Excursion assigned: %s"
+msgstr "Excursión asignada: %s"
+
+#. module: tursys
 #: model:ir.actions.act_window,name:tursys.action_tursys_excursion
 #: model:ir.ui.menu,name:tursys.menu_tursys_excursion
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_home_excursion
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_calendar
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_list
 msgid "Excursions"
 msgstr "Excursiones"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_home_excursion
+msgid "Excursions assigned to you"
+msgstr "Excursiones asignadas a vos"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Execution"
+msgstr "Ejecución"
+
+#. module: tursys
+#: model:res.groups,comment:tursys.group_tursys_guide
+msgid ""
+"Field guide that can be assigned as responsible or assistant guide of an "
+"excursion."
+msgstr "Guía que puede asignarse como responsable o auxiliar de una excursión."
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
@@ -455,22 +560,31 @@ msgstr "Finalizar"
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__done
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Finished"
 msgstr "Finalizada"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__ended_by
+msgid "Finished by"
+msgstr "Finalizada por"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_follower_ids
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_follower_ids
 msgid "Followers"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_partner_ids
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_type_icon
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
@@ -496,9 +610,38 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: tursys
+#: model:res.groups,name:tursys.group_tursys_guide
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
+msgid "Guide"
+msgstr "Guía"
+
+#. module: tursys
+#: model:res.groups,name:tursys.group_tursys_guide_portal
+msgid "Guide (Portal)"
+msgstr "Guía (Portal)"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Guide notes"
+msgstr "Notas del guía"
+
+#. module: tursys
+#: model:res.groups,comment:tursys.group_tursys_guide_portal
+msgid ""
+"Guide who logs into the portal only (no backend access) and only sees the "
+"excursions assigned to them."
+msgstr "Guía que ingresa solo al portal (sin acceso al backend) y ve únicamente las excursiones que le asignaron."
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__has_message
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__has_message
 msgid "Has Message"
 msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Home"
+msgstr "Inicio"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__id
@@ -510,6 +653,7 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_vat
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 msgid "ID / VAT"
 msgstr "ID / CUIT"
 
@@ -525,24 +669,36 @@ msgstr "INSTRUCCIONES IMPORTANTES:"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_exception_icon
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_exception_icon
 msgid "Icon"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_icon
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__message_needaction
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__message_has_error
 #: model:ir.model.fields,help:tursys.field_tursys_booking__message_has_sms_error
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__message_has_error
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__in_progress
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
+msgid "In Progress"
+msgstr "En curso"
 
 #. module: tursys
 #: model:tursys.language,name:tursys.lang_en
@@ -551,6 +707,7 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_is_follower
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_is_follower
 msgid "Is Follower"
 msgstr ""
 
@@ -610,6 +767,13 @@ msgid "Main Language"
 msgstr "Idioma Principal"
 
 #. module: tursys
+#: model:ir.model.fields,help:tursys.field_res_users__is_tursys_guide
+msgid ""
+"Marca al usuario como guía de TurSys (puede asignársele excursiones). Puede "
+"ser un usuario de backend o un usuario portal."
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_special_needs
 msgid "Medical / Dietary Needs"
 msgstr "Necesidades Médicas / Alimentarias"
@@ -621,11 +785,13 @@ msgstr "Condiciones médicas, dietas..."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_error
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_has_error
 msgid "Message Delivery error"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_ids
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_ids
 msgid "Messages"
 msgstr ""
 
@@ -636,12 +802,19 @@ msgstr "Mínimo no alcanzado"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__my_activity_date_deadline
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
+msgid "My Excursions"
+msgstr "Mis excursiones"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__name
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__name
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Name"
 msgstr "Nombre"
@@ -657,9 +830,15 @@ msgstr "Nacionalidades"
 #: model:ir.model.fields,field_description:tursys.field_res_partner__nationality_id
 #: model:ir.model.fields,field_description:tursys.field_res_users__nationality_id
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_nationality_id
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Nationality"
 msgstr "Nacionalidad"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Needs"
+msgstr "Necesidades"
 
 #. module: tursys
 #. odoo-python
@@ -669,27 +848,41 @@ msgstr "Nuevo"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_date_deadline
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_summary
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_summary
 msgid "Next Activity Summary"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_type_id
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_type_id
 msgid "Next Activity Type"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__no_show_count
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__no_show
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 msgid "No Show"
 msgstr "Ausente"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "No notes yet."
+msgstr "Todavía no hay notas."
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "No passengers match your search."
+msgstr "Ningún pasajero coincide con la búsqueda."
 
 #. module: tursys
 #: model_terms:ir.actions.act_window,help:tursys.action_tursys_checkin
@@ -710,21 +903,25 @@ msgstr "¡No hay capacidad disponible suficiente en esta excursión!"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_needaction_counter
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_error_counter
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__message_needaction_counter
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__message_has_error_counter
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
 
@@ -732,6 +929,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Observations / Special Needs"
 msgstr "Observaciones / Necesidades Especiales"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/excursion.py:0
+msgid "Only the responsible guide can start or finish this excursion."
+msgstr "Solo el guía responsable puede iniciar o finalizar esta excursión."
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__cancellation_reason__other
@@ -771,9 +974,15 @@ msgid "Passenger Profile"
 msgstr "Perfil del Pasajero"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Passengers"
 msgstr "Pasajeros"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Passengers ("
+msgstr "Pasajeros ("
 
 #. module: tursys
 #: model:ir.actions.act_window,name:tursys.action_tursys_all_passengers
@@ -799,6 +1008,7 @@ msgstr "Pago pendiente"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_phone
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "Phone"
 msgstr "Teléfono"
@@ -840,6 +1050,7 @@ msgstr "RESERVA CONFIRMADA"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__rating_ids
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__rating_ids
 msgid "Ratings"
 msgstr ""
 
@@ -864,17 +1075,25 @@ msgid "Reset to Draft"
 msgstr "Volver a borrador"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__guide_id
+msgid "Responsible Guide"
+msgstr "Guía responsable"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__activity_user_id
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_user_id
 msgid "Responsible User"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_sms_error
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_excursion__state__scheduled
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Scheduled"
 msgstr "Programada"
@@ -888,6 +1107,11 @@ msgstr "Buscar Excursiones"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 msgid "Search Passengers"
 msgstr "Buscar Pasajeros"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Search name, ID, phone, email..."
+msgstr "Buscar nombre, DNI, teléfono, email..."
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
@@ -916,6 +1140,11 @@ msgid "Service Info"
 msgstr "Información del Servicio"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__service_name
+msgid "Service Name"
+msgstr "Nombre del servicio"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_res_partner__special_needs
 #: model:ir.model.fields,field_description:tursys.field_res_users__special_needs
 msgid "Special Needs"
@@ -927,13 +1156,35 @@ msgid "Special Needs & Notes"
 msgstr "Necesidades Especiales y Notas"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Staff"
+msgstr "Personal"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__start_datetime
 msgid "Start Date & Time"
 msgstr "Fecha y Hora de Inicio"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Started"
+msgstr "Iniciada"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__started_by
+msgid "Started by"
+msgstr "Iniciada por"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__state
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__state
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Status"
@@ -941,6 +1192,7 @@ msgstr "Estado"
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_state
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__activity_state
 msgid ""
 "Status based on activities\n"
 "Overdue: Due date is already passed\n"
@@ -952,6 +1204,11 @@ msgstr ""
 #: model:mail.template,description:tursys.email_template_booking_voucher
 msgid "Template to send booking voucher to passengers"
 msgstr "Plantilla para enviar el voucher de reserva a los pasajeros"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "There are no passengers to show for this excursion yet."
+msgstr "Todavía no hay pasajeros para esta excursión."
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
@@ -966,7 +1223,7 @@ msgstr "Para check-in"
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Today"
-msgstr ""
+msgstr "Hoy"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__booking_count
@@ -979,9 +1236,20 @@ msgid "Total Capacity"
 msgstr "Capacidad Total"
 
 #. module: tursys
+#: model:ir.module.category,description:tursys.module_category_tursys
+msgid "Tourism agency management"
+msgstr "Gestión de agencia de turismo"
+
+#. module: tursys
+#: model:ir.module.category,name:tursys.module_category_tursys
 #: model:ir.ui.menu,name:tursys.menu_tursys_root
 msgid "TurSys"
 msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_res_users__is_tursys_guide
+msgid "TurSys Guide"
+msgstr "Guía de TurSys"
 
 #. module: tursys
 #: model:ir.actions.server,name:tursys.ir_cron_tursys_close_excursions_ir_actions_server
@@ -995,10 +1263,12 @@ msgstr "TurSys: Actualizar edades de pasajeros"
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_decoration
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
 msgid "Undo"
 msgstr "Deshacer"
@@ -1019,6 +1289,11 @@ msgid "Used Capacity"
 msgstr "Capacidad Utilizada"
 
 #. module: tursys
+#: model:ir.model,name:tursys.model_res_users
+msgid "User"
+msgstr "Usuario"
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
 msgid "VOUCHER"
 msgstr ""
@@ -1027,6 +1302,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
 msgid "Valid photo ID is mandatory for all passengers."
 msgstr "Es obligatorio presentar un documento con foto válido para todos los pasajeros."
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
+msgid "View in Portal"
+msgstr "Ver en el portal"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
@@ -1048,13 +1328,26 @@ msgstr "Condiciones climáticas"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__website_message_ids
+#: model:ir.model.fields,field_description:tursys.field_tursys_excursion__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__website_message_ids
+#: model:ir.model.fields,help:tursys.field_tursys_excursion__website_message_ids
 msgid "Website communication history"
 msgstr ""
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/excursion.py:0
+msgid "You have been assigned to the excursion \"%s\"."
+msgstr "Se te asignó la excursión \"%s\"."
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
+msgid "You have no excursions assigned yet."
+msgstr "Todavía no tenés excursiones asignadas."
 
 #. module: tursys
 #: model:mail.template,subject:tursys.email_template_booking_voucher
@@ -1073,6 +1366,16 @@ msgid "hs"
 msgstr ""
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "pax"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "years"
+msgstr "años"
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
 msgid ""
 "| \n"
@@ -1087,7 +1390,11 @@ msgid ""
 msgstr ""
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "· Finished"
+msgstr "· Finalizada"
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
 msgid "✓ Check-in"
 msgstr "✓ Check-in"
-

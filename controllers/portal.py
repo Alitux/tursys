@@ -20,7 +20,12 @@ class TursysPortal(CustomerPortal):
 
     def _get_excursion_domain(self):
         user = request.env.user
-        return ['|', ('guide_id', '=', user.id), ('assistant_guide_ids', 'in', [user.id])]
+        # El guía solo ve sus excursiones y solo mientras estén activas:
+        # no se le muestran las finalizadas ni las canceladas.
+        return [
+            ('state', 'not in', ('done', 'cancelled')),
+            '|', ('guide_id', '=', user.id), ('assistant_guide_ids', 'in', [user.id]),
+        ]
 
     # ------------------------------------------------------------------
     # Listado de excursiones asignadas al guía
@@ -48,6 +53,9 @@ class TursysPortal(CustomerPortal):
             'excursions': excursions,
             'pager': pager,
             'excursion_count': excursion_count,
+            'state_labels': dict(
+                request.env['tursys.excursion'].fields_get(['state'])['state']['selection']
+            ),
         })
         return request.render('tursys.portal_my_excursions', values)
 
@@ -66,11 +74,32 @@ class TursysPortal(CustomerPortal):
             lambda b: b.state in ('confirmed', 'attended', 'no_show')
         ).sorted('pax_name')
 
+        user = request.env.user
+        note_subtype = request.env.ref('mail.mt_note', raise_if_not_found=False)
+        # Solo notas reales escritas por guías (se excluyen OdooBot, el
+        # administrador y los mensajes automáticos sin contenido).
+        guide_partner_ids = request.env['res.users'].sudo().search(
+            [('is_tursys_guide', '=', True)]
+        ).mapped('partner_id').ids
+        comments = excursion.message_ids.filtered(
+            lambda m: note_subtype
+                and m.subtype_id == note_subtype
+                and m.author_id.id in guide_partner_ids
+                and (m.body or '').replace('<p></p>', '').strip()
+        ).sorted('date', reverse=True)
+
+        state_labels = dict(
+            request.env['tursys.excursion'].fields_get(['state'])['state']['selection']
+        )
+
         values = self._prepare_portal_layout_values()
         values.update({
             'page_name': 'excursion',
             'excursion': excursion,
             'bookings': bookings,
+            'comments': comments,
+            'state_labels': state_labels,
+            'is_main_guide': excursion.guide_id.id == user.id or user.has_group('base.group_user'),
         })
         return request.render('tursys.portal_excursion_page', values)
 
@@ -101,5 +130,49 @@ class TursysPortal(CustomerPortal):
                 booking.action_undo_check_in()
         except (ValidationError, AccessError):
             pass
+
+        return request.redirect(redirect)
+
+    # ------------------------------------------------------------------
+    # Iniciar / finalizar la excursión desde el portal (guía responsable)
+    # ------------------------------------------------------------------
+    @http.route(['/my/excursions/<int:excursion_id>/<string:action>'],
+                type='http', auth='user', website=True, methods=['POST'])
+    def portal_excursion_action(self, excursion_id, action, **kw):
+        redirect = '/my/excursions/%s' % excursion_id
+        try:
+            excursion = self._document_check_access('tursys.excursion', excursion_id)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        try:
+            if action == 'start':
+                excursion.sudo().action_start_excursion(request.env.user)
+            elif action == 'finish':
+                excursion.sudo().action_finish_excursion(request.env.user)
+        except (ValidationError, AccessError):
+            pass
+
+        return request.redirect(redirect)
+
+    # ------------------------------------------------------------------
+    # Notas del guía: se publican en el chatter de la excursión
+    # ------------------------------------------------------------------
+    @http.route(['/my/excursions/<int:excursion_id>/comment'],
+                type='http', auth='user', website=True, methods=['POST'])
+    def portal_excursion_comment(self, excursion_id, comment=None, **kw):
+        redirect = '/my/excursions/%s' % excursion_id
+        try:
+            excursion = self._document_check_access('tursys.excursion', excursion_id)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        body = (comment or '').strip()
+        if body:
+            excursion.sudo().message_post(
+                body=body,
+                author_id=request.env.user.partner_id.id,
+                subtype_xmlid='mail.mt_note',
+            )
 
         return request.redirect(redirect)

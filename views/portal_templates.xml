@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Tarjeta en el home del portal (sólo visible para guías) -->
-    <template id="portal_my_home_excursion" name="Portal My Home: TurSys Excursions"
+    <template id="portal_my_home_excursion" name="Portal My Home: TurSys Excursiones"
               inherit_id="portal.portal_my_home" priority="30">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-if="request.env.user.is_tursys_guide">
@@ -17,7 +17,7 @@
     </template>
 
     <!-- Listado de excursiones asignadas -->
-    <template id="portal_my_excursions" name="TurSys: My Excursions">
+    <template id="portal_my_excursions" name="TurSys: Mis excursiones">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
             <t t-call="portal.portal_searchbar">
@@ -28,33 +28,62 @@
                     You have no excursions assigned yet.
                 </div>
             </t>
-            <t t-if="excursions" t-call="portal.portal_table">
-                <thead>
-                    <tr>
-                        <th>Excursion</th>
-                        <th>Date</th>
-                        <th class="text-end">Passengers</th>
-                        <th class="text-end">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr t-foreach="excursions" t-as="excursion">
-                        <td>
-                            <a t-attf-href="/my/excursions/#{excursion.id}">
-                                <span t-field="excursion.name"/>
-                            </a>
-                        </td>
-                        <td>
-                            <span t-field="excursion.start_datetime" t-options='{"widget": "date"}'/>
-                        </td>
-                        <td class="text-end">
-                            <span t-out="excursion.capacity_used"/> / <span t-out="excursion.capacity_total"/>
-                        </td>
-                        <td class="text-end">
-                            <span t-out="dict(excursion._fields['state'].selection).get(excursion.state)"/>
-                        </td>
-                    </tr>
-                </tbody>
+            <t t-if="excursions">
+                <!-- Escritorio: tabla -->
+                <div class="table-responsive d-none d-md-block">
+                    <t t-call="portal.portal_table">
+                        <thead>
+                            <tr>
+                                <th>Excursion</th>
+                                <th>Date</th>
+                                <th class="text-end">Passengers</th>
+                                <th class="text-end">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="excursions" t-as="excursion">
+                                <td>
+                                    <a t-attf-href="/my/excursions/#{excursion.id}">
+                                        <span t-field="excursion.name"/>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span t-field="excursion.start_datetime" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="excursion.capacity_used"/> / <span t-out="excursion.capacity_total"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="state_labels.get(excursion.state)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </t>
+                </div>
+
+                <!-- Móvil: tarjetas -->
+                <div class="d-md-none">
+                    <a t-foreach="excursions" t-as="excursion" class="text-decoration-none text-reset"
+                       t-attf-href="/my/excursions/#{excursion.id}">
+                        <div class="card mb-3 shadow-sm o_tursys_excursion_card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start gap-2">
+                                    <div class="fw-bold fs-5"><span t-field="excursion.name"/></div>
+                                    <span class="badge text-bg-secondary flex-shrink-0"
+                                          t-out="state_labels.get(excursion.state)"/>
+                                </div>
+                                <div class="text-muted small mt-2">
+                                    <i class="fa fa-calendar me-1"/>
+                                    <span t-field="excursion.start_datetime" t-options='{"widget": "datetime"}'/>
+                                </div>
+                                <div class="text-muted small mt-1">
+                                    <i class="fa fa-users me-1"/>
+                                    <span t-out="excursion.capacity_used"/> / <span t-out="excursion.capacity_total"/> pax
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </t>
             <div t-if="pager" class="o_portal_pager">
                 <t t-call="portal.pager"/>
@@ -63,7 +92,7 @@
     </template>
 
     <!-- Detalle de la excursión con lista de pasajeros y check-in -->
-    <template id="portal_excursion_page" name="TurSys: Excursion Detail">
+    <template id="portal_excursion_page" name="TurSys: Detalle de la excursión">
         <t t-call="portal.portal_layout">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/my/home">Home</a></li>
@@ -80,12 +109,50 @@
                         <span class="mx-1">→</span>
                         <span t-field="excursion.end_datetime"/>
                     </div>
+                    <div class="small text-muted mt-1"
+                         t-if="excursion.actual_start_datetime or excursion.actual_end_datetime">
+                        <i class="fa fa-clock-o me-1"/>
+                        <t t-if="excursion.actual_start_datetime">
+                            Started <span t-field="excursion.actual_start_datetime" t-options='{"widget": "datetime"}'/>
+                        </t>
+                        <t t-if="excursion.actual_end_datetime">
+                            · Finished <span t-field="excursion.actual_end_datetime" t-options='{"widget": "datetime"}'/>
+                        </t>
+                    </div>
                 </div>
                 <div class="col-lg-4 text-lg-end">
+                    <div class="mb-2">
+                        <span t-if="excursion.state == 'in_progress'" class="badge text-bg-warning"
+                              t-out="state_labels.get(excursion.state)"/>
+                        <span t-elif="excursion.state == 'done'" class="badge text-bg-success"
+                              t-out="state_labels.get(excursion.state)"/>
+                        <span t-elif="excursion.state == 'cancelled'" class="badge text-bg-danger"
+                              t-out="state_labels.get(excursion.state)"/>
+                        <span t-else="" class="badge text-bg-secondary"
+                              t-out="state_labels.get(excursion.state)"/>
+                    </div>
                     <span class="badge text-bg-info">
                         <t t-out="excursion.capacity_used"/> / <t t-out="excursion.capacity_total"/> pax
                     </span>
                 </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mb-2"
+                 t-if="is_main_guide and excursion.state in ('scheduled', 'in_progress')">
+                <form t-if="excursion.state == 'scheduled'" method="post"
+                      t-attf-action="/my/excursions/#{excursion.id}/start">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fa fa-play me-1"/>Start Excursion
+                    </button>
+                </form>
+                <form t-if="excursion.state == 'in_progress'" method="post"
+                      t-attf-action="/my/excursions/#{excursion.id}/finish">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-flag-checkered me-1"/>Finish Excursion
+                    </button>
+                </form>
             </div>
 
             <div class="o_tursys_pax_search">
@@ -215,6 +282,31 @@
                     No passengers match your search.
                 </div>
             </div>
+
+            <!-- Notas del guía (se publican en el chatter de la excursión) -->
+            <h4 class="mt-4 mb-2">Guide notes</h4>
+            <div t-if="comments" class="mb-3">
+                <div t-foreach="comments" t-as="msg" class="border-start border-3 ps-3 mb-3">
+                    <div class="small text-muted">
+                        <i class="fa fa-user-circle me-1"/><span t-field="msg.author_id.name"/>
+                        <span class="mx-1">·</span>
+                        <span t-field="msg.date" t-options='{"widget": "datetime"}'/>
+                    </div>
+                    <div t-field="msg.body"/>
+                </div>
+            </div>
+            <div t-else="" class="text-muted small mb-3">No notes yet.</div>
+
+            <form method="post" t-attf-action="/my/excursions/#{excursion.id}/comment" class="mt-2">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="mb-2">
+                    <textarea name="comment" class="form-control" rows="3"
+                              placeholder="Add a note about this excursion (weather, incidents, something particular...)"></textarea>
+                </div>
+                <button type="submit" class="btn btn-secondary">
+                    <i class="fa fa-comment me-1"/>Save note
+                </button>
+            </form>
         </t>
     </template>
 </odoo>

@@ -52,6 +52,8 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 - **Vista móvil**: el detalle de la excursión se adapta al teléfono (una tarjeta por pasajero, con botones grandes de check-in), cómodo para usarlo en pleno tour.
 - **Buscador instantáneo**: sobre la lista de pasajeros hay un campo que filtra en tiempo real por nombre, apellido, DNI/CUIL, teléfono o email, sin recargar la página (muy útil para encontrar a alguien en la puerta del micro).
 - **Auditoría desde el backend**: en la ficha de la excursión, el botón **"View in Portal"** (visible para administradores) abre la pantalla del guía en una pestaña nueva para revisar el check-in.
+- **Notas del guía**: desde el portal, el guía escribe comentarios de la excursión (clima, incidentes, algo particular) y quedan publicados en el **chatter** de la excursión, con autor y fecha.
+- **Inicio y fin de la excursión**: el guía responsable (o un administrador) puede **iniciar** la excursión desde el portal y queda guardado el **timestamp** y quién lo hizo; al **finalizar**, se registra el cierre, se marcan los ausentes y la excursión pasa a **Finalizada**.
 - La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
 - El backoffice conserva además el menú **TurSys → Check-in** (vista Kanban) para el personal administrativo.
 
