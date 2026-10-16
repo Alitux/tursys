@@ -6,7 +6,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     birthdate = fields.Date(string='Birthdate')
-    age = fields.Integer(string='Age', compute='_compute_age', store=False)
+    age = fields.Integer(string='Age', compute='_compute_age', store=True)
     special_needs = fields.Text(string='Special Needs')
     nationality_id = fields.Many2one('tursys.nationality', string='Nationality')
     language_id = fields.Many2one('tursys.language', string='Main Language')
@@ -19,3 +19,9 @@ class ResPartner(models.Model):
                 record.age = today.year - record.birthdate.year - ((today.month, today.day) < (record.birthdate.month, record.birthdate.day))
             else:
                 record.age = 0
+
+    @api.model
+    def _cron_update_ages(self):
+        """Recalcula las edades (cumplen años sin que cambie ningún campo)."""
+        self.search([('birthdate', '!=', False)])._compute_age()
+        self.env['tursys.booking'].search([('pax_birthdate', '!=', False)])._compute_pax_age()
