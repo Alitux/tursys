@@ -9,3 +9,5 @@ access_tursys_excursion_portal,tursys.excursion,model_tursys_excursion,base.grou
 access_tursys_booking_portal,tursys.booking,model_tursys_booking,base.group_portal,1,0,0,0
 access_tursys_nationality_portal,tursys.nationality,model_tursys_nationality,base.group_portal,1,0,0,0
 access_tursys_language_portal,tursys.language,model_tursys_language,base.group_portal,1,0,0,0
+access_tursys_pickup_point,tursys.pickup.point,model_tursys_pickup_point,base.group_user,1,1,1,1
+access_tursys_pickup_point_portal,tursys.pickup.point,model_tursys_pickup_point,base.group_portal,1,0,0,0

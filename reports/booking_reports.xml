@@ -63,7 +63,7 @@
                                         <p class="m-0"><strong>Nationality:</strong> <t t-esc="o.pax_nationality_id.name"/></p>
                                         <p class="m-0"><strong>Email:</strong> <t t-esc="o.pax_email"/></p>
                                         <p class="m-0"><strong>Phone:</strong> <t t-esc="o.pax_phone"/></p>
-                                        <p t-if="o.pickup_place" class="m-0"><strong>Pickup:</strong> <t t-esc="o.pickup_place"/></p>
+                                        <p t-if="o.pickup_place" class="m-0"><strong>Pickup:</strong> <span t-field="o.pickup_place"/></p>
                                         <p t-if="o.pickup_address" class="m-0" style="color: #666;"><t t-esc="o.pickup_address"/></p>
                                     </div>
                                 </td>

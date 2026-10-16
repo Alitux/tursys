@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Pickup Point Views -->
+    <record id="view_tursys_pickup_point_list" model="ir.ui.view">
+        <field name="name">tursys.pickup.point.list</field>
+        <field name="model">tursys.pickup.point</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name" placeholder="Hotel / hostel / meeting point..."/>
+                <field name="address" placeholder="Street, number, city..."/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tursys_pickup_point_form" model="ir.ui.view">
+        <field name="name">tursys.pickup.point.form</field>
+        <field name="model">tursys.pickup.point</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="Hotel / hostel / meeting point..."/>
+                        <field name="address" placeholder="Street, number, city..."/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tursys_pickup_point" model="ir.actions.act_window">
+        <field name="name">Pickup Points</field>
+        <field name="res_model">tursys.pickup.point</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

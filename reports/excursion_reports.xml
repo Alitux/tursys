@@ -74,7 +74,7 @@
                                     <td class="p-3"><span t-field="line.pax_nationality_id.name"/></td>
                                     <td class="p-3"><span t-field="line.pax_phone"/></td>
                                     <td class="p-3">
-                                        <div t-if="line.pickup_place"><strong><t t-esc="line.pickup_place"/></strong></div>
+                                        <div t-if="line.pickup_place"><strong><span t-field="line.pickup_place"/></strong></div>
                                         <div t-if="line.pickup_address" class="text-muted small"><t t-esc="line.pickup_address"/></div>
                                     </td>
                                     <td class="p-3 text-center">

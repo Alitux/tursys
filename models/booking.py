@@ -31,13 +31,14 @@ class TursysBooking(models.Model):
 
     observations = fields.Text(string='Booking Observations')
 
-    pickup_place = fields.Char(
-        string='Pickup Point', tracking=True,
-        help="Name of the place where the passenger will be picked up (hotel, hostel, etc.).",
+    pickup_place = fields.Many2one(
+        'tursys.pickup.point', string='Pickup Point', tracking=True,
+        ondelete='restrict',
+        help="Place where the passenger will be picked up (hotel, hostel, meeting point...).",
     )
     pickup_address = fields.Char(
-        string='Pickup Address', tracking=True,
-        help="Address of the pickup point, when it applies.",
+        string='Pickup Address', related='pickup_place.address', store=True,
+        help="Address of the pickup point.",
     )
 
     state = fields.Selection([

@@ -130,7 +130,7 @@
                     </group>
                     <group>
                         <group string="Pickup">
-                            <field name="pickup_place" placeholder="Hotel / hostel / meeting point..."/>
+                            <field name="pickup_place" placeholder="Hotel / hostel / meeting point..." options="{'no_quick_create': True}"/>
                             <field name="pickup_address" placeholder="Street, number, city..."/>
                         </group>
                         <group string="Special Needs &amp; Notes">

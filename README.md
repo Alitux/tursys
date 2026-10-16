@@ -19,7 +19,7 @@
 - **Captura Completa**: Registro de Nombre, DNI/CUIL, Email, Teléfono, Fecha de Nacimiento, Nacionalidad e Idioma.
 - **Cálculo Automático**: La edad del pasajero se calcula y **se almacena** automáticamente (permite filtrar, ordenar y agrupar por edad).
 - **Identidad Digital**: Cada reserva genera un **UUID único** para validaciones electrónicas futuras.
-- **Punto de Recogida**: cada reserva puede indicar **dónde se recoge al pasajero** (hotel, hostel, punto de encuentro) y su **dirección**. Se muestra en el formulario/lista de reservas y se imprime en la **Lista de Pasajeros** y en el **voucher**.
+- **Punto de Pickup**: cada reserva elige el **punto de pickup** desde un **catálogo reutilizable** (hoteles, hostels, puntos de encuentro) con su **dirección**; se administra desde **TurSys → Puntos de Pickup**. Se muestra en el formulario/lista de reservas y se imprime en la **Lista de Pasajeros** y en el **voucher**.
 
 ### 3. Ciclo de Vida de la Reserva
 
