@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tarjeta en el home del portal (sólo visible para guías) -->
+    <template id="portal_my_home_excursion" name="Portal My Home: TurSys Excursions"
+              inherit_id="portal.portal_my_home" priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="request.env.user.is_tursys_guide">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/tursys/static/description/icon.png'"/>
+                    <t t-set="title">Excursions</t>
+                    <t t-set="text">Excursions assigned to you</t>
+                    <t t-set="url" t-value="'/my/excursions'"/>
+                    <t t-set="placeholder_count" t-value="'excursion_count'"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Listado de excursiones asignadas -->
+    <template id="portal_my_excursions" name="TurSys: My Excursions">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Excursions</t>
+            </t>
+            <t t-if="not excursions">
+                <div class="alert alert-info" role="alert">
+                    You have no excursions assigned yet.
+                </div>
+            </t>
+            <t t-if="excursions" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Excursion</th>
+                        <th>Date</th>
+                        <th class="text-end">Passengers</th>
+                        <th class="text-end">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="excursions" t-as="excursion">
+                        <td>
+                            <a t-attf-href="/my/excursions/#{excursion.id}">
+                                <span t-field="excursion.name"/>
+                            </a>
+                        </td>
+                        <td>
+                            <span t-field="excursion.start_datetime" t-options='{"widget": "date"}'/>
+                        </td>
+                        <td class="text-end">
+                            <span t-out="excursion.capacity_used"/> / <span t-out="excursion.capacity_total"/>
+                        </td>
+                        <td class="text-end">
+                            <span t-out="dict(excursion._fields['state'].selection).get(excursion.state)"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+            <div t-if="pager" class="o_portal_pager">
+                <t t-call="portal.pager"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- Detalle de la excursión con lista de pasajeros y check-in -->
+    <template id="portal_excursion_page" name="TurSys: Excursion Detail">
+        <t t-call="portal.portal_layout">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/my/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/my/excursions">Excursions</a></li>
+                <li class="breadcrumb-item active text-truncate" t-out="excursion.name"/>
+            </ol>
+
+            <div class="row mb-3">
+                <div class="col-lg-8">
+                    <h3 class="mb-1" t-field="excursion.name"/>
+                    <div class="text-muted">
+                        <i class="fa fa-calendar me-1"/>
+                        <span t-field="excursion.start_datetime"/>
+                        <span class="mx-1">→</span>
+                        <span t-field="excursion.end_datetime"/>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <span class="badge text-bg-info">
+                        <t t-out="excursion.capacity_used"/> / <t t-out="excursion.capacity_total"/> pax
+                    </span>
+                </div>
+            </div>
+
+            <h4 class="mt-4 mb-2">
+                Passengers (<t t-out="len(bookings)"/>)
+            </h4>
+
+            <t t-if="bookings">
+                <table class="table table-hover align-middle o_portal_my_doc_table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>ID / VAT</th>
+                            <th>Age</th>
+                            <th>Nationality</th>
+                            <th>Phone</th>
+                            <th>Needs</th>
+                            <th class="text-end">Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="bookings" t-as="b" t-attf-id="booking-#{b.id}">
+                            <td><span t-field="b.pax_name"/></td>
+                            <td><span t-field="b.pax_vat"/></td>
+                            <td><span t-out="b.pax_age"/></td>
+                            <td><span t-field="b.pax_nationality_id"/></td>
+                            <td><span t-field="b.pax_phone"/></td>
+                            <td><span t-field="b.pax_special_needs"/></td>
+                            <td class="text-end">
+                                <span t-if="b.state == 'attended'" class="badge text-bg-success">Attended</span>
+                                <span t-elif="b.state == 'no_show'" class="badge text-bg-danger">No Show</span>
+                                <span t-else="" class="badge text-bg-secondary">Confirmed</span>
+                            </td>
+                            <td class="text-end text-nowrap">
+                                <form t-if="b.state == 'confirmed'" class="d-inline"
+                                      t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/check_in" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" class="btn btn-sm btn-success">Check-in</button>
+                                </form>
+                                <form t-if="b.state == 'confirmed'" class="d-inline"
+                                      t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/no_show" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">No Show</button>
+                                </form>
+                                <form t-if="b.state in ('attended', 'no_show')" class="d-inline"
+                                      t-attf-action="/my/excursions/#{excursion.id}/booking/#{b.id}/undo" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Undo</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+            <t t-else="">
+                <div class="alert alert-info" role="alert">
+                    There are no passengers to show for this excursion yet.
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

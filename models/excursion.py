@@ -6,6 +6,7 @@ from datetime import timedelta
 class TursysExcursion(models.Model):
     _name = 'tursys.excursion'
     _description = 'Excursion Instance'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'start_datetime desc'
 
     name = fields.Char(string='Reference', compute='_compute_name', store=True)
@@ -35,6 +36,67 @@ class TursysExcursion(models.Model):
 
     booking_ids = fields.One2many('tursys.booking', 'excursion_id', string='Bookings')
 
+    service_name = fields.Char(string='Service Name', compute='_compute_service_name', store=True)
+
+    guide_id = fields.Many2one('res.users', string='Responsible Guide', tracking=True)
+    assistant_guide_ids = fields.Many2many(
+        'res.users', 'tursys_excursion_assistant_guide_rel',
+        'excursion_id', 'user_id', string='Assistant Guides', tracking=True,
+    )
+
+    # ------------------------------------------------------------------
+    # Guías: actividades automáticas al asignar
+    # ------------------------------------------------------------------
+    def _guide_users(self):
+        self.ensure_one()
+        return self.guide_id | self.assistant_guide_ids
+
+    def _schedule_guide_activity(self, users):
+        """Crea una actividad (y su notificación) para cada guía recién asignado."""
+        self.ensure_one()
+        users = users.filtered(lambda u: u and u.active)
+        if not users:
+            return
+        activity_type = self.env.ref('tursys.mail_activity_type_excursion_assigned', raise_if_not_found=False)
+        deadline = self.start_datetime.date() if self.start_datetime else fields.Date.context_today(self)
+        for user in users:
+            self.sudo().activity_schedule(
+                activity_type_id=activity_type.id if activity_type else False,
+                user_id=user.id,
+                summary=_('Excursion assigned: %s') % self.name,
+                note=_('You have been assigned to the excursion "%s".') % self.name,
+                date_deadline=deadline,
+            )
+
+    def _remove_guide_activity(self, users):
+        """Elimina las actividades pendientes de guías que fueron desasignados."""
+        self.ensure_one()
+        users = users.filtered(lambda u: u)
+        if not users:
+            return
+        pending = self.sudo().activity_ids.filtered(lambda a: a.user_id in users)
+        if pending:
+            pending.unlink()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        for record in records:
+            record._schedule_guide_activity(record._guide_users())
+        return records
+
+    def write(self, vals):
+        if 'guide_id' not in vals and 'assistant_guide_ids' not in vals:
+            return super().write(vals)
+        previous = {record.id: record._guide_users() for record in self}
+        result = super().write(vals)
+        for record in self:
+            before = previous.get(record.id, self.env['res.users'])
+            after = record._guide_users()
+            record._schedule_guide_activity(after - before)
+            record._remove_guide_activity(before - after)
+        return result
+
     @api.depends('start_datetime', 'duration')
     def _compute_end_datetime(self):
         for record in self:
@@ -50,6 +112,11 @@ class TursysExcursion(models.Model):
                 record.name = f"{record.product_id.name} - {record.start_datetime.strftime('%d-%m-%Y %H:%M')}"
             else:
                 record.name = "New Excursion"
+
+    @api.depends('product_id', 'product_id.name')
+    def _compute_service_name(self):
+        for record in self:
+            record.service_name = record.product_id.name
 
     @api.depends('booking_ids', 'booking_ids.state', 'capacity_total')
     def _compute_capacity(self):

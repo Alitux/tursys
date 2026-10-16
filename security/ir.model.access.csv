@@ -5,3 +5,7 @@ access_tursys_nationality,tursys.nationality,model_tursys_nationality,base.group
 access_tursys_nationality_manager,tursys.nationality,model_tursys_nationality,base.group_system,1,1,1,1
 access_tursys_language,tursys.language,model_tursys_language,base.group_user,1,0,0,0
 access_tursys_language_manager,tursys.language,model_tursys_language,base.group_system,1,1,1,1
+access_tursys_excursion_portal,tursys.excursion,model_tursys_excursion,base.group_portal,1,0,0,0
+access_tursys_booking_portal,tursys.booking,model_tursys_booking,base.group_portal,1,0,0,0
+access_tursys_nationality_portal,tursys.nationality,model_tursys_nationality,base.group_portal,1,0,0,0
+access_tursys_language_portal,tursys.language,model_tursys_language,base.group_portal,1,0,0,0

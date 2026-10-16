@@ -11,6 +11,7 @@
     - **Lista**: Resumen de ocupación y estados con códigos de color.
     - **Calendario**: Planificación visual de todas las excursiones del mes/semana.
 - **Flujo de Estados**: Programado, Finalizado y Cancelado.
+- **Asignación de Guías**: un **guía responsable** y **guías auxiliares** por excursión (ver *Guías y Check-in desde el móvil*).
 
 ### 2. Sistema de Reservas y Captura de Pasajeros
 - **Carga Ágil**: Formulario optimizado ("Booking Card") para entrada rápida de datos.
@@ -37,11 +38,16 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 
 **Motivo de cancelación**: cliente, decisión de la agencia, mínimo no alcanzado, clima u otro (con nota libre).
 
-### 4. Check-in desde el móvil
-- El guía accede al menú **TurSys → Check-in** y ve las reservas pendientes y presentadas en una **vista Kanban optimizada para móvil**.
-- Un toque en **Check-in** marca al pasajero como *Presentado*, registrando **fecha/hora** y **usuario** que lo hizo.
-- Se puede deshacer el check-in o marcar **No Show** (Ausente) en el momento.
+### 4. Guías y Check-in desde el móvil (Portal del Guía)
+
+- **Los guías son usuarios de portal**: nunca acceden al backoffice de Odoo. Se crean desde *Ajustes → Usuarios* y se los incluye en el grupo **TurSys / Guide**, que **implica el acceso Portal**. El sistema los identifica automáticamente como guías.
+- **Asignación**: en la ficha de cada excursión, los campos **Guía responsable** y **Guías auxiliares** solo permiten **elegir** entre los usuarios marcados como guías (no se pueden crear usuarios desde ese formulario).
+- **Aviso automático**: al asignar un guía (responsable o auxiliar) se le genera una **actividad** ("Excursion Assigned") y se lo notifica por email. Si se le quita la asignación, la actividad pendiente se elimina.
+- **Portal del guía**: al ingresar, ve la tarjeta **"Excursions assigned to you"** con la lista de sus excursiones asignadas y el detalle de cada una con sus pasajeros.
+- **Check-in en un toque**: desde el celular, el guía marca a cada pasajero como **Presentado** o **Ausente**, y puede **deshacer**. Se registra **fecha/hora** y **qué usuario** lo hizo.
+- **Seguridad**: cada guía solo puede ver las excursiones (y sus reservas) donde figura como **responsable o auxiliar**; el acceso a cualquier otra se deniega.
 - La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
+- El backoffice conserva además el menú **TurSys → Check-in** (vista Kanban) para el personal administrativo.
 
 ### 5. CRM Automatizado
 - **Integración con Contactos**: Al confirmar una reserva, el sistema busca automáticamente al pasajero por su DNI en la base de datos de Odoo.
@@ -76,8 +82,9 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 3. Crear primero una **Excursión** definiendo el servicio, fecha y capacidad total.
 4. Desde la ficha de la excursión, añadir pasajeros en la pestaña **Pasajeros**.
 5. Completar la **Ficha del Pasajero** y hacer clic en **Confirmar** (o **Lista de espera** si no hay cupo).
-6. El día de la salida, el guía entra a **TurSys → Check-in** desde el celular y marca a cada pasajero.
-7. Imprimir el **Voucher** para el cliente o la **Lista de Pasajeros** para el guía desde los botones de la cabecera.
+6. Asignar los **guías** de la salida (responsable y auxiliares). Para que un usuario sea guía: *Ajustes → Usuarios* → asignarle el grupo **TurSys / Guide** (implica acceso *Portal*, sin backoffice). Al asignarlo recibe una **actividad** de aviso.
+7. El día de la salida, el guía ingresa a su **portal** desde el celular, abre la excursión asignada y marca cada pasajero (**Presentado** / **Ausente** / **Deshacer**).
+8. Imprimir el **Voucher** para el cliente o la **Lista de Pasajeros** para el guía desde los botones de la cabecera.
 
 ## 📝 Soporte Técnico
 Desarrollado por **Alitux**

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Categoría de la app en la pantalla de grupos -->
+    <record id="module_category_tursys" model="ir.module.category">
+        <field name="name">TurSys</field>
+        <field name="description">Tourism agency management</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- Grupo "Guía": implica usuario de portal, nunca entra al backend -->
+    <record id="group_tursys_guide" model="res.groups">
+        <field name="name">Guide</field>
+        <field name="category_id" ref="module_category_tursys"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="comment">Field guide with portal access to the excursions they are assigned to.</field>
+    </record>
+
+    <!-- Regla: un guía sólo ve las excursiones donde es responsable o auxiliar -->
+    <record id="rule_tursys_excursion_guide" model="ir.rule">
+        <field name="name">Excursion: guide only sees assigned excursions</field>
+        <field name="model_id" ref="model_tursys_excursion"/>
+        <field name="groups" eval="[(4, ref('group_tursys_guide'))]"/>
+        <field name="domain_force">['|', ('guide_id', '=', user.id), ('assistant_guide_ids', 'in', [user.id])]</field>
+    </record>
+
+    <!-- Regla: un guía sólo ve las reservas de las excursiones que tiene asignadas -->
+    <record id="rule_tursys_booking_guide" model="ir.rule">
+        <field name="name">Booking: guide only sees bookings of assigned excursions</field>
+        <field name="model_id" ref="model_tursys_booking"/>
+        <field name="groups" eval="[(4, ref('group_tursys_guide'))]"/>
+        <field name="domain_force">['|', ('excursion_id.guide_id', '=', user.id), ('excursion_id.assistant_guide_ids', 'in', [user.id])]</field>
+    </record>
+</odoo>

@@ -159,15 +159,16 @@ class TursysBooking(models.Model):
     def action_waitlist(self):
         self.filtered(lambda b: b.state == 'draft').write({'state': 'waiting'})
 
-    def action_check_in(self):
+    def action_check_in(self, user=None):
         now = fields.Datetime.now()
+        user = user or self.env.user
         for record in self:
             if record.state != 'confirmed':
                 continue
             record.write({
                 'state': 'attended',
                 'checkin_datetime': now,
-                'checked_in_by': self.env.user.id,
+                'checked_in_by': user.id,
             })
 
     def action_undo_check_in(self):

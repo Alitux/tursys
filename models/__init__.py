@@ -3,5 +3,6 @@
 from . import nationality
 from . import language
 from . import res_partner
+from . import res_users
 from . import excursion
 from . import booking

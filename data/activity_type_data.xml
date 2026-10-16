@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tipo de actividad que se genera al asignar un guía a una excursión -->
+    <record id="mail_activity_type_excursion_assigned" model="mail.activity.type">
+        <field name="name">Excursion Assigned</field>
+        <field name="summary">Excursion assigned to you</field>
+        <field name="icon">fa-ticket</field>
+        <field name="res_model">tursys.excursion</field>
+        <field name="delay_count">0</field>
+        <field name="delay_unit">days</field>
+        <field name="delay_from">current_date</field>
+    </record>
+</odoo>
