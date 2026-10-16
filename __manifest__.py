@@ -18,7 +18,7 @@ Módulo avanzado para agencias de turismo que permite:
     'author': "Alitux",
     'website': "https://alitux.com.ar",
     'category': 'Operations/Tourism',
-    'version': '18.0.1.5.2',
+    'version': '18.0.1.5.3',
     'license': 'LGPL-3',
 
     'depends': ['base', 'product', 'mail', 'web', 'portal'],
@@ -40,6 +40,12 @@ Módulo avanzado para agencias de turismo que permite:
         'views/menus.xml',
         'views/portal_templates.xml',
     ],
+
+    'assets': {
+        'web.assets_frontend': [
+            'tursys/static/src/js/portal_passenger_filter.js',
+        ],
+    },
     
     'application': True,
     'installable': True,

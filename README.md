@@ -50,6 +50,7 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 - **Check-in en un toque**: desde el celular, el guía marca a cada pasajero como **Presentado** o **Ausente**, y puede **deshacer**. Se registra **fecha/hora** y **qué usuario** lo hizo.
 - **Seguridad**: cada **guía de portal** solo puede ver las excursiones (y sus reservas) donde figura como **responsable o auxiliar**; el acceso a cualquier otra se deniega. Los guías que además son usuarios de backend no quedan restringidos.
 - **Vista móvil**: el detalle de la excursión se adapta al teléfono (una tarjeta por pasajero, con botones grandes de check-in), cómodo para usarlo en pleno tour.
+- **Buscador instantáneo**: sobre la lista de pasajeros hay un campo que filtra en tiempo real por nombre, apellido, DNI/CUIL, teléfono o email, sin recargar la página (muy útil para encontrar a alguien en la puerta del micro).
 - **Auditoría desde el backend**: en la ficha de la excursión, el botón **"View in Portal"** (visible para administradores) abre la pantalla del guía en una pestaña nueva para revisar el check-in.
 - La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
 - El backoffice conserva además el menú **TurSys → Check-in** (vista Kanban) para el personal administrativo.
