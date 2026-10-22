@@ -18,7 +18,7 @@ Módulo avanzado para agencias de turismo que permite:
     'author': "Alitux",
     'website': "https://alitux.com.ar",
     'category': 'Operations/Tourism',
-    'version': '18.0.1.10.10',
+    'version': '18.0.1.10.11',
     'license': 'LGPL-3',
 
     'depends': ['base', 'product', 'mail', 'web', 'portal', 'calendar'],

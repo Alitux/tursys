@@ -346,5 +346,14 @@
         <xpath expr="//div[@id='portal_vendor_category']" position="attributes">
             <attribute name="t-if">portal_vendor_category_enable and not request.env.user.is_tursys_guide</attribute>
         </xpath>
+        <xpath expr="//div[@id='portal_alert_category']" position="attributes">
+            <attribute name="t-if">portal_alert_category_enable and not request.env.user.is_tursys_guide</attribute>
+        </xpath>
+        <xpath expr="//div[@id='portal_service_category']" position="attributes">
+            <attribute name="t-if">portal_service_category_enable and not request.env.user.is_tursys_guide</attribute>
+        </xpath>
+        <xpath expr="//div[@id='portal_common_category']" position="attributes">
+            <attribute name="class" add="order-3" separator=" "/>
+        </xpath>
     </template>
 </odoo>
