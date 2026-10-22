@@ -95,6 +95,28 @@ class TursysBooking(models.Model):
         help="Effective pickup point shown in lists, reports and the guide portal.",
     )
 
+    currency_id = fields.Many2one(
+        'res.currency', string='Currency',
+        default=lambda self: self.env.company.currency_id,
+    )
+    price_unit = fields.Float(
+        string='Unit Price', digits=(16, 2), tracking=True,
+        help="Price per person. It is taken from the service when the booking is created and kept frozen if the service price changes later.",
+    )
+    amount_total = fields.Float(
+        string='Total', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+    commission_rate = fields.Float(
+        string='Commission (%)', digits=(16, 2), tracking=True,
+        help="Commission charged by the booking source. It is copied from the source when the booking is created.",
+    )
+    commission_amount = fields.Float(
+        string='Commission', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+    amount_net = fields.Float(
+        string='Net Revenue', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('waiting', 'Waiting List'),
@@ -198,6 +220,23 @@ class TursysBooking(models.Model):
         if self.pickup_free_place:
             self.pickup_place = False
 
+    @api.depends('price_unit', 'pax_count', 'commission_rate')
+    def _compute_amounts(self):
+        for record in self:
+            total = (record.price_unit or 0.0) * (record.pax_count or 0)
+            record.amount_total = total
+            record.commission_amount = total * (record.commission_rate or 0.0) / 100.0
+            record.amount_net = total - record.commission_amount
+
+    @api.onchange('source_id')
+    def _onchange_source_id(self):
+        self.commission_rate = self.source_id.commission_rate if self.source_id else 0.0
+
+    @api.onchange('excursion_id')
+    def _onchange_excursion_id(self):
+        if self.excursion_id and not self.price_unit:
+            self.price_unit = self.excursion_id.product_id.lst_price
+
     @api.onchange('pax_vat')
     def _onchange_pax_vat(self):
         if self.pax_vat:
@@ -241,6 +280,15 @@ class TursysBooking(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code('tursys.booking') or _('New')
             if not vals.get('qr_uuid'):
                 vals['qr_uuid'] = str(uuid.uuid4())
+            # Precio y comisión congelados al momento de la reserva.
+            if 'price_unit' not in vals and vals.get('excursion_id'):
+                excursion = self.env['tursys.excursion'].browse(vals['excursion_id'])
+                vals['price_unit'] = excursion.product_id.lst_price or 0.0
+            if 'commission_rate' not in vals:
+                source = self.env['tursys.booking.source'].browse(vals['source_id']) if vals.get('source_id') else False
+                vals['commission_rate'] = source.commission_rate if source else 0.0
+            if not vals.get('currency_id'):
+                vals['currency_id'] = self.env.company.currency_id.id
         return super().create(vals_list)
 
     # ------------------------------------------------------------------

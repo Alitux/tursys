@@ -10,3 +10,7 @@ class TursysBookingSource(models.Model):
     name = fields.Char(string='Name', required=True)
     sequence = fields.Integer(string='Sequence', default=10)
     active = fields.Boolean(string='Active', default=True)
+    commission_rate = fields.Float(
+        string='Commission (%)', digits=(16, 2), default=0.0,
+        help="Commission charged by this source, as a percentage of the gross sale price.",
+    )

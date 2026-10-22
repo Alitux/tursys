@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 18:49+0000\n"
-"PO-Revision-Date: 2026-10-22 18:49+0000\n"
+"POT-Creation-Date: 2026-10-22 19:06+0000\n"
+"PO-Revision-Date: 2026-10-22 19:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -478,6 +478,30 @@ msgid "Code"
 msgstr "Código"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__commission_amount
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__commission_rate
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__commission_rate
+msgid "Commission (%)"
+msgstr "Comisión (%)"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__commission_rate
+msgid ""
+"Commission charged by the booking source. It is copied from the source when "
+"the booking is created."
+msgstr "Comisión que cobra el origen de la reserva. Se copia del origen al crear la reserva."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking_source__commission_rate
+msgid ""
+"Commission charged by this source, as a percentage of the gross sale price."
+msgstr "Comisión que cobra este origen, como porcentaje del precio de venta bruto."
+
+#. module: tursys
 #: model:ir.ui.menu,name:tursys.menu_tursys_config
 msgid "Configuration"
 msgstr "Configuración"
@@ -536,6 +560,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:tursys.field_tursys_pickup_point__create_date
 msgid "Created on"
 msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__currency_id
+msgid "Currency"
+msgstr "Moneda"
 
 #. module: tursys
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__cancellation_reason__customer
@@ -1029,6 +1058,16 @@ msgid "Needs"
 msgstr "Necesidades"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_list
+msgid "Net"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__amount_net
+msgid "Net Revenue"
+msgstr "Ingreso Neto"
+
+#. module: tursys
 #. odoo-python
 #: code:addons/tursys/models/booking.py:0
 msgid "New"
@@ -1279,6 +1318,18 @@ msgid "Present"
 msgstr "Presentes"
 
 #. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__price_unit
+msgid ""
+"Price per person. It is taken from the service when the booking is created "
+"and kept frozen if the service price changes later."
+msgstr "Precio por persona. Se toma del servicio al crear la reserva y queda congelado si después cambia el precio del servicio."
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Pricing"
+msgstr "Precios"
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Print Passenger List"
 msgstr "Imprimir Lista de Pasajeros"
@@ -1516,6 +1567,12 @@ msgid "Today"
 msgstr "Hoy"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__amount_total
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_list
+msgid "Total"
+msgstr "Total"
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__booking_count
 msgid "Total Bookings"
 msgstr "Reservas totales"
@@ -1572,6 +1629,11 @@ msgstr "Deshacer"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 msgid "Undo Check-in"
 msgstr "Deshacer check-in"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__price_unit
+msgid "Unit Price"
+msgstr "Precio Unitario"
 
 #. module: tursys
 #: model:tursys.nationality,name:tursys.nat_uy

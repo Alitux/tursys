@@ -42,6 +42,9 @@
                 <field name="attended_pax" optional="hide"/>
                 <field name="pickup_display" optional="show"/>
                 <field name="source_id" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Total" optional="show"/>
+                <field name="amount_net" widget="monetary" options="{'currency_field': 'currency_id'}" sum="Net" optional="hide"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-success="state in ('confirmed', 'attended')" decoration-danger="state == 'no_show'"/>
                 <field name="checkin_datetime" optional="hide"/>
                 <button name="action_check_in" string="Check-in" type="object" icon="fa-check" invisible="state != 'confirmed'"/>
@@ -143,6 +146,14 @@
                         <field name="pax_disabled"/>
                         <field name="pax_count" readonly="1"/>
                         <field name="pax_breakdown" readonly="1"/>
+                    </group>
+                    <group string="Pricing">
+                        <field name="currency_id" groups="base.group_multi_currency" readonly="1"/>
+                        <field name="price_unit" readonly="state != 'draft' and state != 'waiting'"/>
+                        <field name="amount_total"/>
+                        <field name="commission_rate" readonly="state != 'draft' and state != 'waiting'"/>
+                        <field name="commission_amount"/>
+                        <field name="amount_net"/>
                     </group>
                     <group>
                         <group string="Pickup">
