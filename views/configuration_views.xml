@@ -35,4 +35,13 @@
         <field name="res_model">tursys.language</field>
         <field name="view_mode">list</field>
     </record>
+
+    <!-- Servicios (productos de tipo servicio) -->
+    <record id="action_tursys_services" model="ir.actions.act_window">
+        <field name="name">Servicios</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('type', '=', 'service')]</field>
+        <field name="context">{'default_type': 'service'}</field>
+    </record>
 </odoo>

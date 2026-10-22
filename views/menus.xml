@@ -10,6 +10,7 @@
     
     <menuitem id="menu_tursys_config" name="Configuration" parent="menu_tursys_root" sequence="100" groups="base.group_system"/>
     <menuitem id="menu_tursys_settings" name="Settings" parent="menu_tursys_config" action="action_tursys_settings" sequence="5" groups="base.group_system"/>
+    <menuitem id="menu_tursys_services" name="Servicios" parent="menu_tursys_config" action="action_tursys_services" sequence="7" groups="base.group_system"/>
     <menuitem id="menu_tursys_nationality" name="Nationalities" parent="menu_tursys_config" action="action_tursys_nationality" sequence="10" groups="base.group_system"/>
     <menuitem id="menu_tursys_language" name="Languages" parent="menu_tursys_config" action="action_tursys_language" sequence="20" groups="base.group_system"/>
 </odoo>
