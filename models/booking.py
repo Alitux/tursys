@@ -465,8 +465,8 @@ class TursysBooking(models.Model):
             'view_id': False,
             'target': 'new',
             'context': {
-                'default_model': 'tursys.booking',
-                'default_res_id': self.id,
+                'active_model': 'tursys.booking',
+                'active_ids': [self.id],
                 'default_use_template': True,
                 'default_template_id': template_id.id,
                 'default_composition_mode': 'comment',
