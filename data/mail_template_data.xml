@@ -85,6 +85,10 @@
                                                 <t t-if="res_company.email and res_company.website"> · </t>
                                                 <t t-out="res_company.website"/>
                                                 <t t-if="res_company.street"><br/><t t-out="res_company.street"/><t t-if="res_company.city">, <t t-out="res_company.city"/></t></t>
+                                                <div style="margin-top:12px;padding-top:12px;border-top:1px dashed #e3e8ef;color:#9aa5b5;font-size:11px;line-height:1.7;">
+                                                    <t t-if="res_company.phone">No responder este mail. Para comunicarse con la empresa llamar al <t t-out="res_company.phone"/>.</t>
+                                                    <t t-else="">No responder este mail. Para comunicarse con la empresa escriba a <t t-out="res_company.email"/>.</t>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
