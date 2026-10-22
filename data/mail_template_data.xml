@@ -9,24 +9,91 @@
             <field name="email_to">{{ object.pax_email or object.passenger_id.email }}</field>
             <field name="description">Plantilla para enviar el comprobante de la reserva al pasajero</field>
             <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px;">
-                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                        Hola <t t-out="object.pax_name"/>,<br/><br/>
-                        Gracias por reservar con <strong><t t-out="res_company.name"/></strong>.
-                        Adjuntamos el comprobante de su excursión <strong><t t-out="object.excursion_id.product_id.name"/></strong>.
-                        <br/><br/>
-                        <strong>Detalles:</strong><br/>
-                        - Fecha: <t t-out="object.excursion_id.start_datetime.strftime('%d/%m/%Y')"/><br/>
-                        - Hora: <t t-out="object.excursion_id.start_datetime.strftime('%H:%M')"/> hs<br/>
-                        - Personas: <t t-out="object.pax_count"/> (<t t-out="object.pax_breakdown"/>)<br/>
-                        <t t-if="object.pickup_display">- Pickup: <t t-out="object.pickup_display"/><br/></t>
-                        <br/>
-                        ¡Lo esperamos!
-                        <br/><br/>
-                        Saludos cordiales.
-                    </p>
+                <div style="margin:0;padding:0;background-color:#eef2f7;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#eef2f7;padding:24px 0;">
+                        <tr>
+                            <td align="center">
+                                <table width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background-color:#ffffff;border-radius:8px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;">
+                                    <tr>
+                                        <td style="background-color:#1a2a6c;padding:26px 32px;text-align:center;">
+                                            <t t-if="res_company.logo">
+                                                <img t-att-src="image_data_uri(res_company.logo)" alt="Logo" style="max-height:52px;margin-bottom:10px;"/>
+                                            </t>
+                                            <div style="color:#ffffff;font-size:22px;font-weight:bold;letter-spacing:1px;"><t t-out="res_company.name"/></div>
+                                            <div style="color:#e67e22;font-size:12px;font-weight:bold;letter-spacing:2px;margin-top:6px;">COMPROBANTE DE RESERVA</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:30px 32px 8px 32px;">
+                                            <p style="margin:0 0 14px 0;font-size:15px;color:#333333;">Hola <strong><t t-out="object.pax_name"/></strong>,</p>
+                                            <p style="margin:0;font-size:14px;color:#555555;line-height:1.6;">
+                                                Gracias por reservar con <strong><t t-out="res_company.name"/></strong>.
+                                                Adjuntamos el comprobante de tu excursión <strong><t t-out="object.excursion_id.product_id.name"/></strong>.
+                                            </p>
+                                            <div style="text-align:center;margin:24px 0 6px 0;">
+                                                <span style="display:inline-block;background-color:#e67e22;color:#ffffff;font-size:15px;font-weight:bold;padding:10px 26px;border-radius:4px;letter-spacing:1px;white-space:nowrap;">REF: <t t-out="object.name"/></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 32px 0 32px;">
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e3e8ef;border-radius:6px;border-collapse:separate;font-size:14px;">
+                                                <tr>
+                                                    <td style="padding:10px 14px;color:#1a2a6c;font-weight:bold;width:38%;background-color:#f7f9fc;border-bottom:1px solid #e3e8ef;">Servicio</td>
+                                                    <td style="padding:10px 14px;color:#333333;border-bottom:1px solid #e3e8ef;"><t t-out="object.excursion_id.product_id.name"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px 14px;color:#1a2a6c;font-weight:bold;background-color:#f7f9fc;border-bottom:1px solid #e3e8ef;">Fecha</td>
+                                                    <td style="padding:10px 14px;color:#333333;border-bottom:1px solid #e3e8ef;"><t t-out="object.excursion_id.start_datetime.strftime('%d/%m/%Y')"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px 14px;color:#1a2a6c;font-weight:bold;background-color:#f7f9fc;border-bottom:1px solid #e3e8ef;">Hora</td>
+                                                    <td style="padding:10px 14px;color:#333333;border-bottom:1px solid #e3e8ef;"><t t-out="object.excursion_id.start_datetime.strftime('%H:%M')"/> hs</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px 14px;color:#1a2a6c;font-weight:bold;background-color:#f7f9fc;border-bottom:1px solid #e3e8ef;">Personas</td>
+                                                    <td style="padding:10px 14px;color:#333333;border-bottom:1px solid #e3e8ef;"><t t-out="object.pax_count"/><t t-if="object.pax_breakdown"><br/><span style="color:#777777;font-size:12px;"><t t-out="object.pax_breakdown"/></span></t></td>
+                                                </tr>
+                                                <t t-if="object.pickup_display">
+                                                    <tr>
+                                                        <td style="padding:10px 14px;color:#1a2a6c;font-weight:bold;background-color:#f7f9fc;">Pickup</td>
+                                                        <td style="padding:10px 14px;color:#333333;"><t t-out="object.pickup_display"/></td>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:22px 32px 0 32px;">
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                <tr>
+                                                    <td style="background-color:#fff9e6;border-left:4px solid #f1c40f;padding:12px 14px;font-size:13px;color:#856404;">
+                                                        <strong>Adjunto:</strong> comprobante en PDF con tu código de validación.
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <p style="margin:22px 0 0 0;font-size:15px;color:#1a2a6c;font-weight:bold;">¡Los esperamos!</p>
+                                            <p style="margin:8px 0 0 0;font-size:14px;color:#555555;line-height:1.6;">Saludos cordiales,<br/><strong><t t-out="res_company.name"/></strong></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:26px 32px 30px 32px;">
+                                            <div style="border-top:1px solid #e3e8ef;padding-top:16px;text-align:center;font-size:12px;color:#8a95a5;line-height:1.8;">
+                                                <t t-out="res_company.phone"/>
+                                                <t t-if="res_company.phone and (res_company.email or res_company.website)"> · </t>
+                                                <t t-out="res_company.email"/>
+                                                <t t-if="res_company.email and res_company.website"> · </t>
+                                                <t t-out="res_company.website"/>
+                                                <t t-if="res_company.street"><br/><t t-out="res_company.street"/><t t-if="res_company.city">, <t t-out="res_company.city"/></t></t>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-            </field>
+</field>
             <field name="report_template_ids" eval="[(4, ref('tursys.action_report_booking_voucher'))]"/>
             <field name="lang">{{ object.passenger_id.lang }}</field>
             <field name="auto_delete" eval="True"/>
