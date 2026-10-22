@@ -148,12 +148,21 @@
                         <field name="pax_breakdown" readonly="1"/>
                     </group>
                     <group string="Pricing">
-                        <field name="currency_id" groups="base.group_multi_currency" readonly="1"/>
-                        <field name="price_unit" readonly="state != 'draft' and state != 'waiting'"/>
-                        <field name="amount_total"/>
-                        <field name="commission_rate" readonly="state != 'draft' and state != 'waiting'"/>
-                        <field name="commission_amount"/>
-                        <field name="amount_net"/>
+                        <group>
+                            <field name="price_unit" readonly="1"/>
+                            <field name="amount_adults" readonly="1"/>
+                            <field name="amount_children" readonly="1"/>
+                            <field name="amount_infants" readonly="1"/>
+                            <field name="amount_retired" readonly="1"/>
+                            <field name="amount_disabled" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="amount_total" readonly="1"/>
+                            <field name="commission_rate" readonly="1"/>
+                            <field name="commission_amount" readonly="1"/>
+                            <field name="amount_net" readonly="1"/>
+                            <field name="currency_id" groups="base.group_multi_currency" readonly="1"/>
+                        </group>
                     </group>
                     <group>
                         <group string="Pickup">

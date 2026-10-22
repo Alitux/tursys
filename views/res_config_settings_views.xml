@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tursys_config_settings_form" model="ir.ui.view">
+        <field name="name">tursys.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="TurSys Settings">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>TurSys Settings</h1>
+                    </div>
+                    <group string="Price Segments">
+                        <group>
+                            <field name="tursys_child_price_rate"/>
+                            <field name="tursys_infant_price_rate"/>
+                        </group>
+                        <group>
+                            <field name="tursys_retiree_price_rate"/>
+                            <field name="tursys_disabled_price_rate"/>
+                        </group>
+                    </group>
+                    <div class="text-muted mt-3">Percentages are applied over the adult price of the service. Each booking keeps the rates it was created with.</div>
+                </sheet>
+                <footer>
+                    <button name="execute" string="Save" type="object" class="btn-primary"/>
+                    <button string="Discard" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tursys_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_tursys_config_settings_form"/>
+        <field name="target">current</field>
+        <field name="context">{'module': 'tursys'}</field>
+    </record>
+</odoo>

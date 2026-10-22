@@ -33,7 +33,7 @@ class TursysBooking(models.Model):
              "You can change it manually.")
     pax_adults = fields.Integer(
         string='Adults', default=1, required=True, tracking=True,
-        help="Adults in the group, including the holder.",
+        help="Adults paying the full price. Retirees, children and infants are counted in separate fields.",
     )
     pax_children = fields.Integer(
         string='Children (3-12)', default=0, required=True, tracking=True,
@@ -43,15 +43,15 @@ class TursysBooking(models.Model):
     )
     pax_retired = fields.Integer(
         string='Retirees', default=0, required=True, tracking=True,
-        help="Retirees in the group. They are also counted as adults.",
+        help="Retirees are counted in addition to adults and pay the retiree percentage.",
     )
     pax_disabled = fields.Integer(
         string='Disabled', default=0, required=True, tracking=True,
-        help="People with disabilities in the group, at any age.",
+        help="People with a disability are counted in addition to the other categories and pay the disabled percentage.",
     )
     pax_count = fields.Integer(
         string='Total People', compute='_compute_pax_count', store=True,
-        help="People in the group: adults + children + infants.",
+        help="People in the group: adults + children + infants + retirees + disabled.",
     )
     pax_breakdown = fields.Char(
         string='Group Composition', compute='_compute_pax_breakdown',
@@ -102,6 +102,33 @@ class TursysBooking(models.Model):
     price_unit = fields.Float(
         string='Unit Price', digits=(16, 2), tracking=True,
         help="Price per person. It is taken from the service when the booking is created and kept frozen if the service price changes later.",
+    )
+    child_price_rate = fields.Float(
+        string='Child Rate (%)', digits=(16, 2), readonly=True, copy=False,
+    )
+    infant_price_rate = fields.Float(
+        string='Infant Rate (%)', digits=(16, 2), readonly=True, copy=False,
+    )
+    retiree_price_rate = fields.Float(
+        string='Retiree Rate (%)', digits=(16, 2), readonly=True, copy=False,
+    )
+    disabled_price_rate = fields.Float(
+        string='Disabled Rate (%)', digits=(16, 2), readonly=True, copy=False,
+    )
+    amount_adults = fields.Float(
+        string='Adults Subtotal', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+    amount_children = fields.Float(
+        string='Children Subtotal', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+    amount_infants = fields.Float(
+        string='Infants Subtotal', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+    amount_retired = fields.Float(
+        string='Retirees Subtotal', compute='_compute_amounts', store=True, digits=(16, 2),
+    )
+    amount_disabled = fields.Float(
+        string='Disabled Subtotal', compute='_compute_amounts', store=True, digits=(16, 2),
     )
     amount_total = fields.Float(
         string='Total', compute='_compute_amounts', store=True, digits=(16, 2),
@@ -175,6 +202,8 @@ class TursysBooking(models.Model):
                 (record.pax_adults or 0)
                 + (record.pax_children or 0)
                 + (record.pax_infants or 0)
+                + (record.pax_retired or 0)
+                + (record.pax_disabled or 0)
             )
 
     @api.depends('pax_adults', 'pax_children', 'pax_infants', 'pax_retired', 'pax_disabled')
@@ -220,10 +249,21 @@ class TursysBooking(models.Model):
         if self.pickup_free_place:
             self.pickup_place = False
 
-    @api.depends('price_unit', 'pax_count', 'commission_rate')
+    @api.depends('price_unit', 'pax_count', 'pax_adults', 'pax_children', 'pax_infants',
+                 'pax_retired', 'pax_disabled', 'commission_rate',
+                 'child_price_rate', 'infant_price_rate', 'retiree_price_rate', 'disabled_price_rate')
     def _compute_amounts(self):
         for record in self:
-            total = (record.price_unit or 0.0) * (record.pax_count or 0)
+            price = record.price_unit or 0.0
+
+            record.amount_adults = price * (record.pax_adults or 0)
+            record.amount_retired = price * (record.pax_retired or 0) * (record.retiree_price_rate or 0.0) / 100.0
+            record.amount_disabled = price * (record.pax_disabled or 0) * (record.disabled_price_rate or 0.0) / 100.0
+            record.amount_children = price * (record.pax_children or 0) * (record.child_price_rate or 0.0) / 100.0
+            record.amount_infants = price * (record.pax_infants or 0) * (record.infant_price_rate or 0.0) / 100.0
+
+            total = (record.amount_adults + record.amount_children + record.amount_infants
+                     + record.amount_retired + record.amount_disabled)
             record.amount_total = total
             record.commission_amount = total * (record.commission_rate or 0.0) / 100.0
             record.amount_net = total - record.commission_amount
@@ -266,12 +306,25 @@ class TursysBooking(models.Model):
                 raise ValidationError(_("The number of people cannot be negative."))
             if record.pax_count < 1:
                 raise ValidationError(_("A booking must include at least one person."))
-            if record.pax_retired > record.pax_adults:
-                raise ValidationError(_("Retirees cannot exceed the number of adults."))
-            if record.pax_disabled > record.pax_count:
-                raise ValidationError(_("People with disabilities cannot exceed the total number of people."))
             if not 0 <= record.attended_pax <= record.pax_count:
                 raise ValidationError(_("People present must be between 0 and the total number of people."))
+
+    @api.model
+    def _get_price_rates(self):
+        params = self.env['ir.config_parameter'].sudo()
+
+        def rate(key, default):
+            try:
+                return float(params.get_param(key, default) or default)
+            except (TypeError, ValueError):
+                return default
+
+        return {
+            'child_price_rate': rate('tursys.child_price_rate', 50.0),
+            'infant_price_rate': rate('tursys.infant_price_rate', 0.0),
+            'retiree_price_rate': rate('tursys.retiree_price_rate', 80.0),
+            'disabled_price_rate': rate('tursys.disabled_price_rate', 100.0),
+        }
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -289,6 +342,8 @@ class TursysBooking(models.Model):
                 vals['commission_rate'] = source.commission_rate if source else 0.0
             if not vals.get('currency_id'):
                 vals['currency_id'] = self.env.company.currency_id.id
+            for key, value in self._get_price_rates().items():
+                vals.setdefault(key, value)
         return super().create(vals_list)
 
     # ------------------------------------------------------------------
