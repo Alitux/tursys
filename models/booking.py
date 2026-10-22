@@ -31,11 +31,38 @@ class TursysBooking(models.Model):
     ], string='Passenger Type', compute='_compute_pax_type', store=True, readonly=False,
         help="Calculated from the birthdate: infant (0-2), child (3-12), adult (13+). "
              "You can change it manually.")
-    pax_is_retired = fields.Boolean(string='Retiree', tracking=True)
-    pax_is_disabled = fields.Boolean(string='Disabled', tracking=True)
-    pax_category = fields.Char(
-        string='Passenger Category', compute='_compute_pax_category',
-        help="Passenger type plus the retiree / disabled flags, ready to display.",
+    pax_adults = fields.Integer(
+        string='Adults', default=1, required=True, tracking=True,
+        help="Adults in the group, including the holder.",
+    )
+    pax_children = fields.Integer(
+        string='Children (3-12)', default=0, required=True, tracking=True,
+    )
+    pax_infants = fields.Integer(
+        string='Infants (0-2)', default=0, required=True, tracking=True,
+    )
+    pax_retired = fields.Integer(
+        string='Retirees', default=0, required=True, tracking=True,
+        help="Retirees in the group. They are also counted as adults.",
+    )
+    pax_disabled = fields.Integer(
+        string='Disabled', default=0, required=True, tracking=True,
+        help="People with disabilities in the group, at any age.",
+    )
+    pax_count = fields.Integer(
+        string='Total People', compute='_compute_pax_count', store=True,
+        help="People in the group: adults + children + infants.",
+    )
+    pax_breakdown = fields.Char(
+        string='Group Composition', compute='_compute_pax_breakdown',
+        help="Group composition, ready to show in lists, reports and the portal.",
+    )
+    attended_pax = fields.Integer(
+        string='People Present', default=0, copy=False, tracking=True,
+        help="People who actually showed up. It can be lower than the total.",
+    )
+    no_show_pax = fields.Integer(
+        string='People Absent', compute='_compute_no_show_pax', store=True,
     )
 
     pax_nationality_id = fields.Many2one('tursys.nationality', string='Nationality')
@@ -119,18 +146,41 @@ class TursysBooking(models.Model):
             else:
                 record.pax_type = 'adult'
 
-    @api.depends('pax_type', 'pax_is_retired', 'pax_is_disabled')
-    def _compute_pax_category(self):
-        selection = dict(self._fields['pax_type']._description_selection(self.env))
+    @api.depends('pax_adults', 'pax_children', 'pax_infants')
+    def _compute_pax_count(self):
+        for record in self:
+            record.pax_count = (
+                (record.pax_adults or 0)
+                + (record.pax_children or 0)
+                + (record.pax_infants or 0)
+            )
+
+    @api.depends('pax_adults', 'pax_children', 'pax_infants', 'pax_retired', 'pax_disabled')
+    def _compute_pax_breakdown(self):
+        labels = (
+            ('pax_adults', _('Adult'), _('Adults')),
+            ('pax_children', _('Child'), _('Children')),
+            ('pax_infants', _('Infant'), _('Infants')),
+            ('pax_retired', _('Retiree'), _('Retirees')),
+            ('pax_disabled', _('Disabled'), _('Disabled people')),
+        )
         for record in self:
             parts = []
-            if record.pax_type:
-                parts.append(selection.get(record.pax_type, record.pax_type))
-            if record.pax_is_retired:
-                parts.append(_('Retiree'))
-            if record.pax_is_disabled:
-                parts.append(_('Disabled'))
-            record.pax_category = ' \u00b7 '.join(parts)
+            for field_name, singular, plural in labels:
+                count = record[field_name]
+                if count:
+                    parts.append('%s %s' % (count, singular if count == 1 else plural))
+            record.pax_breakdown = ' \u00b7 '.join(parts)
+
+    @api.depends('state', 'pax_count', 'attended_pax')
+    def _compute_no_show_pax(self):
+        for record in self:
+            if record.state == 'no_show':
+                record.no_show_pax = record.pax_count
+            elif record.state == 'attended':
+                record.no_show_pax = max(record.pax_count - record.attended_pax, 0)
+            else:
+                record.no_show_pax = 0
 
     @api.depends('pickup_place', 'pickup_free_place')
     def _compute_pickup_display(self):
@@ -166,6 +216,23 @@ class TursysBooking(models.Model):
                         'message': _("A passenger with this ID already exists. Data has been pre-filled.")
                     }
                 }
+
+    @api.constrains('pax_adults', 'pax_children', 'pax_infants',
+                    'pax_retired', 'pax_disabled', 'attended_pax')
+    def _check_pax_counts(self):
+        for record in self:
+            counters = (record.pax_adults, record.pax_children, record.pax_infants,
+                        record.pax_retired, record.pax_disabled)
+            if any(count < 0 for count in counters):
+                raise ValidationError(_("The number of people cannot be negative."))
+            if record.pax_count < 1:
+                raise ValidationError(_("A booking must include at least one person."))
+            if record.pax_retired > record.pax_adults:
+                raise ValidationError(_("Retirees cannot exceed the number of adults."))
+            if record.pax_disabled > record.pax_count:
+                raise ValidationError(_("People with disabilities cannot exceed the total number of people."))
+            if not 0 <= record.attended_pax <= record.pax_count:
+                raise ValidationError(_("People present must be between 0 and the total number of people."))
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -225,7 +292,7 @@ class TursysBooking(models.Model):
 
             record._lock_excursion()
 
-            if record.excursion_id.capacity_available < 1:
+            if record.excursion_id.capacity_available < record.pax_count:
                 raise ValidationError(_("Not enough capacity available in this excursion!"))
 
             record._find_or_create_partner()
@@ -234,14 +301,18 @@ class TursysBooking(models.Model):
     def action_waitlist(self):
         self.filtered(lambda b: b.state == 'draft').write({'state': 'waiting'})
 
-    def action_check_in(self, user=None):
+    def action_check_in(self, user=None, attended_pax=None):
+        """Marca la reserva como presente, aunque se presenten sólo algunos del grupo."""
         now = fields.Datetime.now()
         user = user or self.env.user
         for record in self:
             if record.state != 'confirmed':
                 continue
+            present = record.pax_count if attended_pax is None else attended_pax
+            present = min(max(int(present), 0), record.pax_count)
             record.write({
                 'state': 'attended',
+                'attended_pax': present,
                 'checkin_datetime': now,
                 'checked_in_by': user.id,
             })
@@ -249,6 +320,7 @@ class TursysBooking(models.Model):
     def action_undo_check_in(self):
         self.filtered(lambda b: b.state == 'attended').write({
             'state': 'confirmed',
+            'attended_pax': 0,
             'checkin_datetime': False,
             'checked_in_by': False,
         })
@@ -257,7 +329,7 @@ class TursysBooking(models.Model):
         for record in self:
             if record.state not in ('confirmed', 'attended'):
                 continue
-            record.write({'state': 'no_show'})
+            record.write({'state': 'no_show', 'attended_pax': 0})
         self.excursion_id._promote_from_waitlist()
 
     def action_cancel(self):

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 18:31+0000\n"
-"PO-Revision-Date: 2026-10-22 18:31+0000\n"
+"POT-Creation-Date: 2026-10-22 18:49+0000\n"
+"PO-Revision-Date: 2026-10-22 18:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,13 @@ msgstr "<i class=\"fa fa-play me-1\"/>Iniciar excursión"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+#: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
+msgid "<i class=\"fa fa-users me-1\" title=\"Pax\"/>"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 msgid "<span class=\"mx-1\">·</span>"
 msgstr ""
 
@@ -102,6 +109,7 @@ msgid "<strong>Nationality:</strong>"
 msgstr "<strong>Nacionalidad:</strong>"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 msgid "<strong>PAX:</strong>"
 msgstr ""
@@ -134,14 +142,20 @@ msgid ""
 msgstr "<strong>Estado:</strong> <span style=\"color: #27ae60; font-weight: bold;\">VÁLIDO</span>"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "<strong>TOTAL PAX:</strong>"
+msgstr ""
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
 msgid "<strong>Time:</strong>"
 msgstr "<strong>Hora:</strong>"
 
 #. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
-msgid "<strong>Type:</strong>"
-msgstr ""
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "A booking must include at least one person."
+msgstr "La reserva debe incluir al menos una persona."
 
 #. module: tursys
 #. odoo-python
@@ -222,12 +236,26 @@ msgstr "Dirección del punto de pickup."
 msgid ""
 "Address of the pickup point. It is filled from the catalog, but you can edit"
 " it."
-msgstr ""
+msgstr "Dirección del punto de pickup. Se completa desde el catálogo, pero podés editarla."
 
 #. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__pax_type__adult
 msgid "Adult"
 msgstr "Adulto"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_adults
+msgid "Adults"
+msgstr "Adultos"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_adults
+msgid "Adults in the group, including the holder."
+msgstr "Adultos del grupo, incluido el titular."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_res_partner__age
@@ -272,7 +300,6 @@ msgstr ""
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__attended_count
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__state__attended
-#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Attended"
@@ -298,7 +325,7 @@ msgstr "Ficha de Reserva"
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 msgid "Booking Details"
-msgstr ""
+msgstr "Detalles de la Reserva"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
@@ -422,9 +449,22 @@ msgid "Checked in by"
 msgstr "Registrado por"
 
 #. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__pax_type__child
 msgid "Child"
 msgstr "Niño"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "Children"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_children
+msgid "Children (3-12)"
+msgstr "Niños (3-12)"
 
 #. module: tursys
 #: model:tursys.nationality,name:tursys.nat_cl
@@ -516,9 +556,15 @@ msgstr "Fecha"
 #. module: tursys
 #. odoo-python
 #: code:addons/tursys/models/booking.py:0
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_is_disabled
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_disabled
 msgid "Disabled"
 msgstr "Discapacitado"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "Disabled people"
+msgstr "Discapacitados"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__display_name
@@ -544,7 +590,7 @@ msgstr "Duración (Horas)"
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_display
 msgid "Effective pickup point shown in lists, reports and the guide portal."
-msgstr ""
+msgstr "Punto de pickup efectivo que se muestra en listas, reportes y el portal del guía."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_email
@@ -685,7 +731,7 @@ msgstr ""
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pickup_free_place
 msgid "Free Pickup Point"
-msgstr ""
+msgstr "Punto de Pickup Libre"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
@@ -697,6 +743,17 @@ msgstr "Nombre Completo"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_search
 msgid "Group By"
 msgstr "Agrupar por"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_breakdown
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Group Composition"
+msgstr "Composición del Grupo"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_breakdown
+msgid "Group composition, ready to show in lists, reports and the portal."
+msgstr "Composición del grupo, para mostrar en listas, reportes y el portal."
 
 #. module: tursys
 #: model:res.groups,name:tursys.group_tursys_guide
@@ -726,6 +783,11 @@ msgstr "Guía que ingresa solo al portal (sin acceso al backend) y ve únicament
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__has_message
 msgid "Has Message"
 msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "Holder Details"
+msgstr "Datos del Titular"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
@@ -798,9 +860,22 @@ msgid "In Progress"
 msgstr "En curso"
 
 #. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
 #: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__pax_type__infant
 msgid "Infant"
 msgstr "Infante"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "Infants"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_infants
+msgid "Infants (0-2)"
+msgstr "Infantes (0-2)"
 
 #. module: tursys
 #: model:tursys.language,name:tursys.lang_en
@@ -1055,16 +1130,6 @@ msgid "Other"
 msgstr "Otro"
 
 #. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_category
-msgid "Passenger Category"
-msgstr "Categoría de Pasajero"
-
-#. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
-msgid "Passenger Details"
-msgstr "Datos del Pasajero"
-
-#. module: tursys
 #. odoo-python
 #: code:addons/tursys/models/booking.py:0
 msgid "Passenger Found"
@@ -1092,11 +1157,6 @@ msgid "Passenger Type"
 msgstr "Tipo de Pasajero"
 
 #. module: tursys
-#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_category
-msgid "Passenger type plus the retiree / disabled flags, ready to display."
-msgstr "Tipo de pasajero más las marcas de jubilado / discapacitado, listo para mostrar."
-
-#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Passengers"
@@ -1112,6 +1172,54 @@ msgstr "Pasajeros ("
 #: model:ir.ui.menu,name:tursys.menu_tursys_passengers
 msgid "Passengers List"
 msgstr "Lista de Pasajeros"
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_list
+msgid "Pax"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__no_show_pax
+msgid "People Absent"
+msgstr "Personas Ausentes"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__attended_pax
+msgid "People Present"
+msgstr "Personas Presentes"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_count
+msgid "People in the group: adults + children + infants."
+msgstr "Personas del grupo: adultos + niños + infantes."
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "People present"
+msgstr "Personas presentes"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "People present must be between 0 and the total number of people."
+msgstr "Las personas presentes deben estar entre 0 y el total de personas."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__attended_pax
+msgid "People who actually showed up. It can be lower than the total."
+msgstr "Personas que se presentaron. Puede ser menor al total."
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "People with disabilities cannot exceed the total number of people."
+msgstr "Las personas con discapacidad no pueden superar el total de personas."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_disabled
+msgid "People with disabilities in the group, at any age."
+msgstr "Personas con discapacidad del grupo, de cualquier edad."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_phone
@@ -1148,12 +1256,12 @@ msgstr "Puntos de Pickup"
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_place
 msgid "Pickup point from the catalog (hotel, hostel, meeting point...)."
-msgstr ""
+msgstr "Punto de pickup del catálogo (hotel, hostal, punto de encuentro...)."
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_free_place
 msgid "Pickup point that is not in the catalog. Enter its address manually."
-msgstr ""
+msgstr "Punto de pickup que no está en el catálogo. Ingresá la dirección manualmente."
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
@@ -1164,6 +1272,11 @@ msgstr "Por favor preséntese 15 minutos antes de la salida."
 #: model:tursys.language,name:tursys.lang_pt
 msgid "Portugués"
 msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
+msgid "Present"
+msgstr "Presentes"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
@@ -1225,9 +1338,26 @@ msgstr ""
 #. module: tursys
 #. odoo-python
 #: code:addons/tursys/models/booking.py:0
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_is_retired
 msgid "Retiree"
 msgstr "Jubilado"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_retired
+msgid "Retirees"
+msgstr "Jubilados"
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "Retirees cannot exceed the number of adults."
+msgstr "Los jubilados no pueden superar la cantidad de adultos."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_retired
+msgid "Retirees in the group. They are also counted as adults."
+msgstr "Jubilados del grupo. También cuentan como adultos."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_sms_error
@@ -1360,6 +1490,12 @@ msgid "Template to send booking voucher to passengers"
 msgstr "Plantilla para enviar el voucher de reserva a los pasajeros"
 
 #. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+msgid "The number of people cannot be negative."
+msgstr "La cantidad de personas no puede ser negativa."
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 msgid "There are no passengers to show for this excursion yet."
 msgstr "Todavía no hay pasajeros para esta excursión."
@@ -1390,6 +1526,11 @@ msgid "Total Capacity"
 msgstr "Capacidad Total"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_count
+msgid "Total People"
+msgstr "Total de Personas"
+
+#. module: tursys
 #: model:ir.module.category,description:tursys.module_category_tursys
 msgid "Tourism agency management"
 msgstr "Gestión de agencia de turismo"
@@ -1414,11 +1555,6 @@ msgstr "TurSys: Cerrar excursiones vencidas"
 #: model:ir.actions.server,name:tursys.ir_cron_tursys_update_ages_ir_actions_server
 msgid "TurSys: Update passenger ages"
 msgstr "TurSys: Actualizar edades de pasajeros"
-
-#. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
-msgid "Type"
-msgstr "Tipo"
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_decoration
@@ -1489,7 +1625,7 @@ msgstr "Condiciones climáticas"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_source_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_source_list
 msgid "Web / GYG / Viator / Other agency..."
-msgstr ""
+msgstr "Web / GYG / Viator / Otra agencia..."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__website_message_ids
@@ -1506,7 +1642,7 @@ msgstr ""
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__source_id
 msgid "Where the booking came from (web, GYG, Viator, another agency...)."
-msgstr ""
+msgstr "De dónde vino la reserva (web, GYG, Viator, otra agencia...)."
 
 #. module: tursys
 #. odoo-python
@@ -1538,6 +1674,7 @@ msgstr ""
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_kanban
 msgid "pax"
 msgstr ""
 

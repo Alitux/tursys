@@ -168,27 +168,37 @@ class TursysExcursion(models.Model):
         for record in self:
             record.service_name = record.product_id.name
 
-    @api.depends('booking_ids', 'booking_ids.state', 'capacity_total')
+    @api.depends(
+        'booking_ids', 'booking_ids.state', 'booking_ids.pax_count',
+        'booking_ids.attended_pax', 'capacity_total',
+    )
     def _compute_capacity(self):
         for record in self:
             bookings = record.booking_ids
-            # Ocupan cupo las reservas confirmadas y las que ya se presentaron.
-            used = len(bookings.filtered(lambda b: b.state in ('confirmed', 'attended')))
+            # Ocupan cupo las PERSONAS de las reservas confirmadas y presentes.
+            present = bookings.filtered(lambda b: b.state in ('confirmed', 'attended'))
+            used = sum(present.mapped('pax_count'))
             record.capacity_used = used
             record.capacity_available = record.capacity_total - used
             record.booking_count = len(bookings.filtered(lambda b: b.state != 'cancelled'))
-            record.waiting_count = len(bookings.filtered(lambda b: b.state == 'waiting'))
-            record.attended_count = len(bookings.filtered(lambda b: b.state == 'attended'))
-            record.no_show_count = len(bookings.filtered(lambda b: b.state == 'no_show'))
+            record.waiting_count = sum(
+                bookings.filtered(lambda b: b.state == 'waiting').mapped('pax_count')
+            )
+            record.attended_count = sum(bookings.mapped('attended_pax'))
+            record.no_show_count = sum(bookings.mapped('no_show_pax'))
 
     def _promote_from_waitlist(self):
-        """Asciende reservas de la lista de espera mientras haya cupo libre."""
+        """Asciende reservas de la lista de espera sólo si entra el grupo completo."""
         self.ensure_one()
+        self.invalidate_recordset(['capacity_used', 'capacity_available'])
         while self.capacity_available > 0:
-            waiting = self.booking_ids.filtered(lambda b: b.state == 'waiting').sorted('create_date')[:1]
+            waiting = self.booking_ids.filtered(
+                lambda b: b.state == 'waiting' and b.pax_count <= self.capacity_available
+            ).sorted('create_date')[:1]
             if not waiting:
                 break
             waiting.action_confirm()
+            self.invalidate_recordset(['capacity_used', 'capacity_available'])
 
     def _ensure_can_manage(self, user):
         """Sólo el guía responsable (o un usuario interno) puede iniciar/finalizar."""

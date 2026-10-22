@@ -54,11 +54,11 @@
                             <tr>
                                 <!-- Passenger -->
                                 <td style="width: 50%; padding: 25px; border-right: 1px solid #eee; vertical-align: top;">
-                                    <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9em; letter-spacing: 1px;">Passenger Details</h6>
+                                    <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9em; letter-spacing: 1px;">Holder Details</h6>
                                     <p style="font-size: 2.1em; font-weight: 900; color: #1a2a6c; margin-bottom: 15px; line-height: 1.1;"><t t-esc="o.pax_name"/></p>
                                     <div style="font-size: 1.2em; line-height: 1.5;">
                                         <p class="m-0"><strong>ID:</strong> <t t-esc="o.pax_vat"/></p>
-                                        <p t-if="o.pax_category" class="m-0"><strong>Type:</strong> <t t-esc="o.pax_category"/></p>
+                                        <p class="m-0"><strong>PAX:</strong> <t t-esc="o.pax_count"/> <t t-if="o.pax_breakdown" style="color: #666;">· <t t-esc="o.pax_breakdown"/></t></p>
                                         <p class="m-0"><strong>Nationality:</strong> <t t-esc="o.pax_nationality_id.name"/></p>
                                         <p class="m-0"><strong>Email:</strong> <t t-esc="o.pax_email"/></p>
                                         <p class="m-0"><strong>Phone:</strong> <t t-esc="o.pax_phone"/></p>

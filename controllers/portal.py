@@ -123,7 +123,12 @@ class TursysPortal(CustomerPortal):
         booking = booking.sudo()
         try:
             if action == 'check_in':
-                booking.action_check_in(request.env.user)
+                attended_pax = kw.get('attended_pax')
+                try:
+                    attended_pax = int(attended_pax) if attended_pax not in (None, '') else None
+                except (TypeError, ValueError):
+                    attended_pax = None
+                booking.action_check_in(request.env.user, attended_pax=attended_pax)
             elif action == 'no_show':
                 booking.action_mark_no_show()
             elif action == 'undo':

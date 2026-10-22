@@ -19,7 +19,8 @@
 - **Captura Completa**: Registro de Nombre, DNI/CUIL, Email, Teléfono, Fecha de Nacimiento, Nacionalidad e Idioma.
 - **Cálculo Automático**: La edad del pasajero se calcula y **se almacena** automáticamente (permite filtrar, ordenar y agrupar por edad).
 - **Identidad Digital**: Cada reserva genera un **UUID único** para validaciones electrónicas futuras.
-- **Punto de Pickup**: cada reserva elige el **punto de pickup** desde un **catálogo reutilizable** (hoteles, hostels, puntos de encuentro) con su **dirección**; se administra desde **TurSys → Puntos de Pickup**. Se muestra en el formulario/lista de reservas y se imprime en la **Lista de Pasajeros** y en el **voucher**.
+- **Punto de Pickup**: cada reserva carga el **punto de pickup libre** (hotel, hostel, punto de encuentro) como texto; se muestra en el formulario/lista de reservas y se imprime en la **Lista de Pasajeros** y en el **voucher**. El catálogo de puntos se conserva en **TurSys → Configuración → Puntos de Pickup** para uso futuro.
+- **Reserva grupal**: una reserva representa un **grupo** con un **titular** y su **composición** (adultos, niños de 3 a 12, infantes de 0 a 2, jubilados y personas con discapacidad). El grupo **ocupa cupo por persona** y se resume como *"3 pax · 2 adultos · 1 niño"* en listas, reportes y portal.
 
 ### 3. Ciclo de Vida de la Reserva
 
@@ -49,14 +50,14 @@ El estado de la reserva es independiente del estado del pago, para poder represe
 - **Asignación**: en la ficha de cada excursión, los campos **Guía responsable** y **Guías auxiliares** solo permiten **elegir** entre los usuarios marcados como guías (no se pueden crear usuarios desde ese formulario).
 - **Aviso automático**: al asignar un guía (responsable o auxiliar) se le genera una **actividad** ("Excursion Assigned") y se lo notifica por email. Si se le quita la asignación, la actividad pendiente se elimina.
 - **Portal del guía**: al ingresar, ve la tarjeta **"Excursions assigned to you"** con la lista de sus excursiones asignadas y el detalle de cada una con sus pasajeros.
-- **Check-in en un toque**: desde el celular, el guía marca a cada pasajero como **Presentado** o **Ausente**, y puede **deshacer**. Se registra **fecha/hora** y **qué usuario** lo hizo.
+- **Check-in en un toque**: desde el celular, el guía marca cada reserva indicando **cuántas personas se presentaron** (por ejemplo **2 de 3**) o la marca como **Ausente**, y puede **deshacer**. El resto del grupo queda como ausente. Se registra **fecha/hora** y **qué usuario** lo hizo.
 - **Seguridad**: cada **guía de portal** solo puede ver las excursiones (y sus reservas) donde figura como **responsable o auxiliar**; el acceso a cualquier otra se deniega. Los guías que además son usuarios de backend no quedan restringidos.
 - **Vista móvil**: el detalle de la excursión se adapta al teléfono (una tarjeta por pasajero, con botones grandes de check-in), cómodo para usarlo en pleno tour.
 - **Buscador instantáneo**: sobre la lista de pasajeros hay un campo que filtra en tiempo real por nombre, apellido, DNI/CUIL, teléfono o email, sin recargar la página (muy útil para encontrar a alguien en la puerta del micro).
 - **Auditoría desde el backend**: en la ficha de la excursión, el botón **"View in Portal"** (visible para administradores) abre la pantalla del guía en una pestaña nueva para revisar el check-in.
 - **Notas del guía**: desde el portal, el guía escribe comentarios de la excursión (clima, incidentes, algo particular) y quedan publicados en el **chatter** de la excursión, con autor y fecha.
 - **Inicio y fin de la excursión**: el guía responsable (o un administrador) puede **iniciar** la excursión desde el portal y queda guardado el **timestamp** y quién lo hizo; al **finalizar**, se registra el cierre, se marcan los ausentes y la excursión pasa a **Finalizada**.
-- La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado · ☐ pendiente · ✗ ausente) para uso manual.
+- La **Lista de Pasajeros** impresa incluye una columna **Check** (☑ presentado completo · **2/3** presentado parcial · ☐ pendiente · ✗ ausente) y el **total de personas** al pie.
 
 ### 5. CRM Automatizado
 - **Integración con Contactos**: Al confirmar una reserva, el sistema busca automáticamente al pasajero por su DNI en la base de datos de Odoo.
