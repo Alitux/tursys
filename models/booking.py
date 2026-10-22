@@ -452,24 +452,23 @@ class TursysBooking(models.Model):
         })
 
     def action_send_voucher_email(self):
+        """Envía el voucher por email directamente, sin abrir el compositor."""
         self.ensure_one()
-        template_id = self.env.ref('tursys.email_template_booking_voucher', raise_if_not_found=False)
-        if not template_id:
+        template = self.env.ref('tursys.email_template_booking_voucher', raise_if_not_found=False)
+        if not template:
             raise ValidationError(_("Email template not found! Please update the module."))
+        email = self.pax_email or self.passenger_id.email
+        if not email:
+            raise ValidationError(_("The passenger has no email address."))
 
+        template.send_mail(self.id, force_send=True)
         return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(False, 'form')],
-            'view_id': False,
-            'target': 'new',
-            'context': {
-                'active_model': 'tursys.booking',
-                'active_ids': [self.id],
-                'default_use_template': True,
-                'default_template_id': template_id.id,
-                'default_composition_mode': 'comment',
-                'force_email': True,
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Voucher sent'),
+                'message': _('The voucher was sent to %s') % email,
+                'type': 'success',
+                'sticky': False,
             },
         }

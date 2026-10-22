@@ -4,24 +4,26 @@
         <record id="email_template_booking_voucher" model="mail.template">
             <field name="name">Booking: Send Voucher</field>
             <field name="model_id" ref="tursys.model_tursys_booking"/>
-            <field name="subject">Your Booking Voucher - {{ object.name }}</field>
+            <field name="subject">Su comprobante de reserva - {{ object.name }}</field>
             <field name="email_from">{{ (object.env.user.email_formatted or user.email_formatted) }}</field>
-            <field name="partner_to">{{ object.passenger_id.id }}</field>
-            <field name="description">Template to send booking voucher to passengers</field>
+            <field name="email_to">{{ object.pax_email or object.passenger_id.email }}</field>
+            <field name="description">Plantilla para enviar el comprobante de la reserva al pasajero</field>
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                        Hello <t t-out="object.pax_name"/>,<br/><br/>
-                        Thank you for booking with <strong><t t-out="res_company.name"/></strong>.
-                        Please find your voucher for the excursion <strong><t t-out="object.excursion_id.product_id.name"/></strong> attached to this email.
+                        Hola <t t-out="object.pax_name"/>,<br/><br/>
+                        Gracias por reservar con <strong><t t-out="res_company.name"/></strong>.
+                        Adjuntamos el comprobante de su excursión <strong><t t-out="object.excursion_id.product_id.name"/></strong>.
                         <br/><br/>
-                        <strong>Details:</strong><br/>
-                        - Date: <t t-out="object.excursion_id.start_datetime.strftime('%d/%m/%Y')"/><br/>
-                        - Time: <t t-out="object.excursion_id.start_datetime.strftime('%H:%M')"/> hs<br/>
+                        <strong>Detalles:</strong><br/>
+                        - Fecha: <t t-out="object.excursion_id.start_datetime.strftime('%d/%m/%Y')"/><br/>
+                        - Hora: <t t-out="object.excursion_id.start_datetime.strftime('%H:%M')"/> hs<br/>
+                        - Personas: <t t-out="object.pax_count"/> (<t t-out="object.pax_breakdown"/>)<br/>
+                        <t t-if="object.pickup_display">- Pickup: <t t-out="object.pickup_display"/><br/></t>
                         <br/>
-                        We look forward to seeing you!
+                        ¡Lo esperamos!
                         <br/><br/>
-                        Best regards.
+                        Saludos cordiales.
                     </p>
                 </div>
             </field>

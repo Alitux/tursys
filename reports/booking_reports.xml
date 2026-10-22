@@ -36,8 +36,8 @@
                                     <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" style="max-height: 100px;" alt="Logo"/>
                                 </td>
                                 <td style="width: 60%; text-align: right; vertical-align: middle;">
-                                    <h1 style="color: #1a2a6c; font-weight: 900; font-size: 3.2em; margin: 0;">VOUCHER</h1>
-                                    <p style="color: #e67e22; font-weight: 700; margin: 0; text-transform: uppercase; font-size: 1.1em; letter-spacing: 2px;">RESERVATION CONFIRMED</p>
+                                    <h1 style="color: #1a2a6c; font-weight: 900; font-size: 3.2em; margin: 0;">COMPROBANTE</h1>
+                                    <p style="color: #e67e22; font-weight: 700; margin: 0; text-transform: uppercase; font-size: 1.1em; letter-spacing: 2px;">RESERVA CONFIRMADA</p>
                                 </td>
                             </tr>
                         </table>
@@ -54,25 +54,25 @@
                             <tr>
                                 <!-- Passenger -->
                                 <td style="width: 50%; padding: 25px; border-right: 1px solid #eee; vertical-align: top;">
-                                    <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9em; letter-spacing: 1px;">Holder Details</h6>
+                                    <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9em; letter-spacing: 1px;">Datos del Titular</h6>
                                     <p style="font-size: 2.1em; font-weight: 900; color: #1a2a6c; margin-bottom: 15px; line-height: 1.1;"><t t-esc="o.pax_name"/></p>
                                     <div style="font-size: 1.2em; line-height: 1.5;">
                                         <p class="m-0"><strong>ID:</strong> <t t-esc="o.pax_vat"/></p>
                                         <p class="m-0"><strong>PAX:</strong> <t t-esc="o.pax_count"/> <t t-if="o.pax_breakdown" style="color: #666;">· <t t-esc="o.pax_breakdown"/></t></p>
-                                        <p class="m-0"><strong>Nationality:</strong> <t t-esc="o.pax_nationality_id.name"/></p>
+                                        <p class="m-0"><strong>Nacionalidad:</strong> <t t-esc="o.pax_nationality_id.name"/></p>
                                         <p class="m-0"><strong>Email:</strong> <t t-esc="o.pax_email"/></p>
-                                        <p class="m-0"><strong>Phone:</strong> <t t-esc="o.pax_phone"/></p>
+                                        <p class="m-0"><strong>Teléfono:</strong> <t t-esc="o.pax_phone"/></p>
                                         <p t-if="o.pickup_display" class="m-0"><strong>Pickup:</strong> <span t-field="o.pickup_display"/></p>
                                     </div>
                                 </td>
                                 <!-- Excursion -->
                                 <td style="width: 50%; padding: 25px; vertical-align: top;">
-                                    <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9em; letter-spacing: 1px;">Service Info</h6>
+                                    <h6 style="color: #e67e22; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; font-size: 0.9em; letter-spacing: 1px;">Datos del Servicio</h6>
                                     <p style="font-size: 2.1em; font-weight: 900; color: #1a2a6c; margin-bottom: 15px; line-height: 1.1;"><t t-esc="o.excursion_id.product_id.name"/></p>
                                     <div style="font-size: 1.2em; line-height: 1.5;">
-                                        <p class="m-0"><strong>Date:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "dd/MM/yyyy"}'/></p>
-                                        <p class="m-0"><strong>Time:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "HH:mm"}'/> hs</p>
-                                        <p class="m-0"><strong>Status:</strong> <span style="color: #27ae60; font-weight: bold;">VALID</span></p>
+                                        <p class="m-0"><strong>Fecha:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "dd/MM/yyyy"}'/></p>
+                                        <p class="m-0"><strong>Hora:</strong> <span t-field="o.excursion_id.start_datetime" t-options='{"format": "HH:mm"}'/> hs</p>
+                                        <p class="m-0"><strong>Estado:</strong> <span style="color: #27ae60; font-weight: bold;">VÁLIDA</span></p>
                                     </div>
                                 </td>
                             </tr>
@@ -80,17 +80,17 @@
 
                         <!-- Instructions Compact -->
                         <div style="background-color: #fff9e6; border-left: 8px solid #f1c40f; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
-                            <h5 style="font-weight: 900; color: #856404; margin-bottom: 5px; font-size: 1.1em;">IMPORTANT INSTRUCTIONS:</h5>
+                            <h5 style="font-weight: 900; color: #856404; margin-bottom: 5px; font-size: 1.1em;">INSTRUCCIONES IMPORTANTES:</h5>
                             <ul style="font-size: 1.1em; color: #555; margin-bottom: 0;">
-                                <li>Please be present 15 minutes before departure.</li>
-                                <li>Valid photo ID is mandatory for all passengers.</li>
-                                <li>This voucher is valid only for the date specified.</li>
+                                <li>Preséntese 15 minutos antes de la salida.</li>
+                                <li>Es obligatorio presentar un documento con foto para todos los pasajeros.</li>
+                                <li>Este comprobante es válido únicamente para la fecha indicada.</li>
                             </ul>
                         </div>
 
                         <!-- Validation Code -->
                         <div style="text-align: center; margin-bottom: 25px;">
-                            <p class="text-muted small mb-1" style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px;">Security Validation Code</p>
+                            <p class="text-muted small mb-1" style="text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px;">Código de Validación</p>
                             <div style="font-family: monospace; color: #1a2a6c; background: #f0f2f5; padding: 10px 25px; border-radius: 6px; border: 1px dashed #cbd5e0; display: inline-block; font-size: 1.3em; font-weight: bold;">
                                 <t t-esc="o.qr_uuid"/>
                             </div>
