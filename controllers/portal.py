@@ -27,6 +27,16 @@ class TursysPortal(CustomerPortal):
             '|', ('guide_id', '=', user.id), ('assistant_guide_ids', 'in', [user.id]),
         ]
 
+    def _get_guide_excursion(self, excursion_id):
+        """Excursión visible en el portal solo si el usuario es su guía.
+
+        No se usa _document_check_access porque para usuarios de backend
+        (administradores) ese método saltea las reglas de registro y dejaría
+        ver o modificar excursiones ajenas desde el portal.
+        """
+        domain = self._get_excursion_domain() + [('id', '=', excursion_id)]
+        return request.env['tursys.excursion'].sudo().search(domain, limit=1)
+
     # ------------------------------------------------------------------
     # Listado de excursiones asignadas al guía
     # ------------------------------------------------------------------
@@ -65,9 +75,8 @@ class TursysPortal(CustomerPortal):
     @http.route(['/my/excursions/<int:excursion_id>'],
                 type='http', auth='user', website=True)
     def portal_my_excursion(self, excursion_id, **kw):
-        try:
-            excursion = self._document_check_access('tursys.excursion', excursion_id)
-        except (AccessError, MissingError):
+        excursion = self._get_guide_excursion(excursion_id)
+        if not excursion:
             return request.redirect('/my')
 
         bookings = excursion.booking_ids.filtered(
@@ -99,7 +108,7 @@ class TursysPortal(CustomerPortal):
             'bookings': bookings,
             'comments': comments,
             'state_labels': state_labels,
-            'is_main_guide': excursion.guide_id.id == user.id or user.has_group('base.group_user'),
+            'is_main_guide': excursion.guide_id.id == user.id,
         })
         return request.render('tursys.portal_excursion_page', values)
 
@@ -110,9 +119,8 @@ class TursysPortal(CustomerPortal):
                 type='http', auth='user', website=True, methods=['POST'])
     def portal_booking_checkin(self, excursion_id, booking_id, action, **kw):
         redirect = '/my/excursions/%s' % excursion_id
-        try:
-            excursion = self._document_check_access('tursys.excursion', excursion_id)
-        except (AccessError, MissingError):
+        excursion = self._get_guide_excursion(excursion_id)
+        if not excursion:
             return request.redirect('/my')
 
         # La excursión fue obtenida con las reglas del usuario: sólo puede acceder a las suyas.
@@ -145,9 +153,8 @@ class TursysPortal(CustomerPortal):
                 type='http', auth='user', website=True, methods=['POST'])
     def portal_excursion_action(self, excursion_id, action, **kw):
         redirect = '/my/excursions/%s' % excursion_id
-        try:
-            excursion = self._document_check_access('tursys.excursion', excursion_id)
-        except (AccessError, MissingError):
+        excursion = self._get_guide_excursion(excursion_id)
+        if not excursion:
             return request.redirect('/my')
 
         try:
@@ -167,9 +174,8 @@ class TursysPortal(CustomerPortal):
                 type='http', auth='user', website=True, methods=['POST'])
     def portal_excursion_comment(self, excursion_id, comment=None, **kw):
         redirect = '/my/excursions/%s' % excursion_id
-        try:
-            excursion = self._document_check_access('tursys.excursion', excursion_id)
-        except (AccessError, MissingError):
+        excursion = self._get_guide_excursion(excursion_id)
+        if not excursion:
             return request.redirect('/my')
 
         body = (comment or '').strip()

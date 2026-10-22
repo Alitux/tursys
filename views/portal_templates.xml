@@ -180,7 +180,6 @@
                                     <th>Age</th>
                                     <th>Nationality</th>
                                     <th>Phone</th>
-                                    <th>Pickup</th>
                                     <th>Needs</th>
                                     <th class="text-end">Status</th>
                                     <th class="text-end">Actions</th>
@@ -193,14 +192,12 @@
                                     <td><span t-field="b.pax_name"/>
                                         <span t-if="b.pax_count > 1" class="badge text-bg-light ms-1" t-out="'%s pax' % b.pax_count"/>
                                         <div t-if="b.pax_breakdown" class="text-muted small" t-out="b.pax_breakdown"/>
+                                        <div t-if="b.pickup_display" class="text-muted small"><i class="fa fa-map-marker me-1" title="Pickup"/> <span t-field="b.pickup_display"/></div>
                                     </td>
                                     <td><span t-field="b.pax_vat"/></td>
                                     <td><span t-out="b.pax_age"/></td>
                                     <td><span t-field="b.pax_nationality_id"/></td>
                                     <td><span t-field="b.pax_phone"/></td>
-                                    <td>
-                                        <div t-if="b.pickup_display"><strong><span t-field="b.pickup_display"/></strong></div>
-                                    </td>
                                     <td><span t-field="b.pax_special_needs"/></td>
                                     <td class="text-end">
                                         <span t-if="b.state == 'attended'" t-attf-class="badge #{'text-bg-warning' if b.attended_pax &lt; b.pax_count else 'text-bg-success'}">
