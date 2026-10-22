@@ -6,7 +6,7 @@
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-if="request.env.user.is_tursys_guide">
                 <t t-call="portal.portal_docs_entry">
-                    <t t-set="icon" t-value="'/tursys/static/description/icon.png'"/>
+                    <t t-set="icon" t-value="'/tursys/static/src/img/portal_icon.png'"/>
                     <t t-set="title">Excursions</t>
                     <t t-set="text">Excursions assigned to you</t>
                     <t t-set="url" t-value="'/my/excursions'"/>
@@ -333,5 +333,18 @@
                 </button>
             </form>
         </t>
+    </template>
+
+    <!-- Home del portal: titulo de la pestana y tarjetas que no aplican al guia -->
+    <template id="portal_my_home_tursys" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="t[@t-call='portal.portal_layout']" position="before">
+            <t t-set="title">Mi Portal</t>
+        </xpath>
+        <xpath expr="//div[@id='portal_client_category']" position="attributes">
+            <attribute name="t-if">portal_client_category_enable and not request.env.user.is_tursys_guide</attribute>
+        </xpath>
+        <xpath expr="//div[@id='portal_vendor_category']" position="attributes">
+            <attribute name="t-if">portal_vendor_category_enable and not request.env.user.is_tursys_guide</attribute>
+        </xpath>
     </template>
 </odoo>
