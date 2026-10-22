@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250320\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 23:21+0000\n"
-"PO-Revision-Date: 2026-10-16 23:21+0000\n"
+"POT-Creation-Date: 2026-10-22 18:31+0000\n"
+"PO-Revision-Date: 2026-10-22 18:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -139,6 +139,11 @@ msgid "<strong>Time:</strong>"
 msgstr "<strong>Hora:</strong>"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
+msgid "<strong>Type:</strong>"
+msgstr ""
+
+#. module: tursys
 #. odoo-python
 #: code:addons/tursys/models/booking.py:0
 msgid "A passenger with this ID already exists. Data has been pre-filled."
@@ -156,6 +161,7 @@ msgid "Actions"
 msgstr "Acciones"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__active
 #: model:ir.model.fields,field_description:tursys.field_tursys_pickup_point__active
 msgid "Active"
 msgstr "Activo"
@@ -207,10 +213,21 @@ msgid "Address"
 msgstr "Dirección"
 
 #. module: tursys
-#: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_address
 #: model:ir.model.fields,help:tursys.field_tursys_pickup_point__address
 msgid "Address of the pickup point."
 msgstr "Dirección del punto de pickup."
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_address
+msgid ""
+"Address of the pickup point. It is filled from the catalog, but you can edit"
+" it."
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__pax_type__adult
+msgid "Adult"
+msgstr "Adulto"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_res_partner__age
@@ -280,6 +297,11 @@ msgstr "Ficha de Reserva"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
+msgid "Booking Details"
+msgstr ""
+
+#. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 msgid "Booking Number"
 msgstr "Número de Reserva"
 
@@ -292,6 +314,20 @@ msgstr "Observaciones de la Reserva"
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__name
 msgid "Booking Reference"
 msgstr "Referencia de Reserva"
+
+#. module: tursys
+#: model:ir.model,name:tursys.model_tursys_booking_source
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__source_id
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_source_form
+msgid "Booking Source"
+msgstr "Origen de la Reserva"
+
+#. module: tursys
+#: model:ir.actions.act_window,name:tursys.action_tursys_booking_source
+#: model:ir.ui.menu,name:tursys.menu_tursys_booking_source
+msgid "Booking Sources"
+msgstr "Orígenes de Reserva"
 
 #. module: tursys
 #: model:ir.actions.report,name:tursys.action_report_booking_voucher
@@ -317,6 +353,13 @@ msgstr "Reservas"
 #: model:tursys.nationality,name:tursys.nat_br
 msgid "Brasil"
 msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_type
+msgid ""
+"Calculated from the birthdate: infant (0-2), child (3-12), adult (13+). You "
+"can change it manually."
+msgstr "Se calcula desde la fecha de nacimiento: infante (0-2), niño (3-12), adulto (13+). Se puede cambiar a mano."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__calendar_event_id
@@ -379,6 +422,11 @@ msgid "Checked in by"
 msgstr "Registrado por"
 
 #. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__pax_type__child
+msgid "Child"
+msgstr "Niño"
+
+#. module: tursys
 #: model:tursys.nationality,name:tursys.nat_cl
 msgid "Chile"
 msgstr ""
@@ -431,6 +479,7 @@ msgstr "Datos de Contacto"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__create_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__create_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__create_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__create_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__create_uid
@@ -440,6 +489,7 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__create_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__create_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__create_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__create_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__create_date
@@ -464,12 +514,15 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: tursys
-#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__payment_status__deposit
-msgid "Deposit"
-msgstr "Seña"
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_is_disabled
+msgid "Disabled"
+msgstr "Discapacitado"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__display_name
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__display_name
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__display_name
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__display_name
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__display_name
@@ -487,6 +540,11 @@ msgstr "Borrador"
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__duration
 msgid "Duration (Hours)"
 msgstr "Duración (Horas)"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_display
+msgid "Effective pickup point shown in lists, reports and the guide portal."
+msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_email
@@ -625,6 +683,11 @@ msgid "Francés"
 msgstr ""
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pickup_free_place
+msgid "Free Pickup Point"
+msgstr ""
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 msgid "Full Name"
 msgstr "Nombre Completo"
@@ -678,6 +741,7 @@ msgstr "Hotel / hostel / punto de encuentro..."
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__id
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__id
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__id
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__id
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__id
@@ -734,6 +798,11 @@ msgid "In Progress"
 msgstr "En curso"
 
 #. module: tursys
+#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__pax_type__infant
+msgid "Infant"
+msgstr "Infante"
+
+#. module: tursys
 #: model:tursys.language,name:tursys.lang_en
 msgid "Inglés"
 msgstr ""
@@ -768,6 +837,7 @@ msgstr "Idiomas"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__write_uid
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__write_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__write_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__write_uid
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__write_uid
@@ -777,6 +847,7 @@ msgstr ""
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__write_date
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__write_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__write_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__write_date
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__write_date
@@ -847,6 +918,7 @@ msgid "My Excursions"
 msgstr "Mis excursiones"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__name
 #: model:ir.model.fields,field_description:tursys.field_tursys_language__name
 #: model:ir.model.fields,field_description:tursys.field_tursys_nationality__name
 #: model:ir.model.fields,field_description:tursys.field_tursys_pickup_point__name
@@ -937,12 +1009,6 @@ msgid "No passengers to check in"
 msgstr "No hay pasajeros para registrar"
 
 #. module: tursys
-#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__payment_status__unpaid
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
-msgid "Not Paid"
-msgstr "No pagado"
-
-#. module: tursys
 #. odoo-python
 #: code:addons/tursys/models/booking.py:0
 msgid "Not enough capacity available in this excursion!"
@@ -989,9 +1055,9 @@ msgid "Other"
 msgstr "Otro"
 
 #. module: tursys
-#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__payment_status__paid
-msgid "Paid"
-msgstr "Pagado"
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_category
+msgid "Passenger Category"
+msgstr "Categoría de Pasajero"
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
@@ -1021,6 +1087,16 @@ msgid "Passenger Profile"
 msgstr "Perfil del Pasajero"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_type
+msgid "Passenger Type"
+msgstr "Tipo de Pasajero"
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pax_category
+msgid "Passenger type plus the retiree / disabled flags, ready to display."
+msgstr "Tipo de pasajero más las marcas de jubilado / discapacitado, listo para mostrar."
+
+#. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.portal_my_excursions
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_excursion_form
 msgid "Passengers"
@@ -1038,22 +1114,6 @@ msgid "Passengers List"
 msgstr "Lista de Pasajeros"
 
 #. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
-msgid "Payment"
-msgstr "Pago"
-
-#. module: tursys
-#: model:ir.model.fields,field_description:tursys.field_tursys_booking__payment_status
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
-msgid "Payment Status"
-msgstr "Estado del pago"
-
-#. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
-msgid "Pending Payment"
-msgstr "Pago pendiente"
-
-#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_phone
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
@@ -1061,6 +1121,7 @@ msgid "Phone"
 msgstr "Teléfono"
 
 #. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pickup_display
 #: model_terms:ir.ui.view,arch_db:tursys.portal_excursion_page
 #: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
@@ -1075,7 +1136,6 @@ msgstr "Dirección de Pickup"
 #. module: tursys
 #: model:ir.model,name:tursys.model_tursys_pickup_point
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__pickup_place
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_search
 msgid "Pickup Point"
 msgstr "Punto de Pickup"
 
@@ -1087,10 +1147,13 @@ msgstr "Puntos de Pickup"
 
 #. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_place
-msgid ""
-"Place where the passenger will be picked up (hotel, hostel, meeting "
-"point...)."
-msgstr "Lugar donde se recogerá al pasajero (hotel, hostel, punto de encuentro...)."
+msgid "Pickup point from the catalog (hotel, hostel, meeting point...)."
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__pickup_free_place
+msgid "Pickup point that is not in the catalog. Enter its address manually."
+msgstr ""
 
 #. module: tursys
 #: model_terms:ir.ui.view,arch_db:tursys.report_booking_voucher_template
@@ -1139,11 +1202,6 @@ msgid "Reference"
 msgstr "Referencia"
 
 #. module: tursys
-#: model:ir.model.fields.selection,name:tursys.selection__tursys_booking__payment_status__refunded
-msgid "Refunded"
-msgstr "Reembolsado"
-
-#. module: tursys
 #: model:tursys.nationality,name:tursys.nat_gb
 msgid "Reino Unido"
 msgstr ""
@@ -1163,6 +1221,13 @@ msgstr "Guía responsable"
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__activity_user_id
 msgid "Responsible User"
 msgstr ""
+
+#. module: tursys
+#. odoo-python
+#: code:addons/tursys/models/booking.py:0
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking__pax_is_retired
+msgid "Retiree"
+msgstr "Jubilado"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__message_has_sms_error
@@ -1200,6 +1265,11 @@ msgstr "Código de Validación de Seguridad"
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 msgid "Send by Email"
 msgstr "Enviar por Correo"
+
+#. module: tursys
+#: model:ir.model.fields,field_description:tursys.field_tursys_booking_source__sequence
+msgid "Sequence"
+msgstr "Secuencia"
 
 #. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__product_id
@@ -1279,7 +1349,6 @@ msgid ""
 msgstr ""
 
 #. module: tursys
-#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_pickup_point_form
 #: model_terms:ir.ui.view,arch_db:tursys.view_tursys_pickup_point_list
 msgid "Street, number, city..."
@@ -1347,6 +1416,11 @@ msgid "TurSys: Update passenger ages"
 msgstr "TurSys: Actualizar edades de pasajeros"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.report_passenger_list_template
+msgid "Type"
+msgstr "Tipo"
+
+#. module: tursys
 #: model:ir.model.fields,help:tursys.field_tursys_booking__activity_exception_decoration
 #: model:ir.model.fields,help:tursys.field_tursys_excursion__activity_exception_decoration
 msgid "Type of the exception activity on record."
@@ -1412,6 +1486,12 @@ msgid "Weather conditions"
 msgstr "Condiciones climáticas"
 
 #. module: tursys
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_source_form
+#: model_terms:ir.ui.view,arch_db:tursys.view_tursys_booking_source_list
+msgid "Web / GYG / Viator / Other agency..."
+msgstr ""
+
+#. module: tursys
 #: model:ir.model.fields,field_description:tursys.field_tursys_booking__website_message_ids
 #: model:ir.model.fields,field_description:tursys.field_tursys_excursion__website_message_ids
 msgid "Website Messages"
@@ -1421,6 +1501,11 @@ msgstr ""
 #: model:ir.model.fields,help:tursys.field_tursys_booking__website_message_ids
 #: model:ir.model.fields,help:tursys.field_tursys_excursion__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: tursys
+#: model:ir.model.fields,help:tursys.field_tursys_booking__source_id
+msgid "Where the booking came from (web, GYG, Viator, another agency...)."
 msgstr ""
 
 #. module: tursys

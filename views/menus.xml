@@ -5,6 +5,7 @@
     <menuitem id="menu_tursys_excursion" name="Excursions" parent="menu_tursys_root" action="action_tursys_excursion" sequence="10"/>
     <menuitem id="menu_tursys_booking" name="Bookings" parent="menu_tursys_root" action="action_tursys_booking" sequence="20"/>
     <menuitem id="menu_tursys_pickup_point" name="Pickup Points" parent="menu_tursys_config" action="action_tursys_pickup_point" sequence="15" groups="base.group_system"/>
+    <menuitem id="menu_tursys_booking_source" name="Booking Sources" parent="menu_tursys_config" action="action_tursys_booking_source" sequence="17" groups="base.group_system"/>
     <menuitem id="menu_tursys_passengers" name="Passengers List" parent="menu_tursys_root" action="action_tursys_all_passengers" sequence="30"/>
     
     <menuitem id="menu_tursys_config" name="Configuration" parent="menu_tursys_root" sequence="100" groups="base.group_system"/>

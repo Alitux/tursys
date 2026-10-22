@@ -117,9 +117,7 @@
                                     <field name="pax_vat"/>
                                     <field name="pax_age"/>
                                     <field name="pax_nationality_id"/>
-                                    <field name="pickup_place" optional="show"/>
                                     <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-success="state in ('confirmed', 'attended')" decoration-danger="state == 'no_show'"/>
-                                    <field name="payment_status" widget="badge"/>
                                     <field name="checkin_datetime" optional="hide"/>
                                     <button name="action_confirm" string="Confirm" type="object" icon="fa-check" invisible="state != 'draft' and state != 'waiting'"/>
                                     <button name="action_check_in" string="Check-in" type="object" icon="fa-sign-in" invisible="state != 'confirmed'"/>

@@ -9,7 +9,8 @@
                 <field name="pax_vat"/>
                 <field name="excursion_id"/>
                 <field name="passenger_id"/>
-                <field name="pickup_place"/>
+                <field name="pickup_free_place"/>
+                <field name="source_id"/>
                 <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
                 <filter name="waiting" string="Waiting List" domain="[('state', '=', 'waiting')]"/>
                 <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
@@ -18,13 +19,10 @@
                 <separator/>
                 <filter name="to_check_in" string="To Check-in" domain="[('state', 'in', ['confirmed', 'attended'])]"/>
                 <separator/>
-                <filter name="unpaid" string="Not Paid" domain="[('payment_status', '=', 'unpaid')]"/>
-                <filter name="pending_payment" string="Pending Payment" domain="[('payment_status', 'in', ['unpaid', 'deposit'])]"/>
                 <group expand="0" string="Group By">
                     <filter name="group_excursion" string="Excursion" context="{'group_by': 'excursion_id'}"/>
                     <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
-                    <filter name="group_payment" string="Payment Status" context="{'group_by': 'payment_status'}"/>
-                    <filter name="group_pickup" string="Pickup Point" context="{'group_by': 'pickup_place'}"/>
+                    <filter name="group_source" string="Booking Source" context="{'group_by': 'source_id'}"/>
                 </group>
             </search>
         </field>
@@ -40,9 +38,10 @@
                 <field name="pax_name"/>
                 <field name="pax_vat"/>
                 <field name="pax_age"/>
-                <field name="pickup_place" optional="show"/>
+                <field name="pax_category" optional="show"/>
+                <field name="pickup_display" optional="show"/>
+                <field name="source_id" optional="show"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'waiting'" decoration-success="state in ('confirmed', 'attended')" decoration-danger="state == 'no_show'"/>
-                <field name="payment_status" widget="badge" decoration-danger="payment_status == 'unpaid'" decoration-warning="payment_status == 'deposit'" decoration-success="payment_status == 'paid'"/>
                 <field name="checkin_datetime" optional="hide"/>
                 <button name="action_check_in" string="Check-in" type="object" icon="fa-check" invisible="state != 'confirmed'"/>
             </list>
@@ -56,9 +55,10 @@
             <kanban default_group_by="state" class="o_kanban_small_column" sample="1">
                 <field name="state"/>
                 <field name="excursion_id"/>
-                <field name="payment_status"/>
                 <field name="pax_vat"/>
-                <field name="pickup_place"/>
+                <field name="pax_category"/>
+                <field name="pickup_display"/>
+                <field name="source_id"/>
                 <field name="checkin_datetime"/>
                 <templates>
                     <t t-name="card">
@@ -67,9 +67,12 @@
                                 <strong class="o_kanban_record_title"><field name="pax_name"/></strong>
                             </div>
                             <div class="text-muted"><field name="pax_vat"/></div>
+                            <div class="mt-1" t-if="record.pax_category.raw_value">
+                                <span class="badge text-bg-light" t-out="record.pax_category.raw_value"/>
+                            </div>
                             <div class="text-muted"><field name="excursion_id"/></div>
-                            <div class="text-muted" t-if="record.pickup_place.raw_value"><field name="pickup_place"/></div>
-                            <div class="mt-1"><field name="payment_status" widget="badge"/></div>
+                            <div class="text-muted" t-if="record.pickup_display.raw_value"><field name="pickup_display"/></div>
+                            <div class="text-muted" t-if="record.source_id.raw_value"><field name="source_id"/></div>
                             <div class="mt-2 d-flex gap-1">
                                 <button type="object" name="action_check_in" class="btn btn-sm btn-success" t-if="record.state.raw_value == 'confirmed'">Check-in</button>
                                 <button type="object" name="action_mark_no_show" class="btn btn-sm btn-outline-danger" t-if="record.state.raw_value == 'confirmed'">No Show</button>
@@ -95,7 +98,7 @@
                     <button name="action_mark_no_show" string="No Show" type="object" invisible="state != 'confirmed' and state != 'attended'"/>
                     <button name="action_undo_check_in" string="Undo Check-in" type="object" invisible="state != 'attended'"/>
                     <button name="action_send_voucher_email" string="Send by Email" type="object" icon="fa-envelope" invisible="state != 'confirmed' and state != 'attended'"/>
-                    <button name="%(tursys.action_report_booking_voucher)d" string="Print Voucher" type="action" icon="fa-ticket" invisible="state == 'cancelled'"/>
+                    <button name="%(tursys.action_report_booking_voucher)d" string="Print Voucher" type="action" icon="fa-ticket" invisible="state == 'cancelled' or state == 'draft'"/>
                     <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state == 'draft'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state == 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,waiting,confirmed,attended,no_show,cancelled"/>
@@ -110,8 +113,8 @@
                         <group string="Service Details" invisible="context.get('hide_excursion')">
                             <field name="excursion_id" domain="[('state', '=', 'scheduled')]"/>
                         </group>
-                        <group string="Payment">
-                            <field name="payment_status" widget="badge"/>
+                        <group string="Booking Details">
+                            <field name="source_id" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                     </group>
                     <group>
@@ -119,8 +122,11 @@
                             <field name="pax_name" placeholder="Full Name" readonly="state != 'draft' and state != 'waiting'"/>
                             <field name="pax_vat" placeholder="DNI / Passport" readonly="state != 'draft' and state != 'waiting'"/>
                             <field name="pax_birthdate" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_type" readonly="state != 'draft' and state != 'waiting'"/>
                             <field name="pax_nationality_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft' and state != 'waiting'"/>
                             <field name="pax_language_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_is_retired" readonly="state != 'draft' and state != 'waiting'"/>
+                            <field name="pax_is_disabled" readonly="state != 'draft' and state != 'waiting'"/>
                         </group>
                         <group string="Contact Data">
                             <field name="pax_email" widget="email" placeholder="email@example.com" readonly="state != 'draft' and state != 'waiting'"/>
@@ -130,8 +136,7 @@
                     </group>
                     <group>
                         <group string="Pickup">
-                            <field name="pickup_place" placeholder="Hotel / hostel / meeting point..." options="{'no_quick_create': True}"/>
-                            <field name="pickup_address" placeholder="Street, number, city..."/>
+                            <field name="pickup_free_place" placeholder="Hotel / hostel / meeting point..."/>
                         </group>
                         <group string="Special Needs &amp; Notes">
                             <field name="pax_special_needs" placeholder="Medical conditions, diets..." readonly="state != 'draft' and state != 'waiting'"/>

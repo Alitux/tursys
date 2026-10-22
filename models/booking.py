@@ -24,6 +24,19 @@ class TursysBooking(models.Model):
     pax_phone = fields.Char(string='Phone', tracking=True)
     pax_birthdate = fields.Date(string='Birthdate')
     pax_age = fields.Integer(string='Age', compute='_compute_pax_age', store=True)
+    pax_type = fields.Selection([
+        ('infant', 'Infant'),
+        ('child', 'Child'),
+        ('adult', 'Adult'),
+    ], string='Passenger Type', compute='_compute_pax_type', store=True, readonly=False,
+        help="Calculated from the birthdate: infant (0-2), child (3-12), adult (13+). "
+             "You can change it manually.")
+    pax_is_retired = fields.Boolean(string='Retiree', tracking=True)
+    pax_is_disabled = fields.Boolean(string='Disabled', tracking=True)
+    pax_category = fields.Char(
+        string='Passenger Category', compute='_compute_pax_category',
+        help="Passenger type plus the retiree / disabled flags, ready to display.",
+    )
 
     pax_nationality_id = fields.Many2one('tursys.nationality', string='Nationality')
     pax_language_id = fields.Many2one('tursys.language', string='Language')
@@ -31,14 +44,28 @@ class TursysBooking(models.Model):
 
     observations = fields.Text(string='Booking Observations')
 
+    source_id = fields.Many2one(
+        'tursys.booking.source', string='Booking Source', tracking=True,
+        ondelete='restrict',
+        help="Where the booking came from (web, GYG, Viator, another agency...).",
+    )
+
     pickup_place = fields.Many2one(
         'tursys.pickup.point', string='Pickup Point', tracking=True,
         ondelete='restrict',
-        help="Place where the passenger will be picked up (hotel, hostel, meeting point...).",
+        help="Pickup point from the catalog (hotel, hostel, meeting point...).",
+    )
+    pickup_free_place = fields.Char(
+        string='Free Pickup Point', tracking=True,
+        help="Pickup point that is not in the catalog. Enter its address manually.",
     )
     pickup_address = fields.Char(
-        string='Pickup Address', related='pickup_place.address', store=True,
-        help="Address of the pickup point.",
+        string='Pickup Address', tracking=True,
+        help="Address of the pickup point. It is filled from the catalog, but you can edit it.",
+    )
+    pickup_display = fields.Char(
+        string='Pickup', compute='_compute_pickup_display', store=True,
+        help="Effective pickup point shown in lists, reports and the guide portal.",
     )
 
     state = fields.Selection([
@@ -49,13 +76,6 @@ class TursysBooking(models.Model):
         ('no_show', 'No Show'),
         ('cancelled', 'Cancelled'),
     ], string='Status', default='draft', required=True, tracking=True)
-
-    payment_status = fields.Selection([
-        ('unpaid', 'Not Paid'),
-        ('deposit', 'Deposit'),
-        ('paid', 'Paid'),
-        ('refunded', 'Refunded'),
-    ], string='Payment Status', default='unpaid', tracking=True)
 
     cancellation_reason = fields.Selection([
         ('customer', 'Customer decision'),
@@ -82,6 +102,51 @@ class TursysBooking(models.Model):
                 )
             else:
                 record.pax_age = 0
+
+    @api.depends('pax_birthdate')
+    def _compute_pax_type(self):
+        today = date.today()
+        for record in self:
+            if not record.pax_birthdate:
+                record.pax_type = 'adult'
+                continue
+            born = record.pax_birthdate
+            age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+            if age < 3:
+                record.pax_type = 'infant'
+            elif age <= 12:
+                record.pax_type = 'child'
+            else:
+                record.pax_type = 'adult'
+
+    @api.depends('pax_type', 'pax_is_retired', 'pax_is_disabled')
+    def _compute_pax_category(self):
+        selection = dict(self._fields['pax_type']._description_selection(self.env))
+        for record in self:
+            parts = []
+            if record.pax_type:
+                parts.append(selection.get(record.pax_type, record.pax_type))
+            if record.pax_is_retired:
+                parts.append(_('Retiree'))
+            if record.pax_is_disabled:
+                parts.append(_('Disabled'))
+            record.pax_category = ' \u00b7 '.join(parts)
+
+    @api.depends('pickup_place', 'pickup_free_place')
+    def _compute_pickup_display(self):
+        for record in self:
+            record.pickup_display = record.pickup_free_place or record.pickup_place.name
+
+    @api.onchange('pickup_place')
+    def _onchange_pickup_place(self):
+        if self.pickup_place:
+            self.pickup_free_place = False
+            self.pickup_address = self.pickup_place.address
+
+    @api.onchange('pickup_free_place')
+    def _onchange_pickup_free_place(self):
+        if self.pickup_free_place:
+            self.pickup_place = False
 
     @api.onchange('pax_vat')
     def _onchange_pax_vat(self):
